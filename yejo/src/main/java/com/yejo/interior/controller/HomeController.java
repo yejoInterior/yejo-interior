@@ -11,4 +11,13 @@ public class HomeController {
 		return "admin/index";
 	}
 	
+	@GetMapping("/banner")
+	public String bannerPage() {
+		return "admin/bannerManagement";
+	}
+	
+	@GetMapping("/estimate")
+	public String estimatePage() {
+		return "admin/estimate";
+	}
 }

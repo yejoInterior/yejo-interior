@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+td {	
+		font-size : 17px;
+		width : auto;
+		vertical-align: middle; /* 텍스트를 세로 방향으로 가운데 정렬 */
+        text-align: center; /* 텍스트를 가운데 정렬 */
+        line-height : 225px;
+        border: 1px solid #ddd; /* 셀 경계선 추가 (선택 사항) */
+        padding: 8px; /* 셀 안의 여백 */
+}
+
+
+td > a {
+	background-color : white;
+	margin : 0 auto;
+	width : 70px;
+	height : 50px;
+	padding : 10px;
+	border : 1px solid black;
+	cursor: pointer;
+}
+
+td > a:hover {
+	background-color: rgba(0,0,0,0.1);
+}
