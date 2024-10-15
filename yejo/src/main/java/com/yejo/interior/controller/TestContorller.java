@@ -1,13 +1,13 @@
-package controller;
+package com.yejo.interior.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class HomeController {
+public class TestContorller {
 
-	@GetMapping("/admin")
+	@GetMapping("/")
 	public String adminIndexPage() {
-		return "admin/index";
+		return "index";
 	}
 }
