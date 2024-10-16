@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>회사 위치</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8f3429547b6bf089e5d3beb4733c7cf5&libraries=services"></script>
+    <style>
+
+        #map {
+            width: 100%;
+            height: 400px;
+            position: relative;
+        }
+		/* 좌표 입력 폼을 지도 위에 띄우기 위한 스타일 */
+		.input-overlay {
+		    position: absolute;
+		    top: 20px; /* 더 위쪽으로 조정 */
+		    left: 20px; /* 더 왼쪽으로 조정 */
+		    z-index: 100;
+		    background-color: rgba(255, 255, 255, 0.9);
+		    padding: 15px;
+		    border-radius: 8px;
+		    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+		    width: 600px;
+		    font-size: 14px; /* 폰트 크기 증가 */
+		}
+		
+		.input-overlay input {
+		    width: 400px; /* 입력란의 너비를 조금 넓게 설정 */
+		    padding: 8px;
+		    margin-right: 10px;
+		    border: 1px solid #ccc;
+		    border-radius: 5px;
+		    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.1);
+		    font-size: 14px; /* 입력란 폰트 크기 증가 */
+		}
+		
+		.input-overlay button {
+		    padding: 8px 15px;
+		    background-color: #4e73df;
+		    color: white;
+		    border: none;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    transition: background-color 0.3s ease;
+		    font-size: 14px; /* 버튼 폰트 크기 증가 */
+		}
+		
+		.input-overlay button:hover {
+		    background-color: #2e59d9;
+		}
+		
+		.input-overlay input:focus {
+		    outline: none;
+		    border-color: #4e73df;
+		}
+
+    </style>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div th:replace="~{admin/sidebar :: sidebarFragment}"></div>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <h1 class="h3 mb-0 text-gray-800">회사 위치 페이지 관리</h1>
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- 지도 위치 설정 -->
+                        <div class="col-lg-12 mb-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">지도 및 위치 입력</h6>
+                                </div>
+                                <div class="card-body">
+                                    <!-- 지도 넣기 (네이버 지도 API, 카카오 지도 API 등을 활용하여 삽입 가능) -->
+									<div id="map">
+										<div id="map">
+										    <div class="input-overlay">
+										        <label for="address">주소: </label>
+										        <input type="text" id="address" value="경기 의정부시 호암로 252 상가1동" placeholder="주소 입력">
+										        <button id="setMarkerBtn">위치 설정</button>
+										    </div>
+										</div>
+									</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 입력 폼 -->
+                        <div class="col-lg-12 mb-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">위치 정보 입력</h6>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <!-- 주소 입력란 -->
+                                        <div class="form-group">
+                                            <label for="address">주소</label>
+                                            <input type="text" class="form-control" id="address" value="경기 의정부시 호암로 252 상가1동" placeholder="회사 주소를 입력하세요">
+                                        </div>
+
+                                        <!-- 전화번호 입력란 -->
+                                        <div class="form-group">
+                                            <label for="tel">전화번호</label>
+                                            <input type="tel" class="form-control" id="tel" value="" placeholder="전화번호를 입력하세요">
+                                        </div>
+
+                                        <!-- 이메일 입력란 -->
+                                        <div class="form-group">
+                                            <label for="email">이메일</label>
+                                            <input type="email" class="form-control" id="email" placeholder="이메일을 입력하세요">
+                                        </div>
+
+                                        <!-- 상세 설명 입력란 -->
+                                        <div class="form-group">
+                                            <label for="description">상세 설명</label>
+                                            <textarea class="form-control" id="description" rows="4" placeholder="상세 설명을 입력하세요"></textarea>
+                                        </div>
+
+                                        <!-- 네이버 지도 URL 입력란 -->
+                                        <div class="form-group">
+                                            <label for="naverMapUrl">네이버 지도 URL</label>
+                                            <input type="url" class="form-control" id="naverMapUrl" placeholder="네이버 지도 URL을 입력하세요">
+                                        </div>
+
+                                        <!-- 카카오 지도 URL 입력란 -->
+                                        <div class="form-group">
+                                            <label for="kakaoMapUrl">카카오 지도 URL</label>
+                                            <input type="url" class="form-control" id="kakaoMapUrl" placeholder="카카오 지도 URL을 입력하세요">
+                                        </div>
+
+                                        <!-- 티맵 URL 입력란 -->
+                                        <div class="form-group">
+                                            <label for="tmapUrl">티맵 URL</label>
+                                            <input type="url" class="form-control" id="tmapUrl" placeholder="티맵 URL을 입력하세요">
+                                        </div>
+
+                                        <!-- 제출 버튼 -->
+                                        <button type="submit" class="btn btn-primary">저장</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End Content Row -->
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+</body>
+<script>
+    // 지도 초기 설정
+    var mapContainer = document.getElementById('map'), 
+        mapOption = { 
+            center: new kakao.maps.LatLng(37.745755, 127.052335), // 초기 지도 중심 좌표
+            level: 3 // 지도 확대 레벨
+        };
+
+    // 지도 생성
+    var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+    // 초기 마커 설정
+    var marker = new kakao.maps.Marker({
+        position: mapOption.center,
+        map: map
+    });
+
+    // 주소-좌표 변환 객체 생성
+    var geocoder = new kakao.maps.services.Geocoder();
+
+    // 버튼 클릭 시 입력된 주소로 지도 이동 및 마커 재설정
+    document.getElementById('setMarkerBtn').addEventListener('click', function() {
+        var address = document.getElementById('address').value; // 입력한 주소
+
+        // 주소로 좌표 검색
+        geocoder.addressSearch(address, function(result, status) {
+            // 정상적으로 검색이 완료됐을 때
+            if (status === kakao.maps.services.Status.OK) {
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                // 지도 중심을 결과값으로 받은 위치로 이동
+                map.setCenter(coords);
+
+                // 마커 위치를 결과값으로 받은 위치로 설정
+                marker.setPosition(coords);
+            } else {
+                alert('주소 검색 결과가 없습니다.');
+            }
+        });
+    });
+</script>
+</html>

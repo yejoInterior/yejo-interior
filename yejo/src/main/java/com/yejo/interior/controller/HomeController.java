@@ -11,6 +11,7 @@ public class HomeController {
 		return "admin/index";
 	}
 	
+
 	@GetMapping("/banner")
 	public String bannerPage() {
 		return "admin/bannerManagement";
@@ -19,5 +20,20 @@ public class HomeController {
 	@GetMapping("/estimate")
 	public String estimatePage() {
 		return "admin/estimate";
+	}
+	
+	@GetMapping("/about")
+	public String about() {
+		return "admin/about";
+	}
+	
+	@GetMapping("/portfolio")
+	public String portfolio() {
+		return "admin/portfolio";
+	}
+	
+	@GetMapping("/location")
+	public String location() {
+		return "admin/location";
 	}
 }
