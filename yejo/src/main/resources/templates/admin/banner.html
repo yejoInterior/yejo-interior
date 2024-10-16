@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Tables</title>
+    <title>관리자 페이지 - 배너 관리</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -19,10 +19,10 @@
 
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-	<link href="css/estimate.css" rel="stylesheet">
+	<link href="css/bannerManagement.css" rel="stylesheet">
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-	<script src="js/estimate.js" defer></script>
+
 </head>
 
 <body id="page-top">
@@ -38,70 +38,75 @@
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
-            <div id="content" style="margin-top:50px;">
+            <div id="content">
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-
+                    <!-- Page Heading -->
+     
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">견적 문의 관리</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">메인페이지 배너 관리</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>견적 문의 날짜</th>
-                                            <th>공사 시작일</th>
-                                            <th>공간 유형</th>
-                                            <th>고객 이름</th>
-                                            <th>고객 연락처</th>
-                                            <th>진행 상태</th>
-                                            <th>견적 상세 / 답변</th>
+                                            <th>배너 번호</th>
+                                            <th>노출 순서</th>
+                                            <th>노출 여부</th>
+                                            <th>제목</th>
+                                            <th>이미지</th>
+                                            <th>관리</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>견적 문의 날짜</th>
-                                            <th>공사 시작일</th>
-                                            <th>공간 유형</th>
-                                            <th>고객 이름</th>
-                                            <th>고객 연락처</th>
-                                            <th>진행 상태</th>
-                                            <th>견적 상세 / 답변</th>
+                                            <th>배너 번호</th>
+                                            <th>노출 순서</th>
+                                            <th>노출 여부</th>
+                                            <th>제목</th>
+                                            <th>이미지</th>
+                                            <th>관리</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         <tr>
-                                            <td>2024-10-15</td>
-                                            <td>2024-11-15</td>
-                                            <td>아파트</td>
-                                            <td>하현수</td>
-                                            <td>010-4611-9794</td>
-                                            <td>진행중</td>
-                                            <td><a href="#" class="openQuoteDetailModal">견적 상세 보기</a></td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>Y</td>
+                                            <td>레미안용산센트럴</td>
+                                            <td><img src="/img/dydtks.jpg" width="300" height="200"></td>
+                                            <td class="btn_td">
+                                            	<a>수정</a>
+                                            	<a>삭제</a>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>2024-10-12</td>
-                                            <td>2024-11-12</td>
-                                            <td>빌라</td>
-                                            <td>신희문</td>
-                                            <td>010-8789-9132</td>
-                                            <td>진행중</td>
-                                            <td><a href="#" class="openQuoteDetailModal">견적 상세 보기</a></td>
+                                            <td>4</td>
+                                            <td>3</td>
+                                            <td>N</td>
+                                            <td>보문롯데캐슬</td>
+                                            <td><img src="/img/dydtks.jpg" width="300" height="200"></td>
+                                            <td>
+                                            	<a>수정</a>
+                                            	<a>삭제</a>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>2024-10-10</td>
-                                            <td>2024-11-08</td>
-                                            <td>오피스텔</td>
-                                            <td>명동건</td>
-                                            <td>010-2131-2394</td>
-                                            <td>완료</td>
-                                            <td><a href="#" class="openQuoteDetailModal">견적 상세 보기</a></td>
+                                            <td>5</td>
+                                            <td>2</td>
+                                            <td>Y</td>
+                                            <td>삼선동우미아파트</td>
+                                            <td><img src="/img/dydtks.jpg" width="300" height="200"></td>
+                                            <td>
+                                            	<a>수정</a>
+                                            	<a>삭제</a>
+                                            </td>
                                         </tr>
                                         
                                     </tbody>
@@ -111,49 +116,12 @@
                     </div>
 
                 </div>
+                <!-- /.container-fluid -->
+
             </div>
+            <!-- End of Main Content -->
 
-			<!-- 모달 -->
-			<div id="quoteDetailModal" class="side-modal">
-		    <div class="modal-content">
-		        <span class="close" id="closeQuoteDetailModal">&times;</span>
-		        <h2>견적 상세 정보</h2>
-		        <h3>고객 정보</h3>
-		        <p>성함: <span id="customerName"></span></p>
-		        <p>연락처: <span id="customerPhone"></span></p>
-		        
-		        <h3>공간 정보</h3>
-		        <p>1. 공사예정지 주소: <input type="text" placeholder="주소를 입력하세요 (동, 호수 포함)"></p>
-		        <p>2. 공간 구성: 
-		            <input type="text" placeholder="평수">평, 
-		            <input type="text" placeholder="방 칸수">개, 
-		            <input type="text" placeholder="욕실 개수">개
-		        </p>
-		        <p>3. 공사 시작일: <input type="date"></p>
-		        <p>4. 입주 예정일: <input type="date"></p>
-		        <p>5. 공간 유형: 
-		            <select>
-		                <option value="아파트">아파트</option>
-		                <option value="빌라">빌라</option>
-		                <option value="단독주택">단독주택</option>
-		                <option value="오피스텔">오피스텔</option>
-		                <option value="주상복합">주상복합</option>
-		                <option value="기타">기타</option>
-		            </select>
-		        </p>
-		        <p>6. 공사 예산: <input type="text" placeholder="예산을 입력하세요"></p>
-		        <p>7. 평면도 첨부: <input type="file"></p>
-		        <p>8. 참고 URL: <input type="url" placeholder="URL을 입력하세요"></p>
-		        <p>9. 문의 사항: <textarea placeholder="문의 사항을 입력하세요"></textarea></p>
-		        
-		        <div class="modal-footer-buttons">
-		            <a class="estimate_btn"><img src='img/kakaotalk_sharing_btn_small.png'>카카오톡으로 견적 발송</a>
-		            <a class="estimate_btn"><img src="img/email_icon_130945.png">이메일로 견적 발송</a>
-        		</div>
-		    </div>
-		</div>
-
-				
+            <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
@@ -212,5 +180,9 @@
     <script src="js/demo/datatables-demo.js"></script>
 
 </body>
+<style>
 
+
+   
+</style>
 </html>
