@@ -15,4 +15,24 @@ public class MainController {
 	public String company() {
 		return "main/company";
 	}
+	
+	@GetMapping("review")
+	public String review() {
+		return "main/review";
+	}
+	
+	@GetMapping("portfolio")
+	public String portfolio() {
+		return "main/portfolio";
+	}
+	
+	@GetMapping("consulting")
+	public String consultant() {
+		return "main/consultant";
+	}
+	
+	@GetMapping("location")
+	public String location() {
+		return "main/location";
+	}
 }
