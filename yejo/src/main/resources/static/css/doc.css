@@ -1,0 +1,42 @@
+@charset "utf-8";
+
+/* 공통 */
+.txt-white {color:#fff !important;}
+.font-pop {font-family:var(--font-pop);}
+
+.table-wrap table {width:100%; border-collapse:collapse; border-spacing:0px;}
+
+.doc-tit {margin-bottom:18px; font-size:var(--font-16px); font-weight:500; line-height:1.2em; letter-spacing:-0.03em; color:#242424;}
+.doc-cnt {margin-bottom:var(--mg-80);}
+.doc-cnt:last-child {margin-bottom:0;}
+
+.highlight {position:relative;}
+.highlight:before {content:''; position:absolute; width:100%; height:10px; background:#a68a68; opacity:0.2; left:0; bottom:0; z-index:-1;}
+
+/* owl story */
+.greeting {display:flex; align-items:flex-start;}
+.greeting .img {margin-right:150px; border-radius:var(--mg-60); overflow:hidden;}
+.greeting .img img {display:block;}
+.greeting .txt-wrap .col {margin-bottom:35px;}
+.greeting .txt-wrap .col:last-child {margin-bottom:0;}
+.greeting .txt-wrap {flex:1 1 auto; min-width:0; width:1%;}
+.greeting .txt-wrap .tit {margin-bottom:20px; font-size:var(--font-16px); font-weight:500; line-height:1.3em; letter-spacing:-0.03em; color:#242424;}
+.greeting .txt-wrap .txt {margin-bottom:15px; font-size:15px; font-weight:400; line-height:1.7em; letter-spacing:-0.03em; color:#454545;}
+.greeting .txt-wrap .txt:last-child {margin-bottom:0;}
+
+/* about */
+.about {display:flex;}
+.about .map {width:730px;}
+.about .txt-wrap {flex:1 1 auto; min-width:0; width:1%;}
+.about .doc-tit {margin-bottom:25px;}
+.about .txt {font-size:15px; font-weight:400; line-height:1.7em; letter-spacing:-0.03em;}
+.about .info {margin-top:var(--mg-60);margin-bottom:var(--mg-50);}
+.about .info dl {margin-bottom:1.3em; display:flex; font-size:15px; font-weight:400; line-height:1.4em;}
+.about .info dt {min-width:100px; font-family:var(--font-pop); font-size:1.07em; font-weight:500;}
+.about .info dd {flex:1 1 auto; min-width:0; width:1%;}
+.about .info dl:last-child {margin-bottom:0;}
+.about .btns a {display:inline-block; margin-right:10px; min-width:150px; padding:0 20px; line-height:42px; border:2px solid #505150; border-radius:100vh; text-align:center; font-size:15px; font-weight:500; letter-spacing:-0.03em;}
+.about .btns a:hover {background:#505150; color:#fff;}
+.about .btns a:last-child {margin-right:0;}
+.about .root_daum_roughmap {width:100% !important; height:370px !important;}
+.about .root_daum_roughmap .wrap_map {height:370px !important;}

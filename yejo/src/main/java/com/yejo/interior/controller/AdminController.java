@@ -2,9 +2,11 @@ package com.yejo.interior.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class HomeController {
+@RequestMapping("admin")
+public class AdminController {
 
 
 	@GetMapping("/banner")
@@ -61,4 +63,6 @@ public class HomeController {
 	public String reviewManagementPage() {
 		return "admin/review-management";
 	}
+	
+	
 }

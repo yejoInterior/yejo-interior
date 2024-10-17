@@ -1,0 +1,153 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root{
+	--color-primary:#2b211a;
+	--color-white: #fff;
+	--font-pop:"Poppins", sans-serif;
+
+	--mg-100:100px;
+	--mg-80:80px;
+	--mg-60:60px;
+	--mg-50:50px;
+	--mg-40:40px;
+
+	--font-24px:24px;
+	--font-18px:18px;
+	--font-16px:16px;
+}
+
+* {-webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;}
+:after, :before {-webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;}
+
+/* reset */
+body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select,figure,figcaption{margin:0;padding:0}
+body,input,textarea,select,button,table{font-family:'Pretendard','Open Sans',AppleGothic,helvetica,sans-serif;font-size:16px;line-height:1.75em;color:#454545;word-break:keep-all;-webkit-text-size-adjust:none;}
+img{border:0;max-width:100%;vertical-align:top;}
+ul,ol{list-style:none}
+fieldset{border:none}
+fieldset legend {overflow:hidden;width:0;height:0;margin:0;padding:0;font-size:0;line-height:0;text-indent:-999em;}
+button{cursor:pointer}
+header,hgroup,article,nav,footer,figure,figcaption,canvas,section,time{display:block}
+hr {clear:both;display:none;}
+img[usemap] {border:none; height:auto; max-width:100%; width:auto;}
+
+a{
+	color:inherit;
+	text-decoration:none;
+	-webkit-transition: all 0.2s ease-in-out;
+	   -moz-transition: all 0.2s ease-in-out;
+		-ms-transition: all 0.2s ease-in-out;
+		 -o-transition: all 0.2s ease-in-out;
+			transition: all 0.2s ease-in-out;
+}
+a:hover,
+a:active{
+	-webkit-transition: all 0.2s ease-in-out;
+	   -moz-transition: all 0.2s ease-in-out;
+		-ms-transition: all 0.2s ease-in-out;
+		 -o-transition: all 0.2s ease-in-out;
+			transition: all 0.2s ease-in-out;
+}
+
+::-webkit-input-placeholder {color:#878787;}
+:-moz-placeholder {color:#878787;}
+::-moz-placeholder {color:#878787;}
+:-ms-input-placeholder {color:#878787;}
+:placeholder-shown {color:#878787;}
+
+table caption {overflow:hidden;width:0;height:0;margin:0;padding:0;font-size:0;line-height:0;text-indent:-999em;}
+input[type="radio"], input[type="checkbox"] {vertical-align:middle !important; margin:-.2em 3px 0 0 !important;}
+input,select {vertical-align:middle; background:#fff;}
+input,textarea,button{-webkit-appearance:none;-webkit-border-radius:0}
+input[type='checkbox']{-webkit-appearance:checkbox} 
+input[type='radio']{-webkit-appearance:radio}
+
+/* user class */
+h1,h2,h3,h4,h5,h6,strong,th,.bold{font-weight:700;}
+.semibold {font-weight:500;}
+.clear{clear:both;}
+.clearfix:after {content:" "; display:block; clear:both;}
+.blind {position:absolute;overflow:hidden;width:0;height:0;margin:0;padding:0;font-size:0;line-height:0;}
+.pointer {cursor:pointer;}
+.input {height:44px; padding:6px 16px; color:#505050; font-size:15px; line-height:1.5em; border:1px solid #ddd;}
+.input[readonly] {background-color:#e8e8e8; color:#aaaaaa;}
+.input.datepicker {padding-right:40px; background:#fff url('/images/bbs/datepicker_icon.png') right 10px center no-repeat;}
+.input.datepicker2 {padding-right:40px; background:#fff url('/images/bbs/datepicker_icon.png') right 10px center no-repeat;}
+textarea.input {height:auto; padding:13px 16px; overflow:auto; resize:none;}
+select.input {padding-right:40px; background:#fff url('/images/bbs/select.png') right 14px center no-repeat; -webkit-appearance:none; -moz-appearance:none; appearance:none;}
+select.input::-ms-expand {display:none;}
+input[type=file].input {padding:0;}
+
+.mgb2 {margin-bottom:2px !important;}
+.mgb3 {margin-bottom:3px !important;}
+.mgb4 {margin-bottom:4px !important;}
+.mgb5 {margin-bottom:5px !important;}
+.mgb6 {margin-bottom:6px !important;}
+.mgb7 {margin-bottom:7px !important;}
+.mgb8 {margin-bottom:8px !important;}
+.mgb9 {margin-bottom:9px !important;}
+.mgb10 {margin-bottom:10px !important;}
+.mgb15 {margin-bottom:15px !important;}
+.mgb20 {margin-bottom:20px !important;}
+.mgb30 {margin-bottom:30px !important;}
+.mgb40 {margin-bottom:40px !important;}
+.mgb50 {margin-bottom:50px !important;}
+
+.fl {float:left;}
+.fr {float:right;}
+
+.space-center {text-align:center !important;}
+.space-right {text-align:right !important;}
+.space-left {text-align:left !important;}
+
+.inline-block {display:inline-block;}
+
+.video-container {position:relative; padding-bottom:56.25%; overflow:hidden;}
+.video-container video,
+.video-container iframe {position:absolute; top:0; left:0; width:100%; height:100%;}
+
+.radiobox {display:inline-block; position:relative; vertical-align:middle; margin-top:-.2em;}
+.radiobox input {position:absolute; top:0; left:0; width:0; height:0; border:0; opacity:0; z-index:-1;}
+.radiobox label {display:inline-block;}
+.radiobox label:before {content:""; display:inline-block; vertical-align:middle; margin:-.2em 8px 0 0; width:18px; height:18px; background-color:#f4f4f4; border:1px solid #ccc; border-radius:100%;}
+.radiobox input:checked + label:before {background:#fff url("/images/bbs/radiobox.png") 50% 50% no-repeat;}
+.radiobox input:focus + label:before {outline:2px solid highlight;}
+
+.checkbox {display:inline-block; position:relative; vertical-align:middle; margin-top:-.2em;}
+.checkbox input {position:absolute; top:0; left:0; width:0; height:0; border:0; opacity:0; z-index:-1;}
+.checkbox label {display:inline-block;}
+.checkbox label:before {content:""; display:inline-block; vertical-align:middle; margin:-.2em 8px 0 0; width:18px; height:18px; background-color:#f4f4f4; border:1px solid #ccc;}
+.checkbox input:checked + label:before {background:#262727 url("/images/bbs/checkbox.png") 50% 50% no-repeat; border-color:#262727;}
+.checkbox input:focus + label:before {outline:2px solid highlight;}
+
+.table-responsive {display:block; width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch;}
+
+/* ui datepicker */
+.ui-datepicker {display:none; background:#fff; margin-top:2px; border-radius:10px; padding:0 8px 8px; width:250px; box-shadow:0 0 3px rgba(0,0,0,.3);}
+.ui-datepicker-header {position:relative; margin:0 -8px 6px; padding:5px 0; background:#2b211a; border-radius:10px 10px 0 0;}
+.ui-datepicker-prev,
+.ui-datepicker-next {position:absolute; width:32px; height:32px; top:50%; cursor:pointer; margin-top:-16px; border-radius:100%; overflow:hidden; text-indent:-999em; background-position:50% 50%; background-repeat:no-repeat;}
+.ui-datepicker-prev {left:0; background-image:url("/images/bbs/datepicker_prev.png");}
+.ui-datepicker-next {right:0; background-image:url("/images/bbs/datepicker_next.png");}
+.ui-datepicker-title {text-align:center; color:#fff; font-size:18px; line-height:30px; font-weight:500;}
+.ui-datepicker-title select {border:0; margin:-.2em 2px 0; width:70px; height:30px; color:#000; font-size:15px; padding:0 10px 0 6px; vertical-align:middle;}
+.ui-datepicker-calendar {width:100%; border-collapse:collapse; border-spacing:0px;}
+.ui-datepicker-calendar th {padding:2px 0; text-align:center; font-size:14px; font-weight:500; line-height:30px; color:#222;}
+.ui-datepicker-calendar td {padding:0; text-align:center; font-size:13px; font-weight:400; line-height:30px; color:#666;}
+.ui-datepicker-calendar .ui-state-default {display:inline-block;width:30px;border-radius:4px;}
+.ui-datepicker-calendar .ui-state-hover {background-color:#eee; color:#222;}
+.ui-datepicker-calendar .ui-state-active {background-color:#2b211a; color:#fff;}
+.ui-datepicker-other-month .ui-state-default {color:#ccc;}
+.ui-datepicker-last {margin-left:-43px;}
+.ui-datepicker-trigger {width:44px; height:44px; margin-left:-1px; background:url('/images/bbs/datepicker_icon.png') 50% 50% no-repeat; border:1px solid #aaa; vertical-align:middle; overflow:hidden; text-indent:-999em;}
+
+@media (max-width: 640px) {
+	.input.datepicker {background-image:url("../images/bbs/datepicker_icon_x2.png"); background-size:22px auto;}
+
+	.ui-datepicker-prev,
+	.ui-datepicker-next {background-size:8px auto;}
+	.ui-datepicker-prev {background-image:url("../images/bbs/datepicker_prev_x2.png");}
+	.ui-datepicker-next {background-image:url("../images/bbs/datepicker_next_x2.png");}
+	.ui-datepicker-trigger {width:38px; height:38px;}
+}
