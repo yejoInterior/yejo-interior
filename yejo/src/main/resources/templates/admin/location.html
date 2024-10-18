@@ -11,16 +11,16 @@
     <title>회사 위치</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8f3429547b6bf089e5d3beb4733c7cf5&libraries=services"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8f3429547b6bf089e5d3beb4733c7cf5&libraries=services"></script>
     <style>
 
         #map {
@@ -114,12 +114,10 @@
                                 <div class="card-body">
                                     <!-- 지도 넣기 (네이버 지도 API, 카카오 지도 API 등을 활용하여 삽입 가능) -->
 									<div id="map">
-										<div id="map">
-										    <div class="input-overlay">
-										        <label for="address">주소: </label>
-										        <input type="text" id="address" value="경기 의정부시 호암로 252 상가1동" placeholder="주소 입력">
-										        <button id="setMarkerBtn">위치 설정</button>
-										    </div>
+										<div class="input-overlay">
+										    <label for="address">주소: </label>
+										   	<input type="text" id="address" value="경기 의정부시 호암로 252 상가1동" placeholder="주소 입력">
+											<button id="setMarkerBtn">위치 설정</button>
 										</div>
 									</div>
                                 </div>
@@ -214,24 +212,23 @@
     </a>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="/js/sb-admin-2.min.js"></script>
 
 </body>
 <script>
-    // 지도 초기 설정
+window.onload = function() {
     var mapContainer = document.getElementById('map'), 
         mapOption = { 
             center: new kakao.maps.LatLng(37.745755, 127.052335), // 초기 지도 중심 좌표
             level: 3 // 지도 확대 레벨
         };
-
     // 지도 생성
     var map = new kakao.maps.Map(mapContainer, mapOption); 
 
@@ -264,5 +261,7 @@
             }
         });
     });
+};
+
 </script>
 </html>
