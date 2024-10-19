@@ -35,4 +35,9 @@ public class MainController {
 	public String location() {
 		return "main/location";
 	}
+	
+	@GetMapping("portfolio-detail")
+	public String portfolio_detail() {
+		return "main/portfolio-detail";
+	}
 }
