@@ -21,4 +21,4 @@ jobs:
           local-dir: ./  # 현재 디렉토리
           server-dir: /yejo7048/tomcat/webapps/  # 수정된 FTP 서버의 경로
           dry-run: true  # 실제 업로드 없이 연결 테스트만 수행
-          log-level: debug  # 디버그 로그 레벨로 설정
+          log-level: verbose  # 자세한 로그 레벨로 설정
