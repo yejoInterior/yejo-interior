@@ -26,15 +26,19 @@ jobs:
       - name: List target directory
         run: ls -l ./yejo/target
 
-      - name: Upload WAR directly to FTP
+      - name: Upload WAR artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: yejo-artifact
+          path: ./yejo/target/yejo-0.0.1-SNAPSHOT.war  # 특정 WAR 파일을 지정
+
+      - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
           server: yejo7048.cafe24.com
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./yejo/target/  # WAR 파일 경로
-          server-dir: /tomcat/webapps/
+          server-dir: /yejo7048/tomcat/webapps/  # 수정된 경로
           log-level: verbose
-          no-restore: true  # 파일 내용 복사하지 않도록 설정
-          exclude: "**/*"  # 모든 파일 제외
-          include: "yejo-0.0.1-SNAPSHOT.war"  # WAR 파일만 포함
+          no-restore: true  # 파일 내용 복사하지 않도록 설정 (특정 도구에 따라 다름)
