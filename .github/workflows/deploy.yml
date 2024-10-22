@@ -39,7 +39,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./yejo/target/  # WAR 파일 경로
-          server-dir: /tomcat/webapps/
-          log-level: verbose  # 추가적인 로그 정보를 원하면 사용 가능
-
-
+          server-dir: /yejo7048/tomcat/webapps/  # 수정된 경로
+          log-level: verbose
+          no-restore: true  # 파일 내용 복사하지 않도록 설정 (특정 도구에 따라 다름)
