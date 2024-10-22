@@ -26,7 +26,7 @@ public class AdminController {
 	
 	@GetMapping("/portfolio")
 	public String portfolio() {
-		return "admin/portfolio";
+		return "admin/portfolio"; 
 	}
 	
 	@GetMapping("/location")
