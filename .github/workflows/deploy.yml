@@ -26,8 +26,8 @@ jobs:
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          ftp-server: ftp://yejo7048.cafe24.com
-          ftp-username: ${{ secrets.FTP_USERNAME }}
-          ftp-password: ${{ secrets.FTP_PASSWORD }}
+          server: ftp://yejo7048.cafe24.com  # 서버 주소
+          username: ${{ secrets.FTP_USERNAME }}  # FTP 사용자 이름
+          password: ${{ secrets.FTP_PASSWORD }}  # FTP 비밀번호
           local-dir: ./target  # WAR 파일 위치
           server-dir: /tomcat/webapps  # 서버 디렉토리
