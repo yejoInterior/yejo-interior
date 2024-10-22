@@ -38,5 +38,8 @@ jobs:
           server: yejo7048.cafe24.com
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./yejo/target/  # WAR 파일이 포함된 디렉토리
+          local-dir: ./yejo/target/
           server-dir: /tomcat/webapps/
+          protocol: 'ftp'
+          debug: true  # 디버그 모드 활성화
+
