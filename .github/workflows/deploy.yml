@@ -1,0 +1,27 @@
+name: Deploy to Cafe24
+
+on:
+  push:
+    branches:
+      - main  # 배포를 자동화할 브랜치 설정
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build WAR
+        run: |
+          mvn clean package  # Maven 빌드 명령어
+
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          ftp-server: ftp://yejo7048.cafe24.com
+          ftp-username: ${{ secrets.FTP_USERNAME }}
+          ftp-password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./target  # WAR 파일 위치
+          server-dir: /tomcat/webapps  # 서버 디렉토리
