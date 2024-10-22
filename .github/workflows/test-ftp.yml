@@ -22,3 +22,5 @@ jobs:
           server-dir: /tomcat/webapps/  # 수정된 FTP 서버의 경로
           dry-run: true  # 실제 업로드 없이 연결 테스트만 수행
           mkdir: true    # 서버에 폴더가 없으면 생성
+        env:
+          ACTIONS_STEP_DEBUG: true
