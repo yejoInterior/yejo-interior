@@ -16,6 +16,7 @@ jobs:
       - name: Build WAR
         run: |
           mvn clean package  # Maven 빌드 명령어
+        working-directory: ./yejo
 
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
