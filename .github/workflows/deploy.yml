@@ -23,6 +23,12 @@ jobs:
         run: mvn clean package  # Maven 빌드 명령어
         working-directory: ./yejo
 
+      - name: Upload WAR artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: yejo-artifact
+          path: ./yejo/target/*.war
+
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
