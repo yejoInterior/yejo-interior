@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: yejo-artifact
-          path: ./yejo/target/*.war
+          path: ./yejo/target/yejo-0.0.1-SNAPSHOT.war  # 특정 WAR 파일을 지정
 
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
