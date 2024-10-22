@@ -19,7 +19,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./  # 현재 디렉토리
-          server-dir: /yejo7048/tomcat/webapps/  # FTP 서버의 경로
+          server-dir: /home/yejo7048/tomcat/webapps/  # FTP 서버의 경로
           log-level: verbose
           no-restore: true
           exclude: '*'  # 모든 파일을 제외
