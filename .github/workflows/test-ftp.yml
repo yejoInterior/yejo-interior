@@ -19,4 +19,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./  # 현재 디렉토리
-          server-dir: /yejo7048/tomcat/webapps/  # 수정된 FTP 서버의 경
+          server-dir: /yejo7048/tomcat/webapps/  # 수정된 FTP 서버의 경로
+          dry-run: true  # 실제 업로드 없이 연결 테스트만 수행
+          mkdir: true    # 서버에 폴더가 없으면 생성
