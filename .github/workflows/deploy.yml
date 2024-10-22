@@ -23,6 +23,9 @@ jobs:
         run: mvn clean package  # Maven 빌드 명령어
         working-directory: ./yejo
 
+      - name: List target directory
+        run: ls -l ./yejo/target
+
       - name: Upload WAR artifact
         uses: actions/upload-artifact@v3
         with:
