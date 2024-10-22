@@ -78,14 +78,13 @@
 
 .hashtags {
     display: flex; /* 플렉스 박스를 사용하여 해시태그를 가로로 정렬 */
-    margin-top: 10px; /* 본문과 해시태그 사이 여백 */
+    margin-top: 5px; /* 본문과 해시태그 사이 여백 */
 }
-
 .hashtag {
-    background-color: #e0e0e0; /* 해시태그 배경 색상 */
-    border-radius: 20px; /* 둥근 모서리 */
+    /*background-color: #e0e0e0; /* 해시태그 배경 색상 */
+    /*border-radius: 20px; /* 둥근 모서리 */
     padding: 5px 10px; /* 내부 여백 */
-    margin-right: 10px; /* 해시태그 사이 간격 */
+    /*margin-right: 5px; /* 해시태그 사이 간격 */
     font-size: 14px; /* 폰트 크기 */
     color: #333; /* 글자 색상 */
     font-weight: bold; /* 굵은 글씨 */

@@ -1,0 +1,26 @@
+name: Test FTP Connection
+
+on: 
+  push:
+    branches:
+      - main  # 원하시는 브랜치로 수정 가능
+
+jobs:
+  test-ftp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Test FTP Connection
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: yejo7048.cafe24.com
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./  # 현재 디렉토리
+          server-dir: /yejo7048/tomcat/webapps/  # 수정된 FTP 서버의 경로
+          log-level: verbose
+          no-restore: true  # 상태 파일 생성을 방지
+          exclude: '*'  # 모든 파일을 제외
+          include: 'README.md'  # 포함할 파일 (테스트용)
