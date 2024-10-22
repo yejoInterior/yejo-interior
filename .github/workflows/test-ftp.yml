@@ -19,6 +19,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./  # 현재 디렉토리
-          server-dir: /yejo7048/tomcat/webapps/  # 서버의 새로운 경로
+          server-dir: yejo7048/tomcat/webapps/  # 서버의 새로운 경로
           dry-run: false  # 실제 업로드 시도
           log-level: verbose  # 상세한 로그 출력
