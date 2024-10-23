@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class CompanyLocationEntity implements Serializable {
+public class LocationEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +23,8 @@ public class CompanyLocationEntity implements Serializable {
     private String naverMapUrl;
     private String kakaoMapUrl;
 
+    // 좌표 필드 추가
+    private Double latitude;
+    private Double longitude;
 }
+
