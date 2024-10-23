@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.yejo.interior.Entity.CompanyLocationEntity;
+import com.yejo.interior.entity.CompanyLocationEntity;
 import com.yejo.interior.service.CompanyLocationService;
 
 

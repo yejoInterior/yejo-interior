@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yejo.interior.Entity.CompanyLocationEntity;
+import com.yejo.interior.entity.CompanyLocationEntity;
 import com.yejo.interior.service.CompanyLocationService;
 
 @RestController

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import com.yejo.interior.Entity.CompanyLocationEntity;
+import com.yejo.interior.entity.CompanyLocationEntity;
 import com.yejo.interior.repository.CompanyLocationRepository;
 
 @Service

@@ -1,4 +1,4 @@
-package com.yejo.interior.Entity;
+package com.yejo.interior.entity;
 
 import java.io.Serializable;
 
