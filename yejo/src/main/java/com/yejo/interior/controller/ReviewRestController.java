@@ -1,44 +1,32 @@
 package com.yejo.interior.controller;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
+
+import com.yejo.interior.dto.ReviewDto;
+import com.yejo.interior.service.ReviewService;
 
 @RestController
 @RequestMapping("api")
 public class ReviewRestController {
 
-	@Value("${upload.path}")
-    private String uploadDir; // application.properties에서 설정한 업로드 경로
+	private final ReviewService ReviewService;
 
-	
-	
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
-        if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body("파일이 비어있습니다.");
-        }
+    public ReviewRestController(ReviewService ReviewService) {
+        this.ReviewService = ReviewService;
+    }
 
+    @PostMapping("/Reviews")
+    public ResponseEntity<String> createReview(@ModelAttribute ReviewDto ReviewDto) {
         try {
-            File directory = new File(uploadDir);
-            if (!directory.exists()) {
-                directory.mkdirs(); // 디렉토리 생성
-            }
-
-            String filePath = uploadDir + File.separator + file.getOriginalFilename();
-            file.transferTo(new File(filePath));
-
-            return ResponseEntity.ok("파일 업로드 성공: " + filePath);
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일 업로드 실패: " + e.getMessage());
+            ReviewService.saveReview(ReviewDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body("후기가 성공적으로 저장되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("후기 저장 중 오류가 발생했습니다.");
         }
     }
 }

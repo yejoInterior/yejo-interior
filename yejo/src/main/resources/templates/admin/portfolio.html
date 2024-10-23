@@ -41,7 +41,7 @@
             border-color: #007bff;
         }
 
-        #imagePreview {
+        #imagePReview {
             border: 1px solid #ddd;
             padding: 5px;
             max-width: 300px;
@@ -114,15 +114,15 @@
                 <div class="container-fluid">
                     <div class="row">
 
-                        <!-- Left: Image Upload and Preview -->
+                        <!-- Left: Image Upload and PReview -->
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="companyImage">썸네일 이미지</label>
                                 <div class="image-upload-wrapper">
                                     <div id="dropZone">썸네일 이미지를 드래그하여 드롭 하세요</div>
-                                    <img id="imagePreview" src="#" alt="이미지를 업로드하세요" />
+                                    <img id="imagePReview" src="#" alt="이미지를 업로드하세요" />
                                 </div>
-                                <input type="file" class="form-control" id="companyImage" name="companyImage" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                                <input type="file" class="form-control" id="companyImage" name="companyImage" accept="image/*" style="display: none;" onchange="pReviewImage(event)">
                             </div>
                         </div>
 
@@ -156,9 +156,9 @@
                                 <label for="portfolioImages">포트폴리오 사진</label>
                                 <div class="image-upload-wrapper">
                                     <div id="portfolioDropZone">포트폴리오 이미지들을 선택하거나 드래그하여 드롭 하세요 (여러 장 가능)</div>
-                                    <div class="image-preview-wrapper" id="portfolioImagePreviewWrapper"></div>
+                                    <div class="image-pReview-wrapper" id="portfolioImagePReviewWrapper"></div>
                                 </div>
-                                <input type="file" class="form-control" id="portfolioImages" name="portfolioImages" accept="image/*" multiple style="display: none;" onchange="previewPortfolioImages(event)">
+                                <input type="file" class="form-control" id="portfolioImages" name="portfolioImages" accept="image/*" multiple style="display: none;" onchange="pReviewPortfolioImages(event)">
                             </div>
 						</div>
                     </div>
@@ -249,12 +249,12 @@
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
 
-    <!-- JavaScript for Image Preview and Drag and Drop -->
+    <!-- JavaScript for Image PReview and Drag and Drop -->
     <script>
         // 썸네일 이미지 업로드 및 미리보기
         const dropZone = document.getElementById('dropZone');
         const companyImageInput = document.getElementById('companyImage');
-        const imagePreview = document.getElementById('imagePreview');
+        const imagePReview = document.getElementById('imagePReview');
 
         dropZone.addEventListener('click', () => {
             companyImageInput.click();
@@ -275,18 +275,18 @@
             const files = e.dataTransfer.files;
             if (files.length > 0) {
                 companyImageInput.files = files;
-                previewImage({ target: { files } });
+                pReviewImage({ target: { files } });
             }
         });
 
-        function previewImage(event) {
+        function pReviewImage(event) {
             const reader = new FileReader();
             const file = event.target.files[0];
 
             if (file) {
                 reader.onload = function () {
-                    imagePreview.src = reader.result;
-                    imagePreview.style.display = 'block';
+                    imagePReview.src = reader.result;
+                    imagePReview.style.display = 'block';
                 };
                 reader.readAsDataURL(file);
             }
@@ -295,7 +295,7 @@
         // 포트폴리오 사진 미리보기 및 다중 업로드
         const portfolioDropZone = document.getElementById('portfolioDropZone');
         const portfolioImagesInput = document.getElementById('portfolioImages');
-        const portfolioImagePreviewWrapper = document.getElementById('portfolioImagePreviewWrapper');
+        const portfolioImagePReviewWrapper = document.getElementById('portfolioImagePReviewWrapper');
 
         portfolioDropZone.addEventListener('click', () => {
             portfolioImagesInput.click();
@@ -316,12 +316,12 @@
             const files = e.dataTransfer.files;
             if (files.length > 0) {
                 portfolioImagesInput.files = files;
-                previewPortfolioImages({ target: { files } });
+                pReviewPortfolioImages({ target: { files } });
             }
         });
 
-        function previewPortfolioImages(event) {
-            portfolioImagePreviewWrapper.innerHTML = ''; // 기존 미리보기 초기화
+        function pReviewPortfolioImages(event) {
+            portfolioImagePReviewWrapper.innerHTML = ''; // 기존 미리보기 초기화
             Array.from(event.target.files).forEach(file => {
                 const reader = new FileReader();
                 reader.onload = function () {
@@ -330,7 +330,7 @@
                     img.style.maxWidth = '100px'; // 미리보기 이미지 크기 조절
                     img.style.margin = '5px';
                     img.classList.add('img-thumbnail');
-                    portfolioImagePreviewWrapper.appendChild(img);
+                    portfolioImagePReviewWrapper.appendChild(img);
                 };
                 reader.readAsDataURL(file);
             });

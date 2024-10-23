@@ -1,13 +1,18 @@
 package com.yejo.interior.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.yejo.interior.service.ReviewService;
 
 @Controller
 @RequestMapping("admin")
 public class AdminController {
 
+	@Autowired
+	private ReviewService reviewService;
 
 	@GetMapping("/banner")
 	public String bannerPage() {
@@ -59,9 +64,9 @@ public class AdminController {
 		return "admin/company-info";
 	}
 	
-	@GetMapping("/review-management")
-	public String reviewManagementPage() {
-		return "admin/review-management";
+	@GetMapping("/Review-management")
+	public String ReviewManagementPage() {
+		return "admin/Review-management";
 	}
 	
 	

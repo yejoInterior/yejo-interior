@@ -41,7 +41,7 @@
             border-color: #007bff;
         }
 
-        #imagePreview {
+        #imagePReview {
             border: 1px solid #ddd;
             padding: 5px;
             max-width: 100%;
@@ -96,15 +96,15 @@
                 <div class="container-fluid">
                     <div class="row">
 
-                        <!-- Left: Image Upload and Preview -->
+                        <!-- Left: Image Upload and PReview -->
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="companyImage">대표 이미지</label>
                                 <div class="image-upload-wrapper">
                                     <div id="dropZone">이미지를 드래그 앤 드롭하거나 클릭하여 업로드하세요</div>
-                                    <img id="imagePreview" src="#" alt="이미지를 업로드하세요" />
+                                    <img id="imagePReview" src="#" alt="이미지를 업로드하세요" />
                                 </div>
-                                <input type="file" class="form-control" id="companyImage" name="companyImage" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                                <input type="file" class="form-control" id="companyImage" name="companyImage" accept="image/*" style="display: none;" onchange="pReviewImage(event)">
                             </div>
                         </div>
 
@@ -178,11 +178,11 @@
     CKEDITOR.replace('companyIntro');
 </script>
 
-<!-- JavaScript for Image Preview and Drag and Drop -->
+<!-- JavaScript for Image PReview and Drag and Drop -->
 <script>
     const dropZone = document.getElementById('dropZone');
     const companyImageInput = document.getElementById('companyImage');
-    const imagePreview = document.getElementById('imagePreview');
+    const imagePReview = document.getElementById('imagePReview');
 
     dropZone.addEventListener('click', () => {
         companyImageInput.click();
@@ -203,18 +203,18 @@
         const files = e.dataTransfer.files;
         if (files.length > 0) {
             companyImageInput.files = files;
-            previewImage({ target: { files } });
+            pReviewImage({ target: { files } });
         }
     });
 
-    function previewImage(event) {
+    function pReviewImage(event) {
         const reader = new FileReader();
         const file = event.target.files[0];
 
         if (file) {
             reader.onload = function () {
-                imagePreview.src = reader.result;
-                imagePreview.style.display = 'block';
+                imagePReview.src = reader.result;
+                imagePReview.style.display = 'block';
             };
             reader.readAsDataURL(file);
         }

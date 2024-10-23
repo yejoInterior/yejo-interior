@@ -16,9 +16,9 @@ public class MainController {
 		return "main/company";
 	}
 	
-	@GetMapping("review")
-	public String review() {
-		return "main/review";
+	@GetMapping("Review")
+	public String Review() {
+		return "main/Review";
 	}
 	
 	@GetMapping("portfolio")

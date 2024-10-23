@@ -7278,7 +7278,7 @@ file-pdf:
     terms:
       - acrobat
       - document
-      - preview
+      - pReview
       - save
   styles:
     - solid
@@ -16064,7 +16064,7 @@ search:
       - enlarge
       - find
       - magnify
-      - preview
+      - pReview
       - zoom
   styles:
     - solid
@@ -16081,7 +16081,7 @@ search-dollar:
       - find
       - magnify
       - money
-      - preview
+      - pReview
       - zoom
   styles:
     - solid
@@ -16097,7 +16097,7 @@ search-location:
       - enlarge
       - find
       - magnify
-      - preview
+      - pReview
       - zoom
   styles:
     - solid
