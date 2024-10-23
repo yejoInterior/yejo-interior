@@ -1,5 +1,4 @@
 .Review {
-    display: flex;  /* 기본적으로 수평 정렬 */
     align-items: flex-start; /* 수직 상단 정렬 */
     margin: 20px; /* 전체 여백 */
     padding-bottom: 20px; /* 하단 여백 */

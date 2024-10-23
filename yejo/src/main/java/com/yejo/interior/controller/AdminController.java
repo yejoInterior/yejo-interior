@@ -1,12 +1,16 @@
 package com.yejo.interior.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 import com.yejo.interior.entity.LocationEntity;
+import com.yejo.interior.entity.Review;
 import com.yejo.interior.service.CompanyLocationService;
 import com.yejo.interior.service.ReviewService;
 
@@ -73,10 +77,11 @@ public class AdminController {
 		return "admin/company-info";
 	}
 	
-	@GetMapping("/Review-management")
-	public String ReviewManagementPage(Model model) {
-		model.getAttribute("도레미");
-		return "admin/Review-management";
+	@GetMapping("/review-management")
+	public String reviewManagementPage(Model model) {
+		List<Review> reviews = reviewService.getAllReview();
+		model.addAttribute("reviews",reviews);
+		return "admin/review-management";
 	}
 	
 	

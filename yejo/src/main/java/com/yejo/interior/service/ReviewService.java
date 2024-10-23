@@ -1,5 +1,6 @@
 package com.yejo.interior.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,66 +18,94 @@ import com.yejo.interior.repository.ReviewRepository;
 
 @Service
 public class ReviewService {
-	
+
 	@Autowired
-    private ReviewRepository ReviewRepository; // JPA Repository
+	private ReviewRepository reviewRepository; // JPA Repository
 
 	@Value("${upload.path}")
-    private String IMAGE_UPLOAD_DIR;// 이미지 저장 경로
+	private String uploadPath;// 이미지 저장 경로
 
+	//리뷰 작성 이미지 저장
 	public String saveImage(MultipartFile file) {
-        try {
-            if (file.isEmpty()) {
-                throw new IllegalArgumentException("파일이 비어있습니다.");
-            }
+		try {
+			if (file.isEmpty()) {
+				throw new IllegalArgumentException("파일이 비어있습니다.");
+			}
 
-            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-            Path path = Paths.get(IMAGE_UPLOAD_DIR, fileName);
-            Files.createDirectories(path.getParent()); // 디렉토리 생성
+			String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+			Path path = Paths.get(uploadPath, fileName);
+			Files.createDirectories(path.getParent()); // 디렉토리 생성
 
-            // 이미지 파일 저장
-            Files.copy(file.getInputStream(), path);
-            return fileName; // 저장된 파일 이름 반환
+			// 이미지 파일 저장
+			Files.copy(file.getInputStream(), path);
 
-        } catch (IOException e) {
-            // 예외 발생 시 로그 기록 및 사용자에게 전달할 메시지 생성
-            e.printStackTrace();
-            throw new RuntimeException("이미지 저장 중 오류가 발생했습니다: " + e.getMessage());
-        }
-    }
+			// 이미지 경로와 파일 이름을 반환
+			return fileName;
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("이미지 저장 중 오류가 발생했습니다: " + e.getMessage());
+		}
+	}
 
-    public void saveReview(ReviewDto ReviewDto) throws IOException {
+	// 리뷰 작성
+	public void saveReview(ReviewDto reviewDto) throws IOException {
+		try {
+			// 이미지 저장
+			String imagePath = saveImage(reviewDto.getImage());
+
+			// Review 생성
+			Review review = new Review();
+			review.setTitle(reviewDto.getTitle());
+
+			if (reviewDto.getTags() != null && !reviewDto.getTags().isEmpty()) {
+				String tags = String.join(",", reviewDto.getTags()); // ","로 결합
+				review.setTag(tags); // 태그 설정
+			} else {
+				review.setTag(""); // 태그가 없으면 빈 문자열로 설정
+			}
+
+			review.setContent(reviewDto.getContent());
+			review.setUrl(reviewDto.getUrl());
+			review.setImagePath(imagePath);
+
+			// 데이터베이스에 저장
+			reviewRepository.save(review);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("리뷰 저장 중 오류가 발생했습니다: " + e.getMessage());
+		}
+	}
+
+	// 리뷰 가져오기
+	public List<Review> getAllReview() {
+		try {
+			return reviewRepository.findAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("리뷰를 가져오는 중 오류가 발생했습니다.", e);
+		}
+	}
+	
+	// 리뷰 삭제 서비스 로직
+    public void deleteReview(Integer reviewId) {
     	try {
-            // 이미지 저장
-            String imagePath = saveImage(ReviewDto.getImage());
+        // 리뷰 찾기
+        Review review = reviewRepository.findById(reviewId)
+            .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
 
-            // Review 생성
-            Review Review = new Review();
-            Review.setTitle(ReviewDto.getTitle());
-            
-            if (ReviewDto.getTags() != null && !ReviewDto.getTags().isEmpty()) {
-                String tags = String.join(",", ReviewDto.getTags()); // ","로 결합
-                Review.setTag(tags); // 태그 설정
-            } else {
-                Review.setTag(""); // 태그가 없으면 빈 문자열로 설정
-            }
-
-            Review.setContent(ReviewDto.getContent());
-            Review.setUrl(ReviewDto.getUrl());
-            Review.setImagePath(imagePath); // 이미지 경로 설정
-
-            // 데이터베이스에 저장
-            ReviewRepository.save(Review);
-
-        } catch (Exception e) {
-            // 예외 발생 시 로그 기록 및 사용자에게 전달할 메시지 생성
-            e.printStackTrace();
-            throw new RuntimeException("리뷰 저장 중 오류가 발생했습니다: " + e.getMessage());
+        // 이미지 파일 삭제
+        String imagePath = uploadPath + "/" + review.getImagePath();
+        File file = new File(imagePath);
+        if (file.exists()) {
+            file.delete(); // 이미지 파일 삭제
         }
-    }
-    
-    //리뷰 가져오기
-    public List<ReviewDto> getAllReview(){
-    	return null;
+
+        // 데이터베이스에서 리뷰 삭제
+        reviewRepository.delete(review);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		throw new RuntimeException("리뷰를 삭제하는 중 오류가 발생했습니다.", e);
+    	}
     }
 }
