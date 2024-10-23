@@ -2,10 +2,12 @@ package com.yejo.interior.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yejo.interior.service.ReviewService;
+
 
 @Controller
 @RequestMapping("admin")
@@ -65,7 +67,8 @@ public class AdminController {
 	}
 	
 	@GetMapping("/Review-management")
-	public String ReviewManagementPage() {
+	public String ReviewManagementPage(Model model) {
+		model.getAttribute("도레미");
 		return "admin/Review-management";
 	}
 	
