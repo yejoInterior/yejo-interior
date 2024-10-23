@@ -37,14 +37,14 @@ body {background-position:left top; background-repeat:repeat;}
 #header .submenu-bg {display:none; position:absolute; left:0; width:100%; background:#fff;}
 
 #header.header-white {border-bottom:1px solid #cdcdcd;}
-.header-white .sitelogo a {background-image:url("../images/common/logo2.png")}
+.header-white .sitelogo a {background-image:url("http://yejo7048.cdn1.cafe24.com/images/common/logo2.png")}
 .header-white #gnb > ul > li > a {color:#242424;}
 .header-white .btn-m-menu span,
 .header-white .btn-m-menu span:before,
 .header-white .btn-m-menu span:after {background:#242424;}
 
 .header-fixed #header {background:#fbf9f5;}
-.header-fixed #header .sitelogo a {background-image:url("../images/common/logo2.png")}
+.header-fixed #header .sitelogo a {background-image:url("http://yejo7048.cdn1.cafe24.com/images/common/logo2.png")}
 .header-fixed #header #gnb > ul > li > a {color:#242424;}
 .header-fixed #header .btn-m-menu span,
 .header-fixed #header .btn-m-menu span:before,

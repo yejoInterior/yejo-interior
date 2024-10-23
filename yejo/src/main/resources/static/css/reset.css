@@ -75,10 +75,10 @@ h1,h2,h3,h4,h5,h6,strong,th,.bold{font-weight:700;}
 .pointer {cursor:pointer;}
 .input {height:44px; padding:6px 16px; color:#505050; font-size:15px; line-height:1.5em; border:1px solid #ddd;}
 .input[readonly] {background-color:#e8e8e8; color:#aaaaaa;}
-.input.datepicker {padding-right:40px; background:#fff url('/images/bbs/datepicker_icon.png') right 10px center no-repeat;}
-.input.datepicker2 {padding-right:40px; background:#fff url('/images/bbs/datepicker_icon.png') right 10px center no-repeat;}
+.input.datepicker {padding-right:40px; background:#fff url('http://yejo7048.cdn1.cafe24.com/images/bbs/datepicker_icon.png') right 10px center no-repeat;}
+.input.datepicker2 {padding-right:40px; background:#fff url('http://yejo7048.cdn1.cafe24.com/images/bbs/datepicker_icon.png') right 10px center no-repeat;}
 textarea.input {height:auto; padding:13px 16px; overflow:auto; resize:none;}
-select.input {padding-right:40px; background:#fff url('/images/bbs/select.png') right 14px center no-repeat; -webkit-appearance:none; -moz-appearance:none; appearance:none;}
+select.input {padding-right:40px; background:#fff url('http://yejo7048.cdn1.cafe24.com/images/bbs/select.png') right 14px center no-repeat; -webkit-appearance:none; -moz-appearance:none; appearance:none;}
 select.input::-ms-expand {display:none;}
 input[type=file].input {padding:0;}
 
@@ -114,14 +114,14 @@ input[type=file].input {padding:0;}
 .radiobox input {position:absolute; top:0; left:0; width:0; height:0; border:0; opacity:0; z-index:-1;}
 .radiobox label {display:inline-block;}
 .radiobox label:before {content:""; display:inline-block; vertical-align:middle; margin:-.2em 8px 0 0; width:18px; height:18px; background-color:#f4f4f4; border:1px solid #ccc; border-radius:100%;}
-.radiobox input:checked + label:before {background:#fff url("/images/bbs/radiobox.png") 50% 50% no-repeat;}
+.radiobox input:checked + label:before {background:#fff url("http://yejo7048.cdn1.cafe24.com/images/bbs/radiobox.png") 50% 50% no-repeat;}
 .radiobox input:focus + label:before {outline:2px solid highlight;}
 
 .checkbox {display:inline-block; position:relative; vertical-align:middle; margin-top:-.2em;}
 .checkbox input {position:absolute; top:0; left:0; width:0; height:0; border:0; opacity:0; z-index:-1;}
 .checkbox label {display:inline-block;}
 .checkbox label:before {content:""; display:inline-block; vertical-align:middle; margin:-.2em 8px 0 0; width:18px; height:18px; background-color:#f4f4f4; border:1px solid #ccc;}
-.checkbox input:checked + label:before {background:#262727 url("/images/bbs/checkbox.png") 50% 50% no-repeat; border-color:#262727;}
+.checkbox input:checked + label:before {background:#262727 url("http://yejo7048.cdn1.cafe24.com/images/bbs/checkbox.png") 50% 50% no-repeat; border-color:#262727;}
 .checkbox input:focus + label:before {outline:2px solid highlight;}
 
 .table-responsive {display:block; width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch;}
@@ -131,8 +131,8 @@ input[type=file].input {padding:0;}
 .ui-datepicker-header {position:relative; margin:0 -8px 6px; padding:5px 0; background:#2b211a; border-radius:10px 10px 0 0;}
 .ui-datepicker-prev,
 .ui-datepicker-next {position:absolute; width:32px; height:32px; top:50%; cursor:pointer; margin-top:-16px; border-radius:100%; overflow:hidden; text-indent:-999em; background-position:50% 50%; background-repeat:no-repeat;}
-.ui-datepicker-prev {left:0; background-image:url("/images/bbs/datepicker_prev.png");}
-.ui-datepicker-next {right:0; background-image:url("/images/bbs/datepicker_next.png");}
+.ui-datepicker-prev {left:0; background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/datepicker_prev.png");}
+.ui-datepicker-next {right:0; background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/datepicker_next.png");}
 .ui-datepicker-title {text-align:center; color:#fff; font-size:18px; line-height:30px; font-weight:500;}
 .ui-datepicker-title select {border:0; margin:-.2em 2px 0; width:70px; height:30px; color:#000; font-size:15px; padding:0 10px 0 6px; vertical-align:middle;}
 .ui-datepicker-calendar {width:100%; border-collapse:collapse; border-spacing:0px;}
@@ -143,14 +143,14 @@ input[type=file].input {padding:0;}
 .ui-datepicker-calendar .ui-state-active {background-color:#2b211a; color:#fff;}
 .ui-datepicker-other-month .ui-state-default {color:#ccc;}
 .ui-datepicker-last {margin-left:-43px;}
-.ui-datepicker-trigger {width:44px; height:44px; margin-left:-1px; background:url('/images/bbs/datepicker_icon.png') 50% 50% no-repeat; border:1px solid #aaa; vertical-align:middle; overflow:hidden; text-indent:-999em;}
+.ui-datepicker-trigger {width:44px; height:44px; margin-left:-1px; background:url('http://yejo7048.cdn1.cafe24.com/images/bbs/datepicker_icon.png') 50% 50% no-repeat; border:1px solid #aaa; vertical-align:middle; overflow:hidden; text-indent:-999em;}
 
 @media (max-width: 640px) {
-	.input.datepicker {background-image:url("../images/bbs/datepicker_icon_x2.png"); background-size:22px auto;}
+	.input.datepicker {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/datepicker_icon_x2.png"); background-size:22px auto;}
 
 	.ui-datepicker-prev,
 	.ui-datepicker-next {background-size:8px auto;}
-	.ui-datepicker-prev {background-image:url("../images/bbs/datepicker_prev_x2.png");}
-	.ui-datepicker-next {background-image:url("../images/bbs/datepicker_next_x2.png");}
+	.ui-datepicker-prev {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/datepicker_prev_x2.png");}
+	.ui-datepicker-next {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/datepicker_next_x2.png");}
 	.ui-datepicker-trigger {width:38px; height:38px;}
 }

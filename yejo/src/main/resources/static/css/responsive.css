@@ -295,11 +295,11 @@
 
 	/* board */
 	.input {font-size:14px; padding:0 10px; height:38px;}
-	select.input {padding-right:26px; background-image:url("/images/bbs/select_x2.png"); background-position:right 8px center; background-size:12px auto;}
+	select.input {padding-right:26px; background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/select_x2.png"); background-position:right 8px center; background-size:12px auto;}
 	textarea.input {padding:7px 10px;}
 
-	.radiobox input:checked + label:before {background-image:url("/images/bbs/radiobox_x2.png"); background-size:8px auto;}
-	.checkbox input:checked + label:before {background-image:url("/images/bbs/checkbox_x2.png"); background-size:11px auto;}
+	.radiobox input:checked + label:before {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/radiobox_x2.png"); background-size:8px auto;}
+	.checkbox input:checked + label:before {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/checkbox_x2.png"); background-size:11px auto;}
 
 	.board-search {display:flex; flex-direction:column; margin-bottom:10px;}
 	.board-search .total-page {order:3; float:none; font-size:13px;}
@@ -339,8 +339,8 @@
 	.calendar-head {margin-bottom:15px;}
 	.calendar-head h3 {font-size:20px; margin:0 17px;}
 	.calendar-head .cal-btn {width:34px; height:34px; background-size:9px auto;}
-	.calendar-head .cal-prev {background-image:url("/images/bbs/cal_prev_x2.png");}
-	.calendar-head .cal-next {background-image:url("/images/bbs/cal_next_x2.png");}
+	.calendar-head .cal-prev {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/cal_prev_x2.png");}
+	.calendar-head .cal-next {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/cal_next_x2.png");}
 	.calendar table th {padding:6px 4px; font-size:14px;}
 	.calendar table td {height:60px; padding:5px 4px; font-size:12px;}
 	.calendar ul li {padding-left:0; margin-bottom:6px;}
@@ -387,10 +387,10 @@
 	.paginate a,  
 	.paginate strong{margin:0 1px;width:30px;height:30px;font-size:14px;line-height:30px;}  
 	.paginate a.direction {margin:0; background-size:11px;}
-	.paginate a.direction.first {background-image:url("/images/bbs/btn_first_x2.png");}
-	.paginate a.direction.prev {background-image:url("/images/bbs/btn_prev_x2.png"); margin-right:14px;}
-	.paginate a.direction.next {background-image:url("/images/bbs/btn_next_x2.png"); margin-left:14px;}
-	.paginate a.direction.last {background-image:url("/images/bbs/btn_last_x2.png");}
+	.paginate a.direction.first {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/btn_first_x2.png");}
+	.paginate a.direction.prev {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/btn_prev_x2.png"); margin-right:14px;}
+	.paginate a.direction.next {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/btn_next_x2.png"); margin-left:14px;}
+	.paginate a.direction.last {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/btn_last_x2.png");}
 
 	.comment-area {margin-top:37px;}
 	.comment-total {font-size:14px; margin-bottom:12px;}
@@ -400,7 +400,7 @@
 	.comment-write .write textarea {display:block; width:100%; height:65px; margin-right:0;}
 	.comment-write .write .btn {text-align:right; margin-top:6px;}
 	.comment-item {padding:17px 4px;}
-	.comment-item.comment-reply {padding-left:25px; background-image:url("/images/bbs/icon_reply_x2.png"); background-position:3px 18px; background-size:auto 13px;}
+	.comment-item.comment-reply {padding-left:25px; background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/icon_reply_x2.png"); background-position:3px 18px; background-size:auto 13px;}
 	.comment-info {font-size:14px;}
 	.comment-info .name {margin-right:5px;}
 	.comment-info .date {font-size:11px;}
@@ -455,8 +455,8 @@
 	.agree-wrap {margin-bottom:35px;}
 	.agree-wrap .group {margin-top:30px;}
 	.agree-wrap .agree-tit {font-size:16px;}
-	.agree-wrap .agree-tit .checkbox label:before {background-image:url("../images/member/checkbox_x2.png"); background-size:11px auto;}
-	.agree-wrap .agree-tit .checkbox input:checked + label:before {background-image:url("../images/member/checkbox_on_x2.png");}
+	.agree-wrap .agree-tit .checkbox label:before {background-image:url("http://yejo7048.cdn1.cafe24.com/images/member/checkbox_x2.png"); background-size:11px auto;}
+	.agree-wrap .agree-tit .checkbox input:checked + label:before {background-image:url("http://yejo7048.cdn1.cafe24.com/images/member/checkbox_on_x2.png");}
 	.agree-wrap .agree-box {margin-top:7px; max-height:130px; padding:20px;}
 	.agree-wrap .agree-box .terms-wrap {line-height:1.4em; word-break:break-all;}
 
