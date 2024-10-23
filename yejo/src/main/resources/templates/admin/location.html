@@ -131,60 +131,49 @@
                                     <h6 class="m-0 font-weight-bold text-primary">위치 정보 입력</h6>
                                 </div>
                                 <div class="card-body">
-                                    <form>
-                                        <!-- 주소 입력란 -->
-                                        <div class="form-group">
-                                            <label for="address">주소</label>
-                                            <input type="text" class="form-control" id="address" value="경기 의정부시 호암로 252 상가1동" placeholder="회사 주소를 입력하세요">
-                                        </div>
-
-                                        <!-- 전화번호 입력란 -->
-                                        <div class="form-group">
-                                            <label for="tel">전화번호</label>
-                                            <input type="tel" class="form-control" id="tel" value="" placeholder="전화번호를 입력하세요">
-                                        </div>
-                                        
-                                        <!-- 안심번호 입력란 -->
-                                        <div class="form-group">
-                                            <label for="safe_tel">안심번호</label>
-                                            <input type="safe_tel" class="form-control" id="safe_tel" value="" placeholder="안심번호를 입력하세요">
-                                        </div>
-
-                                        <!-- 이메일 입력란 -->
-                                        <div class="form-group">
-                                            <label for="email">이메일</label>
-                                            <input type="email" class="form-control" id="email" placeholder="이메일을 입력하세요">
-                                        </div>
-
-                                        <!-- 상세 설명 입력란 -->
-                                        <div class="form-group">
-                                            <label for="description">상세 설명</label>
-                                            <textarea class="form-control" id="description" rows="4" placeholder="상세 설명을 입력하세요"></textarea>
-                                        </div>
-
-                                        <!-- 네이버 지도 URL 입력란 -->
-                                        <div class="form-group">
-                                            <label for="naverMapUrl">네이버 지도 URL</label>
-                                            <input type="url" class="form-control" id="naverMapUrl" placeholder="네이버 지도 URL을 입력하세요">
-                                        </div>
-
-                                        <!-- 카카오 지도 URL 입력란 -->
-                                        <div class="form-group">
-                                            <label for="kakaoMapUrl">카카오 지도 URL</label>
-                                            <input type="url" class="form-control" id="kakaoMapUrl" placeholder="카카오 지도 URL을 입력하세요">
-                                        </div>
-
-                                        <!-- 티맵 URL 입력란 -->
-                                        <!-- 
-                                        <div class="form-group">
-                                            <label for="tmapUrl">티맵 URL</label>
-                                            <input type="url" class="form-control" id="tmapUrl" placeholder="티맵 URL을 입력하세요">
-                                        </div>
-										 -->
-										 
-                                        <!-- 제출 버튼 -->
-                                        <button type="submit" class="btn btn-primary">저장</button>
-                                    </form>
+									<form id="locationForm">
+									    <!-- ID 필드를 숨겨서 전달 -->
+									    <input type="hidden" id="id" name="id" th:value="${location.id}">
+									
+									    <!-- 주소 입력란 -->
+									    <div class="form-group">
+									        <label for="address">주소</label>
+									        <input type="text" class="form-control" id="address" name="address" th:value="${location.address}" placeholder="회사 주소를 입력하세요">
+									    </div>
+									
+									    <!-- 전화번호 입력란 -->
+									    <div class="form-group">
+									        <label for="tel">전화번호</label>
+									        <input type="tel" class="form-control" id="tel" name="tel" th:value="${location.tel}" placeholder="전화번호를 입력하세요">
+									    </div>
+									
+									    <!-- 안심번호 입력란 -->
+									    <div class="form-group">
+									        <label for="safeTel">안심번호</label>
+									        <input type="text" class="form-control" id="safeTel" name="safeTel" th:value="${location.safeTel}" placeholder="안심번호를 입력하세요">
+									    </div>
+									
+									    <!-- 이메일 입력란 -->
+									    <div class="form-group">
+									        <label for="email">이메일</label>
+									        <input type="email" class="form-control" id="email" name="email" th:value="${location.email}" placeholder="이메일을 입력하세요">
+									    </div>
+									
+									    <!-- 네이버 지도 URL 입력란 -->
+									    <div class="form-group">
+									        <label for="naverMapUrl">네이버 지도 URL</label>
+									        <input type="url" class="form-control" id="naverMapUrl" name="naverMapUrl" th:value="${location.naverMapUrl}" placeholder="네이버 지도 URL을 입력하세요">
+									    </div>
+									
+									    <!-- 카카오 지도 URL 입력란 -->
+									    <div class="form-group">
+									        <label for="kakaoMapUrl">카카오 지도 URL</label>
+									        <input type="url" class="form-control" id="kakaoMapUrl" name="kakaoMapUrl" th:value="${location.kakaoMapUrl}" placeholder="카카오 지도 URL을 입력하세요">
+									    </div>
+									
+									    <!-- 제출 버튼 -->
+									    <button type="submit" class="btn btn-primary">업데이트</button>
+									</form>
                                 </div>
                             </div>
                         </div>
@@ -271,5 +260,25 @@ window.onload = function() {
     });
 };
 
+$(document).ready(function() {
+    $('#locationForm').submit(function(event) {
+        event.preventDefault(); // 폼의 기본 제출을 방지
+        
+        var formData = $(this).serialize(); // 폼 데이터를 직렬화
+        
+        $.ajax({
+            type: 'POST',
+            url: '/api/location/update', // 저장을 위한 API 경로
+            data: formData,
+            success: function(response) {
+                alert('저장 완료'); // 저장 완료 시 알림
+                location.reload(); // 페이지 리로드
+            },
+            error: function(xhr, status, error) {
+                alert('저장 실패: ' + error); // 실패 시 에러 메시지 출력
+            }
+        });
+    });
+});
 </script>
 </html>
