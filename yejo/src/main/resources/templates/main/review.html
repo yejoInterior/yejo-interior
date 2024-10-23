@@ -40,7 +40,7 @@
 <link rel="stylesheet" type="text/css" href="/css/slick.css">
 <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
 <link rel="stylesheet" type="text/css" href="/css/responsive.css">
-<link rel="stylesheet" type="text/css" href="/css/Review.css">
+<link rel="stylesheet" type="text/css" href="/css/review.css">
 <link rel="stylesheet" type="text/css" href="/css/kakao.css">
 
 <script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
@@ -85,30 +85,25 @@
 		<div id="container">
 			<div id="contArea">
 				<div class="sub-title">
-					<h1>Review</h1>
+					<h1>REVIEW</h1>
 				</div>
 				<div class="wow fadeIn" data-wow-delay="0.3s"
 					data-wow-duration="0.8s">
 					<div class="real-cont">
 						<!--// content -->
-						<div class="Review">
-							<a href="https://blog.naver.com/jiyukimm/223154111804"
-								class="link-wrapper" target="_blank">
+						<div th:if="${#lists.isEmpty(reviews)}" class="no-reviews">
+							작성된 후기가 없습니다.</div>
+						<div th:each="review : ${reviews}" class="Review">
+							<a th:href="${review.url}" class="link-wrapper" target="_blank">
 								<div class="content">
-									<!-- 이부분이 제목 -->
-									<span class="title">W. 의정부 예조인테리어 시공후기</span>
-									<!-- 이부분이 본문내용 -->
-									<p>
-										전체시공이 아니더라도 부분시공만으로 드라마틱한 효과를 보실 수 있으니 리모델링, 인테리어를 희망하시는 분들
-										의정부 예조인테리어 정말 추천드려요~~ 신혼집 인테리어 랜선집들이 마칩니다 '-' <br> [출처]
-										W. 의정부 예조인테리어 시공후기|작성자 지창부수
-									</p>
+									<span class="title" th:text="${review.title}">제목</span>
+									<p th:text="${review.content}">본문 내용</p>
 									<div class="hashtags">
-										<span class="hashtag"># 64평</span> <span class="hashtag">#
-											대리석</span>
+										<span class="hashtag" th:each="tag : ${review.tagList}"
+											th:text="'#' + ${tag}">#해시태그</span>
 									</div>
-								</div> <!-- 이부분이 대표이미지 --> <img src="/images/main/mv1.jpg"
-								class="image">
+								</div> 
+								<img th:src="@{'/uploads/' + ${review.imagePath}}" class="image" alt="대표 이미지">
 							</a>
 						</div>
 						<div class="Review">

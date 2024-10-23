@@ -39,13 +39,13 @@ document.addEventListener('DOMContentLoaded', function() {
 			this.value = ''; // 선택된 파일 초기화
 			return;
 		}
-		
+
 		// 파일 용량 확인 (1MB = 1024 * 1024 bytes)
-        if (imageFile.size > 1 * 1024 * 1024) {
-            alert('파일 크기는 1MB 이하만 업로드 가능합니다.'); // 오류 메시지
-            this.value = ''; // 선택된 파일 초기화
-            return; // 함수 종료
-        }
+		if (imageFile.size > 1 * 1024 * 1024) {
+			alert('파일 크기는 1MB 이하만 업로드 가능합니다.'); // 오류 메시지
+			this.value = ''; // 선택된 파일 초기화
+			return; // 함수 종료
+		}
 	});
 
 	// 리뷰 폼 제출 이벤트
@@ -72,21 +72,50 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		// Fetch API를 사용하여 AJAX 요청
 		try {
-			const response = await fetch('/api/Reviews', {
+			const response = await fetch('/api/reviews', {
 				method: 'POST',
 				body: formData,
 			});
 
+			const result = await response.text(); // 서버에서 반환된 메시지를 읽음
+
 			if (response.ok) {
-				alert('리뷰가 성공적으로 저장되었습니다!'); // 성공 메시지
+				alert(result); // 서버에서 반환된 성공 메시지 출력
 				ReviewForm.reset(); // 폼 초기화
 				hashtagContainer.innerHTML = ''; // 해시태그 컨테이너 초기화
 			} else {
-				const errorText = await response.text();
-				alert('오류 발생: ' + errorText); // 오류 메시지
+				alert('오류 발생: ' + result); // 서버에서 반환된 오류 메시지 출력
 			}
 		} catch (error) {
 			alert('오류 발생: ' + error.message); // 네트워크 오류 메시지
 		}
 	});
 });
+
+async function deleteReview(reviewId) {
+	if(confirm("정말 리뷰를 삭제하시겠습니까?")){
+		 // 로딩 인디케이터 표시
+        const loadingIndicator = document.createElement('div');
+        loadingIndicator.innerText = '삭제 중...';
+        document.body.appendChild(loadingIndicator);
+		
+		try {
+			const response = await fetch(`/api/reviews/${reviewId}`, {
+				method: 'DELETE', // 삭제 요청은 DELETE 메소드 사용
+			});
+	
+			if (response.ok) {
+				alert('리뷰가 성공적으로 삭제되었습니다!'); // 성공 메시지
+				location.reload(); // 페이지 새로고침
+			} else {
+				const errorText = await response.text();
+				alert('오류 발생: ' + errorText); // 서버 오류 메시지
+			}
+		} catch (error) {
+			alert('오류 발생: ' + error.message); // 네트워크 오류 메시지
+		} finally {
+            // 로딩 인디케이터 제거
+            document.body.removeChild(loadingIndicator);
+        }
+	}
+}
