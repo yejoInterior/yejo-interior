@@ -124,8 +124,13 @@
 								<div class="modal-body">
 									<form id="reviewForm">
 										<div class="form-group">
-											<label for="reviewAuthor">작성자</label> <input type="text"
+											<label for="reviewAuthor">제목</label> <input type="text"
 												class="form-control" id="reviewAuthor" placeholder="이름 입력">
+										</div>
+										<div class="form-group">
+											<label for="reviewContent">URL</label>
+											<input type="text" class="form-control" id="reviewHashtag"
+													placeholder="URL 입력">
 										</div>
 										<div class="form-group">
 											<label for="reviewHashtag">해시태그 추가</label>
@@ -140,9 +145,9 @@
 											<div id="hashtagContainer"></div>
 										</div>
 										<div class="form-group">
-											<label for="reviewImage">사진 업로드</label> <input type="file"
+											<label for="reviewImage">대표 사진 업로드</label> <input type="file"
 												class="form-control-file" id="reviewImage" accept="image/*"
-												multiple>
+												>
 										</div>
 										<div class="form-group">
 											<label for="reviewContent">내용</label>
