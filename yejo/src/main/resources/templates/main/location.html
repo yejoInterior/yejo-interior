@@ -75,35 +75,38 @@
 					<div class="info">
 						<dl>
 							<dt>Address</dt>
-							<dd>경기 의정부시 호암로 252 상가1동 105호</dd>
+							<dd th:text="${location.address}"></dd>
 						</dl>
 						<dl>
 							<dt>Tel</dt>
-							<dd>010-2785-7048</dd>
+							<dd th:text="${location.tel}"></dd>
 						</dl>
 						<dl>
 							<dt>Safe Tel</dt>
-							<dd>0507-1361-7048</dd>
+							<dd th:text="${location.safeTel}"></dd>
 						</dl>
 						<dl>
 							<dt>E-mail</dt>
-							<dd></dd>
+							<dd th:text="${location.email}"></dd>
 						</dl>
 					</div>
 					<div class="btns">
-						<a href="https://map.naver.com/p/entry/place/1546050659?c=15.00,0,0,0,dh" title="새창열림" target="_blank">네이버지도 보기</a>
-						<a href="https://kko.kakao.com/5IEPZMGBwo" title="새창열림" target="_blank">카카오맵 보기</a>
+						<a th:href="${location.kakaoMapUrl}" title="새창열림" target="_blank">네이버지도 보기</a>
+						<a th:href="${location.kakaoMapUrl}" title="새창열림" target="_blank">카카오맵 보기</a>
 					</div>
 				</div>
 				<div class="map">
 					<div id="map" class="root_daum_roughmap root_daum_roughmap_landing"></div>
 					<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8f3429547b6bf089e5d3beb4733c7cf5&libraries=services"></script>
 					<script charset="UTF-8">
-					    var mapContainer = document.getElementById('map'), 
-					        mapOption = { 
-					            center: new kakao.maps.LatLng(37.745755, 127.052335), // 초기 지도 중심 좌표
-					            level: 3 // 지도 확대 레벨
-					        };
+			        var latitude = [[${location.latitude}]];  // 서버로부터 좌표 값 전달
+			        var longitude = [[${location.longitude}]]; // 서버로부터 좌표 값 전달
+
+			        var mapContainer = document.getElementById('map'), 
+			            mapOption = { 
+			                center: new kakao.maps.LatLng(latitude, longitude), // 서버에서 가져온 초기 좌표 사용
+			                level: 3
+			            };
 					    // 지도 생성
 					    var map = new kakao.maps.Map(mapContainer, mapOption); 
 
