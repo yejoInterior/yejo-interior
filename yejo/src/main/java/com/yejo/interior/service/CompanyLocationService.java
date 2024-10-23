@@ -21,4 +21,21 @@ public class CompanyLocationService {
     public CompanyLocationEntity getLocation() {
         return locationRepository.findById(1L).orElse(null); // DB에서 조회
     }
+    
+    // 위치 정보 업데이트
+    public CompanyLocationEntity updateLocation(CompanyLocationEntity updatedLocation) {
+        CompanyLocationEntity existingLocation = locationRepository.findById(updatedLocation.getId())
+                .orElseThrow(() -> new RuntimeException("위치 정보를 찾을 수 없습니다."));
+
+        // 기존 데이터를 업데이트
+        existingLocation.setAddress(updatedLocation.getAddress());
+        existingLocation.setTel(updatedLocation.getTel());
+        existingLocation.setSafeTel(updatedLocation.getSafeTel());
+        existingLocation.setEmail(updatedLocation.getEmail());
+        existingLocation.setNaverMapUrl(updatedLocation.getNaverMapUrl());
+        existingLocation.setKakaoMapUrl(updatedLocation.getKakaoMapUrl());
+
+        // 업데이트된 위치 정보를 저장
+        return locationRepository.save(existingLocation);
+    }
 }
