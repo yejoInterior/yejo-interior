@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.yejo.interior.service.CompanyLocationService;
 import com.yejo.interior.service.ReviewService;
 
 
@@ -15,7 +16,9 @@ public class AdminController {
 
 	@Autowired
 	private ReviewService reviewService;
-
+	@Autowired
+	private CompanyLocationService locationService;
+	
 	@GetMapping("/banner")
 	public String bannerPage() {
 		return "admin/banner";
