@@ -63,38 +63,39 @@
 							cellspacing="0">
 							<thead class="thead-light">
 								<tr>
-									<th>번호</th>
-									<th>제목</th>
-									<!-- 작성자를 제목으로 변경 -->
-									<th>해시태그</th>
-									<th>사진</th>
-									<th>내용</th>
-									<th>URL</th>
-									<th>관리</th>
+									<th style="width: 4%;">번호</th>
+									<th style="width: 10%;">제목</th>
+									<th style="width: 10%;">해시태그</th>
+									<th style="width: 20%;">사진</th>
+									<!-- 사진 열의 너비 고정 -->
+									<th style="width: 35%;">내용</th>
+									<th style="width: 10%;">URL</th>
+									<th style="width: 10%;">관리</th>
 								</tr>
 							</thead>
 							<tbody>
-								<!-- 후기 데이터 반복 출력 -->
+								<tr th:if="${#lists.isEmpty(reviews)}">
+									<td colspan="7" class="text-center">작성된 후기가 없습니다.</td>
+								</tr>
 								<tr th:each="review, iterStat : ${reviews}">
-									<td th:text="${iterStat.index + 1}"></td>
+									<td th:text="${review.idx}"></td>
 									<td th:text="${review.title}"></td>
 									<td><span class="text-success" th:text="${review.tag}"></span></td>
-									<!-- tag로 수정 -->
 									<td><img th:src="@{'/uploads/' + ${review.imagePath}}"
-										alt="후기 사진" class="img-thumbnail" width="200"></td>
+										alt="후기 사진" class="img-thumbnail"> <!-- 이미지 너비 고정 --></td>
 									<td th:text="${review.content}"></td>
 									<td><a th:href="${review.url}" target="_blank"
-										th:text="${review.url}"></a> <!-- 링크 추가 --></td>
+										th:text="${review.url}"></a></td>
 									<td>
-										<button class="btn btn-sm btn-warning">수정</button>
+										<button class="btn btn-sm btn-warning"
+											th:onclick="'openEditReviewModal(' + ${review.idx} + ')'">
+											수정</button>
 										<button class="btn btn-sm btn-danger"
 											th:onclick="'deleteReview(' + ${review.idx} + ');'">삭제</button>
 									</td>
 								</tr>
-								<tr th:if="${#lists.isEmpty(reviews)}">
-									<td colspan="7" class="text-center">작성된 후기가 없습니다.</td>
-								</tr>
 							</tbody>
+
 						</table>
 					</div>
 
@@ -152,6 +153,65 @@
 							</div>
 						</div>
 					</div>
+
+					<!-- 후기 수정 모달 -->
+					<div class="modal fade" id="editReviewModal" tabindex="-1"
+						role="dialog" aria-labelledby="editReviewModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="editReviewModalLabel">후기 수정</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<form id="EditReviewForm">
+										<input type="hidden" id="editReviewId">
+										<!-- 후기 ID를 저장하는 숨겨진 필드 -->
+										<div class="form-group">
+											<label for="EditReviewTitle">제목</label> <input type="text"
+												class="form-control" id="EditReviewTitle"
+												placeholder="제목 입력" required>
+										</div>
+										<div class="form-group">
+											<label for="EditReviewUrl">URL</label> <input type="text"
+												class="form-control" id="EditReviewUrl" placeholder="URL 입력"
+												required>
+										</div>
+										<div class="form-group">
+											<label for="EditReviewHashtag">해시태그 추가</label>
+											<div class="input-group mb-3">
+												<input type="text" class="form-control"
+													id="EditReviewHashtag" placeholder="태그 입력">
+												<div class="input-group-append">
+													<button class="btn btn-outline-secondary" type="button"
+														id="addEditHashtagButton">추가</button>
+												</div>
+											</div>
+											<div id="editHashtagContainer"></div>
+											<!-- 수정된 해시태그가 표시될 곳 -->
+										</div>
+										<div class="form-group">
+											<label for="EditReviewImage">대표 사진 업로드</label> <input
+												type="file" class="form-control-file" id="EditReviewImage"
+												accept="image/*">
+										</div>
+										<div class="form-group">
+											<label for="EditReviewContent">내용</label>
+											<textarea class="form-control" id="EditReviewContent"
+												rows="3" placeholder="후기 내용 입력" required></textarea>
+										</div>
+										<button type="submit" class="btn btn-primary">수정하기</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
 
 				</div>
 
