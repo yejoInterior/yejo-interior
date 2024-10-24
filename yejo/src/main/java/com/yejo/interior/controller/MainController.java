@@ -1,10 +1,19 @@
 package com.yejo.interior.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.yejo.interior.Entity.CompanyLocationEntity;
+import com.yejo.interior.service.CompanyLocationService;
+
 
 @Controller
 public class MainController {
+	
+    @Autowired
+    private CompanyLocationService locationService;
 
 	@GetMapping("/")
 	public String main() {
@@ -32,8 +41,10 @@ public class MainController {
 	}
 	
 	@GetMapping("location")
-	public String location() {
-		return "main/location";
+	public String location(Model model) {
+        CompanyLocationEntity location = locationService.getLocation();
+        model.addAttribute("location", location);
+        return "main/location";
 	}
 	
 	@GetMapping("portfolio-detail")
