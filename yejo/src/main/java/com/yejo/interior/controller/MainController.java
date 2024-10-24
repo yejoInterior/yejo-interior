@@ -59,6 +59,7 @@ public class MainController {
 	@GetMapping("location")
 	public String location(Model model) {
         LocationEntity location = locationService.getLocation();
+        System.out.println(location);
         model.addAttribute("location", location);
         return "main/location";
 	}
