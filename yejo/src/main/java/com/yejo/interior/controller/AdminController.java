@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yejo.interior.entity.CompanyLocationEntity;
 import com.yejo.interior.entity.Review;
+import com.yejo.interior.entity.YejoStoryEntity;
 import com.yejo.interior.service.CompanyLocationService;
 import com.yejo.interior.service.ReviewService;
+import com.yejo.interior.service.YejoStoryService;
 
 
 @Controller
@@ -23,6 +25,8 @@ public class AdminController {
 	private ReviewService reviewService;
 	@Autowired
 	private CompanyLocationService locationService;
+	@Autowired
+	private YejoStoryService yejoStoryService;
 	
 	@GetMapping("/banner")
 	public String bannerPage() {
@@ -35,7 +39,10 @@ public class AdminController {
 	}
 	
 	@GetMapping("/about")
-	public String about() {
+	public String about(Model model) {
+		YejoStoryEntity yejoStory=yejoStoryService.getIntroduction();
+        model.addAttribute("savedIntroductionText", yejoStory.getIntroductionText());
+        model.addAttribute("savedImagePath", yejoStory.getImagePath());
 		return "admin/about";
 	}
 	
