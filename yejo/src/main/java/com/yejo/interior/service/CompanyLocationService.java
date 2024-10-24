@@ -3,7 +3,7 @@ package com.yejo.interior.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yejo.interior.entity.LocationEntity;
+import com.yejo.interior.entity.CompanyLocationEntity;
 import com.yejo.interior.repository.CompanyLocationRepository;
 
 @Service
@@ -13,18 +13,18 @@ public class CompanyLocationService {
     private CompanyLocationRepository locationRepository;
 
     // 위치 정보 저장
-    public LocationEntity saveLocation(LocationEntity location) {
+    public CompanyLocationEntity saveLocation(CompanyLocationEntity location) {
         return locationRepository.save(location); // DB에 저장
     }
 
     // 위치 정보 조회
-    public LocationEntity getLocation() {
+    public CompanyLocationEntity getLocation() {
         return locationRepository.findById(1L).orElse(null); // DB에서 조회
     }
     
     // 위치 정보 업데이트
-    public LocationEntity updateLocation(LocationEntity updatedLocation) {
-        LocationEntity existingLocation = locationRepository.findById(updatedLocation.getId())
+    public CompanyLocationEntity updateLocation(CompanyLocationEntity updatedLocation) {
+        CompanyLocationEntity existingLocation = locationRepository.findById(updatedLocation.getId())
                 .orElseThrow(() -> new RuntimeException("위치 정보를 찾을 수 없습니다."));
 
         // 기존 데이터를 업데이트

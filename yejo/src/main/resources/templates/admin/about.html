@@ -50,6 +50,7 @@
             margin-top: 15px;
             border-radius: 10px;
         }
+
         .cke_notifications_area {
             visibility: hidden;
         }
@@ -96,7 +97,7 @@
                 <div class="container-fluid">
                     <div class="row">
 
-                        <!-- Left: Image Upload and PReview -->
+                        <!-- Left: Image Upload and Preview -->
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="companyImage">대표 이미지</label>
@@ -178,11 +179,14 @@
     CKEDITOR.replace('companyIntro');
 </script>
 
-<!-- JavaScript for Image PReview and Drag and Drop -->
+<!-- JavaScript for Image Preview, Drag and Drop, and File Size/Resolution Handling -->
 <script>
     const dropZone = document.getElementById('dropZone');
     const companyImageInput = document.getElementById('companyImage');
     const imagePReview = document.getElementById('imagePReview');
+    const MAX_FILE_SIZE = 500 * 1024; // 500KB
+    const MAX_WIDTH = 400;
+    const MAX_HEIGHT = 520;
 
     dropZone.addEventListener('click', () => {
         companyImageInput.click();
@@ -208,16 +212,33 @@
     });
 
     function pReviewImage(event) {
-        const reader = new FileReader();
         const file = event.target.files[0];
+        
+        if (file.size > MAX_FILE_SIZE) {
+            alert('파일 크기가 500KB를 초과할 수 없습니다.');
+            return;
+        }
 
-        if (file) {
-            reader.onload = function () {
-                imagePReview.src = reader.result;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const img = new Image();
+            img.src = e.target.result;
+
+            img.onload = function () {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                const ratio = Math.min(MAX_WIDTH / img.width, MAX_HEIGHT / img.height);
+                canvas.width = img.width * ratio;
+                canvas.height = img.height * ratio;
+
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                imagePReview.src = canvas.toDataURL('image/jpeg');
                 imagePReview.style.display = 'block';
             };
-            reader.readAsDataURL(file);
-        }
+        };
+        reader.readAsDataURL(file);
     }
 </script>
 

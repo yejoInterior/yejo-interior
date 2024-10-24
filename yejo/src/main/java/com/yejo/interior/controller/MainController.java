@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
-import com.yejo.interior.entity.LocationEntity;
+import com.yejo.interior.entity.CompanyLocationEntity;
 import com.yejo.interior.entity.Review;
 import com.yejo.interior.service.CompanyLocationService;
 import com.yejo.interior.service.ReviewService;
@@ -58,7 +58,7 @@ public class MainController {
 
 	@GetMapping("location")
 	public String location(Model model) {
-        LocationEntity location = locationService.getLocation();
+        CompanyLocationEntity location = locationService.getLocation();
         model.addAttribute("location", location);
         return "main/location";
 	}
