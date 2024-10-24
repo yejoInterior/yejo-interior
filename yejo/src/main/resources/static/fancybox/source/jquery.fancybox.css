@@ -100,7 +100,7 @@
 	right: -30px;
 	width: 48px;
 	height: 48px;
-	background:#454545 url('/images/close.png') 50% 50% no-repeat;
+	background:#454545 url('http://yejo7048.cdn1.cafe24.com/images/close.png') 50% 50% no-repeat;
 	border-radius:100%;
 	cursor: pointer;
 	z-index: 8040;
@@ -140,13 +140,13 @@
 
 .fancybox-prev span {
 	left: 10px;
-	background-image:url('/images/fan_prev.png');
+	background-image:url('http://yejo7048.cdn1.cafe24.com/images/fan_prev.png');
 	/* background-position: 0 -36px; */
 }
 
 .fancybox-next span {
 	right: 10px;
-	background-image:url('/images/fan_next.png');
+	background-image:url('http://yejo7048.cdn1.cafe24.com/images/fan_next.png');
 	/* background-position: 0 -72px; */
 }
 

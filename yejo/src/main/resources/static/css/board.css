@@ -29,8 +29,8 @@
 .portfolio-summary .img-slider {position:relative; margin-bottom:50px;}
 .portfolio-summary .img-slider img {margin:0 auto;}
 .portfolio-summary .slick-arrow {position:absolute; z-index:1; top:50%; margin-top:-23.5px; width:28px; height:47px; background-color:transparent; background-repeat:no-repeat; background-position:50% 50%; background-size:contain; border:0; text-indent:-999em; overflow:hidden;}
-.portfolio-summary .slick-prev {background-image:url('../images/sub/sld-prev.png'); left:-80px;}
-.portfolio-summary .slick-next {background-image:url('../images/sub/sld-next.png'); right:-80px;}
+.portfolio-summary .slick-prev {background-image:url('http://yejo7048.cdn1.cafe24.com/images/sub/sld-prev.png'); left:-80px;}
+.portfolio-summary .slick-next {background-image:url('http://yejo7048.cdn1.cafe24.com/images/sub/sld-next.png'); right:-80px;}
 .portfolio-summary .slick-dots {display:flex; align-items:center; position:absolute; left:50%; bottom:48px; transform:translateX(-50%);}
 .portfolio-summary .slick-dots li {padding:0 7px;}
 .portfolio-summary .slick-dots li button {display:block; width:13px; height:13px; background:0; border:1px solid #fff; border-radius:100vh; text-indent:-999em; overflow:hidden;}
@@ -65,7 +65,7 @@
 .consult-form .group:last-child {margin-bottom:0;}
 .consult-form .group .item {margin-right:20px;}
 .consult-form .input {height:50px; background:rgba(255,255,255,0.5);}
-.consult-form .input.datepicker2 {background:rgba(255,255,255,0.5) url('/images/bbs/datepicker_icon.png') right 10px center no-repeat}
+.consult-form .input.datepicker2 {background:rgba(255,255,255,0.5) url('http://yejo7048.cdn1.cafe24.com/images/bbs/datepicker_icon.png') right 10px center no-repeat}
 .consult-form .bar {display:inline-block; width:1px; height:15px; background:#ddd; margin:0 20px;}
 .consult-form .group dl {letter-spacing:-0.03em;}
 .consult-form .group dt {margin-bottom:10px; position:relative; padding-left:12px; color:#242424; font-weight:500;}
@@ -165,8 +165,8 @@
 .calendar-head {text-align:center; margin-bottom:20px;}
 .calendar-head h3 {display:inline-block; vertical-align:middle; margin:0 40px; color:#333; font-size:33px; line-height:1.15em;}
 .calendar-head .cal-btn {display:inline-block; vertical-align:middle; width:46px; height:46px; overflow:hidden; text-indent:-999em; background-color:#28ac9a; background-position:50% 50%; background-repeat:no-repeat; border-radius:100%;}
-.calendar-head .cal-prev {background-image:url("/images/bbs/cal_prev.png");}
-.calendar-head .cal-next {background-image:url("/images/bbs/cal_next.png");}
+.calendar-head .cal-prev {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/cal_prev.png");}
+.calendar-head .cal-next {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/cal_next.png");}
 .calendar table {width:100%; table-layout:fixed; border-collapse:collapse; border-spacing:0px;}
 .calendar table th {padding:12px 4px; text-align:center; border:1px solid #ddd; background:#eee; color:#2d2c2c; font-size:16px; line-height:1.4em;}
 .calendar table td {height:120px; padding:10px; vertical-align:top; border:1px solid #ddd; color:#454545; font-size:15px; line-height:1.4em; letter-spacing:-.03em;}
@@ -301,10 +301,10 @@
 .paginate a:hover {background-color:#f4f4f4;}
 .paginate a.direction{background-position:50% 50%;background-repeat:no-repeat;}
 .paginate a.direction span {font-size:0;line-height:0;text-indent:-999px;}
-.paginate a.direction.first {background-image:url("/images/bbs/btn_first.png");}
-.paginate a.direction.prev {background-image:url("/images/bbs/btn_prev.png"); margin-right:20px;}
-.paginate a.direction.next {background-image:url("/images/bbs/btn_next.png"); margin-left:20px;}
-.paginate a.direction.last {background-image:url("/images/bbs/btn_last.png");}
+.paginate a.direction.first {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/btn_first.png");}
+.paginate a.direction.prev {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/btn_prev.png"); margin-right:20px;}
+.paginate a.direction.next {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/btn_next.png"); margin-left:20px;}
+.paginate a.direction.last {background-image:url("http://yejo7048.cdn1.cafe24.com/images/bbs/btn_last.png");}
 .paginate a.direction.disabled {display:none;}
 
 /* 코멘트 */
@@ -316,7 +316,7 @@
 .comment-write .write {display:flex;}
 .comment-write .write textarea {flex:1 1 auto; min-width:0; width:1%; height:90px; resize:none; margin-right:15px;}
 .comment-item {border-bottom:1px solid #e5e5e5; padding:20px 0;}
-.comment-item.comment-reply {padding-left:40px; background:url("/images/bbs/icon_reply.png") 10px 18px no-repeat;}
+.comment-item.comment-reply {padding-left:40px; background:url("http://yejo7048.cdn1.cafe24.com/images/bbs/icon_reply.png") 10px 18px no-repeat;}
 .comment-box {position:relative;}
 .comment-info {font-size:15px; font-weight:400; line-height:1.5em; margin-bottom:2px;}
 .comment-info .name {font-weight:500; color:#333; margin-right:8px;}

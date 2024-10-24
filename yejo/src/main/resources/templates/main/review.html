@@ -23,13 +23,13 @@
 <meta property="og:description"
 	content="하이앤드 인테리어 주거, 상업, 공간컨설팅, 트렌드에 맞춰 나만의 라이프스타일을 디자인하다 YEJO인테리어.">
 <meta property="og:image"
-	content="https://yejointerior.co.kr/images/sns_link.png">
+	content="https://yejointerior.co.krhttp://yejo7048.cdn1.cafe24.com/images/sns_link.png">
 <link rel="canonical" href="https://yejointerior.co.kr">
 
 <link rel="stylesheet" type="text/css"
 	href="/common/froala/css/froala_style.min.css" />
 
-<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="http://yejo7048.cdn1.cafe24.com/images/favicon.ico">
 <link rel="stylesheet" type="text/css" href="/css/pretendard.css">
 <link rel="stylesheet" type="text/css" href="/css/animate.css">
 <link rel="stylesheet" type="text/css" href="/css/venobox.css">
@@ -61,7 +61,7 @@
 </head>
 
 <body id="sub"
-	style="background-image: url('../images/common/sub-bg.gif');">
+	style="background-image: url('http://yejo7048.cdn1.cafe24.com/images/common/sub-bg.gif');">
 	<div id="skipToContent">
 		<a href="#contArea">본문 바로가기</a> <a href="#gnb">주메뉴 바로가기</a>
 	</div>
@@ -73,7 +73,7 @@
 		<!-- for mobile -->
 		<div id="menu" class="mobile-navigation">
 			<div class="home">
-				<a href="/index.php"><img src="/images/common/logo2.png"
+				<a href="/index.php"><img src="http://yejo7048.cdn1.cafe24.com/images/common/logo2.png"
 					alt="YEJO INTERIOR"></a>
 			</div>
 			<div class="m-lang"></div>
@@ -93,70 +93,16 @@
 						<!--// content -->
 						<div th:if="${#lists.isEmpty(reviews)}" class="no-reviews">
 							작성된 후기가 없습니다.</div>
-						<div th:each="review : ${reviews}" class="Review">
-							<a th:href="${review.url}" class="link-wrapper" target="_blank">
-								<div class="content">
-									<span class="title" th:text="${review.title}">제목</span>
-									<p th:text="${review.content}">본문 내용</p>
-									<div class="hashtags">
-										<span class="hashtag" th:each="tag : ${review.tagList}"
-											th:text="'#' + ${tag}">#해시태그</span>
-									</div>
-								</div> 
-								<img th:src="@{'/uploads/' + ${review.imagePath}}" class="image" alt="대표 이미지">
-							</a>
-						</div>
-						<div class="Review">
-							<a href="https://blog.naver.com/nosugar-111/223331790554"
-								class="link-wrapper" target="_blank">
-								<div class="content">
-									<!-- 이부분이 제목 -->
-									<span class="title">의정부 인테리어, 안전한 선택 예조인테리어</span>
-									<!-- 이부분이 본문내용 -->
-									<p>
-										다양한 인테리어 업체 중에서 선택을 할 때, 신뢰성, 소통, 친절함 등을 고려해보면 예조인테리어가 안전하고
-										확실한 선택일 것입니다. 맡긴 일에 대한 걱정 없이, 안정적이고 품질 높은 인테리어 서비스를 경험하고 싶다면,
-										예조인테리어를 고려해 보세요. <br> [출처] 의정부 인테리어, 안전한 선택 예조인테리어|작성자
-										cafe_button
-									</p>
-									<div class="hashtags">
-										<span class="hashtag"># 128평</span> <span class="hashtag">#
-											우드</span>
-									</div>
-								</div> <!-- 이부분이 대표이미지 --> <img src="/images/main/mv2.jpg"
-								class="image">
-							</a>
-						</div>
-						<div class="Review">
-							<a href="https://blog.naver.com/ah__jin/223450205242"
-								class="link-wrapper" target="_blank">
-								<div class="content">
-									<!-- 이부분이 제목 -->
-									<span class="title">신혼집 인테리어 (예조인테리어)</span>
-									<!-- 이부분이 본문내용 -->
-									<p>
-										깔끔하게 저희가 원했던 화이트 & 그레이 느낌으로 진행해 주시고 ​ 아트월까지 포인트로 너무 만족스러웠어요 ​
-										이사 날에도 직접 오셔서 문제없는지 한 번 더 체크해 주시고 ​ 이사 이후에도 문의사항에 대해 친절하게 응대해
-										주셔서 너무 감사했습니다😊 ​ 의정부 인테리어 업체 예조인테리어 추천해요!! <br> [출처] 5.
-										신혼집 인테리어 및 이사 (예조인테리어)|작성자 Ah jin
-									</p>
-									<div class="hashtags">
-										<span class="hashtag"># 32평</span><span class="hashtag">#
-											신혼집</span><span class="hashtag"># 화이트&그레이</span>
-									</div>
-								</div> <!-- 이부분이 대표이미지 --> <img src="/images/main/mv3.jpg"
-								class="image">
-							</a>
-						</div>
+						<div id="reviews-container" class="review"></div>
 						<!-- content //-->
-						<a href="#" class="load-more-button">후기 더보기</a>
+						<a href="#" class="load-more-button" id="load-more">후기 더보기</a>
 					</div>
 				</div>
 			</div>
 		</div>
 		<a href="https://open.kakao.com/o/your-openchat-link" target="_blank"
 			class="kakao-btn"> <img
-			src="/images/main/free-icon-kakao-talk-3991993.png" alt="카카오톡 오픈채팅" />
+			src="http://yejo7048.cdn1.cafe24.com/images/main/free-icon-kakao-talk-3991993.png" alt="카카오톡 오픈채팅" />
 		</a>
 		<!--// footer -->
 		<div th:replace="~{main/footer :: footer}"></div>
@@ -165,4 +111,5 @@
 
 
 </body>
+<script src="/js/main/review.js"></script>
 </html>
