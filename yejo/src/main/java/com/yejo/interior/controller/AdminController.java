@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
-import com.yejo.interior.entity.LocationEntity;
+import com.yejo.interior.entity.CompanyLocationEntity;
 import com.yejo.interior.entity.Review;
 import com.yejo.interior.service.CompanyLocationService;
 import com.yejo.interior.service.ReviewService;
@@ -46,7 +46,7 @@ public class AdminController {
 	
 	@GetMapping("/location")
 	public String showLocationPage(Model model) {
-	    LocationEntity location = locationService.getLocation();
+	    CompanyLocationEntity location = locationService.getLocation();
 	    model.addAttribute("location", location);
 	    return "admin/location"; // 템플릿 경로
 	}
