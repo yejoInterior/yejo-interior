@@ -2,14 +2,17 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Cropper.js CSS -->
+    <link href="https://unpkg.com/cropperjs/dist/cropper.css" rel="stylesheet">
 
     <!-- Custom styles -->
     <style>
@@ -37,19 +40,19 @@
             border-color: #aaa;
         }
 
-        #dropZone.dragover {
-            border-color: #007bff;
+        #cropImage {
+            display: none;
+            max-width: 100%;
+            max-height: 400px;
+            margin-top: 15px;
         }
 
-        #imagePReview {
-            border: 1px solid #ddd;
-            padding: 5px;
-            max-width: 100%;
-            height: auto;
-            display: none;
-            margin-top: 15px;
-            border-radius: 10px;
+        .modal-content {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
         }
+
         .cke_notifications_area {
             visibility: hidden;
         }
@@ -59,8 +62,7 @@
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
@@ -96,24 +98,29 @@
                 <div class="container-fluid">
                     <div class="row">
 
-                        <!-- Left: Image Upload and PReview -->
+                        <!-- Left: Image Upload and Preview -->
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="companyImage">대표 이미지</label>
                                 <div class="image-upload-wrapper">
                                     <div id="dropZone">이미지를 드래그 앤 드롭하거나 클릭하여 업로드하세요</div>
-                                    <img id="imagePReview" src="#" alt="이미지를 업로드하세요" />
+                                    <img id="imagePReview" th:src="@{'/uploads/' + ${savedImagePath}}" alt="이미지를 업로드하세요" />
                                 </div>
-                                <input type="file" class="form-control" id="companyImage" name="companyImage" accept="image/*" style="display: none;" onchange="pReviewImage(event)">
+                                <input type="file" class="form-control" id="companyImage" accept="image/*" style="display: none;">
                             </div>
+
+                            <!-- Crop Image Preview -->
+                            <img id="cropImage" name="imagePath" src="#">
+                            <button id="cropBtn" class="btn btn-primary" style="display: none;">이미지 자르기</button>
                         </div>
 
                         <!-- Right: CKEditor for text input -->
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="companyIntro">회사 소개</label>
-                                <textarea name="companyIntro" id="companyIntro" rows="10" class="form-control">
-                                    안녕하세요, YEJO 인테리어입니다. 저희 회사는...
+                                <textarea name="introductionText" id="companyIntro" rows="10" class="form-control">
+                                    <!-- 여기서 서버에서 데이터를 가져와 출력 (이미 저장된 텍스트) -->
+                                    [[${savedIntroductionText}]]
                                 </textarea>
                             </div>
                         </div>
@@ -121,7 +128,7 @@
 
                     <!-- Submit Button -->
                     <div class="form-group text-center">
-                        <button type="submit" class="btn btn-primary">저장</button>
+                        <button type="submit" id="save" class="btn btn-primary">저장</button>
                     </div>
                 </div>
 
@@ -168,57 +175,167 @@
     <script src="/js/demo/chart-area-demo.js"></script>
     <script src="/js/demo/chart-pie-demo.js"></script>
 
+    <!-- Cropper.js -->
+    <script src="https://unpkg.com/cropperjs"></script>
+
+    <!-- CKEditor CDN -->
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+
+    <!-- Initialize CKEditor -->
+    <script>
+        CKEDITOR.replace('companyIntro');
+    </script>
+
+    <!-- JavaScript for Image Preview, Drag and Drop, and Cropper.js Handling -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const MAX_FILE_SIZE = 500 * 1024; // 500KB
+
+        const dropZone = document.getElementById('dropZone');
+        const companyImageInput = document.getElementById('companyImage');
+        const imagePReview = document.getElementById('imagePReview');
+        const cropImage = document.getElementById('cropImage');
+        const cropBtn = document.getElementById('cropBtn');
+        let cropper = null;  // cropper 초기화
+
+        // 파일 선택 시 이벤트 리스너 추가
+        companyImageInput.addEventListener('change', function(event) {
+            pReviewImage(event);
+        });
+
+        dropZone.addEventListener('click', () => {
+            companyImageInput.click();
+        });
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                companyImageInput.files = files;
+                pReviewImage({ target: { files } });
+            }
+        });
+
+        function pReviewImage(event) {
+            const file = event.target.files[0];
+
+            if (file) {
+                // 파일 크기 체크
+                if (file.size > MAX_FILE_SIZE) {
+                    alert('이미지 파일 크기는 500KB 이하만 가능합니다.');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    cropImage.src = e.target.result;
+                    cropImage.style.display = 'block';
+
+                    if (cropper) {
+                        cropper.destroy();  // 기존 cropper 인스턴스 제거
+                    }
+
+                    // 새로운 cropper 인스턴스 생성
+                    cropper = new Cropper(cropImage, {
+                        aspectRatio: 400 / 520,
+                        viewMode: 2,
+                    });
+
+                    cropBtn.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        cropBtn.addEventListener('click', function () {
+            // cropper가 정의되어 있지 않으면 함수 종료
+            if (!cropper) {
+                alert('이미지를 선택하고 자르기를 해주세요.');
+                return;
+            }
+
+            const canvas = cropper.getCroppedCanvas({
+                width: 400,
+                height: 520
+            });
+
+            imagePReview.src = canvas.toDataURL('image/jpeg');
+            imagePReview.style.display = 'block';
+        });
+
+        // 저장
+        const saveButton = document.getElementById("save");
+
+        saveButton.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            // CKEditor에서 HTML 텍스트 가져오기
+            const introductionText = CKEDITOR.instances.companyIntro.getData();
+
+            // 이미지가 없을 때도 저장 가능하게 처리
+            if (!cropper) {
+                // 텍스트만 저장하는 로직
+                const formData = new FormData();
+                formData.append('text', introductionText);
+
+                // AJAX 요청으로 서버에 데이터 전송
+                fetch('/api/yejostory/save', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert('저장 성공: ' + data);
+                    location.reload();
+                })
+                .catch(error => {
+                    alert('저장 실패: ' + error.message);
+                });
+
+                return; // 이미지가 없으므로 종료
+            }
+
+            // 이미지가 있을 경우 처리
+            const croppedCanvas = cropper.getCroppedCanvas({
+                width: 400,
+                height: 520
+            });
+
+            // 이미지를 Blob 형태로 변환
+            croppedCanvas.toBlob(function(blob) {
+                const formData = new FormData();
+                formData.append('text', introductionText);
+                formData.append('image', blob, 'cropped-image.jpg');
+
+                // AJAX 요청으로 서버에 데이터 전송
+                fetch('/api/yejostory/save', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert('저장 성공: ' + data);
+                    location.reload();
+                })
+                .catch(error => {
+                    alert('저장 실패: ' + error.message);
+                });
+            }, 'image/jpeg');
+        });
+    });
+
+    </script>
+
 </body>
-
-<!-- CKEditor CDN -->
-<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
-
-<!-- Initialize CKEditor -->
-<script>
-    CKEDITOR.replace('companyIntro');
-</script>
-
-<!-- JavaScript for Image PReview and Drag and Drop -->
-<script>
-    const dropZone = document.getElementById('dropZone');
-    const companyImageInput = document.getElementById('companyImage');
-    const imagePReview = document.getElementById('imagePReview');
-
-    dropZone.addEventListener('click', () => {
-        companyImageInput.click();
-    });
-
-    dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.classList.add('dragover');
-    });
-
-    dropZone.addEventListener('dragleave', () => {
-        dropZone.classList.remove('dragover');
-    });
-
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('dragover');
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            companyImageInput.files = files;
-            pReviewImage({ target: { files } });
-        }
-    });
-
-    function pReviewImage(event) {
-        const reader = new FileReader();
-        const file = event.target.files[0];
-
-        if (file) {
-            reader.onload = function () {
-                imagePReview.src = reader.result;
-                imagePReview.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-</script>
 
 </html>

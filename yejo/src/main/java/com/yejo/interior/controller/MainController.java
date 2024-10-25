@@ -11,17 +11,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.yejo.interior.entity.CompanyLocationEntity;
 import com.yejo.interior.entity.Review;
+import com.yejo.interior.entity.YejoStoryEntity;
 import com.yejo.interior.service.CompanyLocationService;
 import com.yejo.interior.service.ReviewService;
+import com.yejo.interior.service.YejoStoryService;
 
 @Controller
 public class MainController {
 
 	@Autowired
-	ReviewService reviewService;
-	
+	private ReviewService reviewService;
 	@Autowired
-	CompanyLocationService locationService;
+	private CompanyLocationService locationService;
+	@Autowired
+	private YejoStoryService yejoStoryService;
 	
 	@GetMapping("/")
 	public String main() {
@@ -29,7 +32,10 @@ public class MainController {
 	}
 	
 	@GetMapping("company")
-	public String company() {
+	public String company(Model model) {
+		YejoStoryEntity yejoStory=yejoStoryService.getIntroduction();
+        model.addAttribute("savedIntroductionText", yejoStory.getIntroductionText());
+        model.addAttribute("savedImagePath", yejoStory.getImagePath());
 		return "main/company";
 	}
 	
@@ -59,7 +65,6 @@ public class MainController {
 	@GetMapping("location")
 	public String location(Model model) {
         CompanyLocationEntity location = locationService.getLocation();
-        System.out.println(location);
         model.addAttribute("location", location);
         return "main/location";
 	}
