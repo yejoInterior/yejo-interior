@@ -2,12 +2,18 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+
+    <!-- Cropper.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+
+    <!-- Cropper.js JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
@@ -18,7 +24,7 @@
             text-align: center;
         }
 
-        #dropZone {
+        #dropZone, #portfolioDropZone {
             border: 2px dashed #ccc;
             border-radius: 15px;
             padding: 30px;
@@ -33,11 +39,11 @@
             transition: border-color 0.3s ease;
         }
 
-        #dropZone:hover {
+        #dropZone:hover, #portfolioDropZone:hover {
             border-color: #aaa;
         }
 
-        #dropZone.dragover {
+        #dropZone.dragover, #portfolioDropZone.dragover {
             border-color: #007bff;
         }
 
@@ -51,28 +57,10 @@
             border-radius: 10px;
         }
 
-		#portfolioDropZone {
-            border: 2px dashed #ccc;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            width: 100%;
-            height: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            background-color: #f9f9f9;
-            transition: border-color 0.3s ease;
+        .image-pReview-wrapper img {
+            max-width: 100px;
+            margin: 5px;
         }
-        #portfolioDropZone:hover {
-            border-color: #aaa;
-        }
-
-        #portfolioDropZone.dragover {
-            border-color: #007bff;
-        }
-        
     </style>
 
     <title>SB Admin 2 - Dashboard</title>
@@ -80,10 +68,8 @@
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
-
 </head>
 
 <body id="page-top">
@@ -114,60 +100,86 @@
                 <div class="container-fluid">
                     <div class="row">
 
-                        <!-- Left: Image Upload and PReview -->
+                        <!-- Left: Image Upload and PReview (Thumbnail) -->
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="companyImage">썸네일 이미지</label>
                                 <div class="image-upload-wrapper">
-                                    <div id="dropZone">썸네일 이미지를 드래그하여 드롭 하세요</div>
+                                    <div id="dropZone">썸네일 이미지를 드래그하여 드롭하거나 클릭하세요</div>
                                     <img id="imagePReview" src="#" alt="이미지를 업로드하세요" />
                                 </div>
-                                <input type="file" class="form-control" id="companyImage" name="companyImage" accept="image/*" style="display: none;" onchange="pReviewImage(event)">
+                                <input type="file" name="thumbnailImage" class="form-control" id="companyImage" accept="image/*" style="display: none;" onchange="handleThumbnailUpload(event)">
                             </div>
                         </div>
 
-						<div class="col-md-6">
-						    <div class="form-group">
-						        <label for="portfolioTitle">포트폴리오 제목</label>
-						        <input type="text" class="form-control" id="portfolioTitle" placeholder="썸네일에 표시되는 제목">
-						    </div>
-						    
-						    <div class="form-group">
-						        <label for="portfolioLocation">위치</label>
-						        <input type="text" class="form-control" id="portfolioLocation" placeholder="작업 위치를 입력하세요">
-						    </div>
-						    
-						    <div class="form-group">
-						        <label for="portfolioArea">면적 (㎡)</label>
-						        <input type="number" class="form-control" id="portfolioArea" placeholder="면적을 입력하세요">
-						    </div>
-						
-						    <div class="form-group">
-						        <label for="portfolioDuration">시공기간</label>
-						        <input type="text" class="form-control" id="portfolioDuration" placeholder="예: 2023.01 - 2023.03">
-						    </div>
-						    
-						    <div class="form-group">
-						        <label for="portfolioType">타입</label>
-						        <input type="text" class="form-control" id="portfolioType" placeholder="예: 아파트">
-						    </div>
-						    
-						    <div class="form-group">
-                                <label for="portfolioImages">포트폴리오 사진</label>
-                                <div class="image-upload-wrapper">
-                                    <div id="portfolioDropZone">포트폴리오 이미지들을 선택하거나 드래그하여 드롭 하세요 (여러 장 가능)</div>
-                                    <div class="image-pReview-wrapper" id="portfolioImagePReviewWrapper"></div>
+                        <!-- Modal for Cropping -->
+                        <div class="modal fade" id="cropperModal" tabindex="-1" role="dialog" aria-labelledby="cropperModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="cropperModalLabel">썸네일 이미지 자르기</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <img id="cropperImage" src="">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                                        <button type="button" class="btn btn-primary" id="cropBtn">자르기</button>
+                                    </div>
                                 </div>
-                                <input type="file" class="form-control" id="portfolioImages" name="portfolioImages" accept="image/*" multiple style="display: none;" onchange="pReviewPortfolioImages(event)">
                             </div>
-						</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- 포트폴리오 정보 -->
+                            <form action="/api/portfolio/save" method="POST" enctype="multipart/form-data">
+								<div class="col-md-6">
+								
+								    <div class="form-group">
+								        <label for="portfolioTitle">포트폴리오 제목</label>
+								        <input type="text" name="title" class="form-control" id="portfolioTitle" placeholder="썸네일에 표시되는 제목">
+								    </div>
+								    
+								    <div class="form-group">
+								        <label for="portfolioLocation">위치</label>
+								        <input type="text" name="location" class="form-control" id="portfolioLocation" placeholder="작업 위치를 입력하세요">
+								    </div>
+								    
+								    <div class="form-group">
+								        <label for="portfolioArea">면적 (㎡)</label>
+								        <input type="number" name="area" class="form-control" id="portfolioArea" placeholder="면적을 입력하세요">
+								    </div>
+								
+								    <div class="form-group">
+								        <label for="portfolioDuration">시공기간</label>
+								        <input type="text" name="duration" class="form-control" id="portfolioDuration" placeholder="예: 2023.01 - 2023.03">
+								    </div>
+								    
+								    <div class="form-group">
+								        <label for="portfolioType">타입</label>
+								        <input type="text" name="type" class="form-control" id="portfolioType" placeholder="예: 아파트">
+								    </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label for="portfolioImages">포트폴리오 사진</label>
+	                                <div class="image-upload-wrapper">
+	                                    <div id="portfolioDropZone">포트폴리오 이미지를 드래그하여 드롭하거나 클릭하세요 (여러 장 가능)</div>
+	                                    <div class="image-pReview-wrapper" id="portfolioImagePReviewWrapper"></div>
+	                                </div>
+	                                <input type="file" class="form-control" id="portfolioImages" name="portfolioImages" accept="image/*" multiple style="display: none;" onchange="handlePortfolioUpload(event)">
+	                            </div>
+	                            
+							</form>
+                        </div>	
                     </div>
-<br>
+
                     <!-- Submit Button -->
                     <div class="form-group text-center">
                         <button type="submit" class="btn btn-primary" style="width:100px;">저장</button>
                     </div>
-
                     <!-- Portfolio List Table -->
                     <h3 class="h5 mb-4 text-gray-800">기존 포트폴리오 목록</h3>
                     <div class="table-responsive">
@@ -184,37 +196,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><img src="path/to/thumbnail1.jpg" class="img-thumbnail" alt="썸네일" width="80"></td>
-                                    <td>포트폴리오 제목1</td>
-                                    <td>위치1</td>
-                                    <td>120</td>
-                                    <td>2023.01 - 2023.03</td>
-                                    <td>아파트</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-warning">수정</button>
-                                        <button class="btn btn-sm btn-danger">삭제</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="path/to/thumbnail2.jpg" class="img-thumbnail" alt="썸네일" width="80"></td>
-                                    <td>포트폴리오 제목2</td>
-                                    <td>위치2</td>
-                                    <td>100</td>
-                                    <td>2023.04 - 2023.06</td>
-                                    <td>상가</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-warning">수정</button>
-                                        <button class="btn btn-sm btn-danger">삭제</button>
-                                    </td>
-                                </tr>
+                                <!-- 포트폴리오 리스트는 서버에서 받아와서 렌더링 -->
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-                <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 
@@ -226,115 +212,92 @@
                     </div>
                 </div>
             </footer>
-            <!-- End of Footer -->
-
         </div>
-        <!-- End of Content Wrapper -->
-
     </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
 
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="/js/sb-admin-2.min.js"></script>
-
     <!-- JavaScript for Image PReview and Drag and Drop -->
     <script>
-        // 썸네일 이미지 업로드 및 미리보기
-        const dropZone = document.getElementById('dropZone');
-        const companyImageInput = document.getElementById('companyImage');
-        const imagePReview = document.getElementById('imagePReview');
+        let cropper;
+        const MAX_FILE_SIZE = 500 * 1024; // 500KB 제한
 
-        dropZone.addEventListener('click', () => {
-            companyImageInput.click();
-        });
-
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
-        });
-
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('dragover');
-        });
-
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                companyImageInput.files = files;
-                pReviewImage({ target: { files } });
-            }
-        });
-
-        function pReviewImage(event) {
-            const reader = new FileReader();
+        // 썸네일 이미지 업로드 및 크롭 처리
+        function handleThumbnailUpload(event) {
             const file = event.target.files[0];
-
-            if (file) {
-                reader.onload = function () {
-                    imagePReview.src = reader.result;
-                    imagePReview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
+            if (file.size > MAX_FILE_SIZE) {
+                alert("파일 크기는 500KB 이하로만 업로드 가능합니다.");
+                return;
             }
+            openCropperModal(file, 'thumbnail');
         }
 
-        // 포트폴리오 사진 미리보기 및 다중 업로드
-        const portfolioDropZone = document.getElementById('portfolioDropZone');
-        const portfolioImagesInput = document.getElementById('portfolioImages');
-        const portfolioImagePReviewWrapper = document.getElementById('portfolioImagePReviewWrapper');
+        // 포트폴리오 이미지 업로드 (크롭 없이 미리보기만)
+        function handlePortfolioUpload(event) {
+            const files = event.target.files;
+            document.getElementById('portfolioImagePReviewWrapper').innerHTML = '';  // 미리보기 초기화
 
-        portfolioDropZone.addEventListener('click', () => {
-            portfolioImagesInput.click();
-        });
+            Array.from(files).forEach(file => {
+                if (file.size > MAX_FILE_SIZE) {
+                    alert("포트폴리오 사진의 파일 크기는 500KB 이하로만 업로드 가능합니다.");
+                    return;
+                }
 
-        portfolioDropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            portfolioDropZone.classList.add('dragover');
-        });
-
-        portfolioDropZone.addEventListener('dragleave', () => {
-            portfolioDropZone.classList.remove('dragover');
-        });
-
-        portfolioDropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            portfolioDropZone.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                portfolioImagesInput.files = files;
-                pReviewPortfolioImages({ target: { files } });
-            }
-        });
-
-        function pReviewPortfolioImages(event) {
-            portfolioImagePReviewWrapper.innerHTML = ''; // 기존 미리보기 초기화
-            Array.from(event.target.files).forEach(file => {
                 const reader = new FileReader();
-                reader.onload = function () {
+                reader.onload = function (e) {
                     const img = document.createElement('img');
-                    img.src = reader.result;
-                    img.style.maxWidth = '100px'; // 미리보기 이미지 크기 조절
-                    img.style.margin = '5px';
+                    img.src = e.target.result;
                     img.classList.add('img-thumbnail');
-                    portfolioImagePReviewWrapper.appendChild(img);
+                    document.getElementById('portfolioImagePReviewWrapper').appendChild(img);
                 };
                 reader.readAsDataURL(file);
             });
         }
+
+        // Cropper 모달 열기
+        function openCropperModal(file, type) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const imageElement = document.getElementById('cropperImage');
+                imageElement.src = e.target.result;
+                $('#cropperModal').modal('show');  // 모달 열기
+
+                // Initialize cropper
+                if (cropper) {
+                    cropper.destroy();
+                }
+                cropper = new Cropper(imageElement, {
+                    aspectRatio: 470 / 265,  // 썸네일은 고정 비율
+                    viewMode: 2,
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // 크롭된 썸네일 저장
+        document.getElementById('cropBtn').addEventListener('click', function () {
+            const canvas = cropper.getCroppedCanvas({
+                width: 470,
+                height: 265
+            });
+
+            const preview = document.getElementById('imagePReview');
+            preview.src = canvas.toDataURL();
+            preview.style.display = 'block';
+
+            $('#cropperModal').modal('hide');  // 모달 닫기
+        });
+
+        // Drop zone click handler to trigger file input click
+        document.getElementById('dropZone').addEventListener('click', function () {
+            document.getElementById('companyImage').click();
+        });
+
+        document.getElementById('portfolioDropZone').addEventListener('click', function () {
+            document.getElementById('portfolioImages').click();
+        });
     </script>
 
 </body>
