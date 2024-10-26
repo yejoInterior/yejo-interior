@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.yejo.interior.entity.CompanyLocationEntity;
+import com.yejo.interior.entity.PortfolioEntity;
 import com.yejo.interior.entity.Review;
 import com.yejo.interior.entity.YejoStoryEntity;
 import com.yejo.interior.service.CompanyLocationService;
+import com.yejo.interior.service.PortfolioService;
 import com.yejo.interior.service.ReviewService;
 import com.yejo.interior.service.YejoStoryService;
 
@@ -25,6 +27,8 @@ public class MainController {
 	private CompanyLocationService locationService;
 	@Autowired
 	private YejoStoryService yejoStoryService;
+	@Autowired
+	private PortfolioService portfolioService;
 	
 	@GetMapping("/")
 	public String main() {
@@ -52,10 +56,13 @@ public class MainController {
 		return "main/review";
 	}
 	
-	@GetMapping("portfolio")
-	public String portfolio() {
-		return "main/portfolio";
+	@GetMapping("/portfolio")
+	public String getPortfolioList(Model model) {
+	    List<PortfolioEntity> portfolioList = portfolioService.getAllPortfolios();
+	    model.addAttribute("portfolioList", portfolioList);
+	    return "main/portfolio";  // HTML 파일 이름
 	}
+
 	
 	@GetMapping("consulting")
 	public String consultant() {
@@ -69,8 +76,18 @@ public class MainController {
         return "main/location";
 	}
 	
-	@GetMapping("portfolio-detail")
-	public String portfolio_detail() {
-		return "main/portfolio-detail";
+	@GetMapping("portfolio-detail/{id}")
+	public String portfolioDetail(@PathVariable Long id, Model model) {
+	    // id에 해당하는 포트폴리오를 조회
+	    PortfolioEntity portfolio = portfolioService.getPortfolioById(id);
+	    
+	    if (portfolio == null) {
+	        // 포트폴리오가 없을 경우 에러 페이지로 리다이렉트하거나 메시지를 보여줄 수 있습니다.
+	        return "redirect:/portfolio";  // 포트폴리오 목록 페이지로 리다이렉트
+	    }
+	    
+	    // 포트폴리오 정보를 모델에 추가하여 뷰로 전달
+	    model.addAttribute("portfolio", portfolio);
+	    return "main/portfolio-detail";
 	}
 }
