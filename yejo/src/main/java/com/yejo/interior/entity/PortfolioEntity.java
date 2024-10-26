@@ -29,7 +29,7 @@ public class PortfolioEntity implements Serializable {
     private String duration; // 시공기간
     private String type; // 타입
 
-    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PortfolioImageEntity> images;
 
     @Column(name = "thumbnail_image")

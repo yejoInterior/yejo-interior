@@ -98,6 +98,7 @@
                 <!-- End of Topbar -->
 
                 <div class="container-fluid">
+                            <form th:action="@{/api/portfolio/save}" method="post" enctype="multipart/form-data">
                     <div class="row">
 
                         <!-- Left: Image Upload and PReview (Thumbnail) -->
@@ -135,7 +136,6 @@
 
                         <div class="col-md-6">
                             <!-- 포트폴리오 정보 -->
-                            <form action="/api/portfolio/save" method="POST" enctype="multipart/form-data">
 								<div class="col-md-6">
 								
 								    <div class="form-group">
@@ -172,7 +172,6 @@
 	                                <input type="file" class="form-control" id="portfolioImages" name="portfolioImages" accept="image/*" multiple style="display: none;" onchange="handlePortfolioUpload(event)">
 	                            </div>
 	                            
-							</form>
                         </div>	
                     </div>
 
@@ -180,6 +179,16 @@
                     <div class="form-group text-center">
                         <button type="submit" class="btn btn-primary" style="width:100px;">저장</button>
                     </div>
+							</form>
+							<!-- 성공 메시지 -->
+							<div th:if="${successMessage}" class="alert alert-success">
+							    <p th:text="${successMessage}"></p>
+							</div>
+							
+							<!-- 오류 메시지 -->
+							<div th:if="${errorMessage}" class="alert alert-danger">
+							    <p th:text="${errorMessage}"></p>
+							</div>
                     <!-- Portfolio List Table -->
                     <h3 class="h5 mb-4 text-gray-800">기존 포트폴리오 목록</h3>
                     <div class="table-responsive">
@@ -195,9 +204,19 @@
                                     <th>관리</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <!-- 포트폴리오 리스트는 서버에서 받아와서 렌더링 -->
-                            </tbody>
+							<tbody>
+							    <tr th:each="portfolio : ${portfolioList}">
+							        <td><img th:src="@{'/' + ${portfolio.thumbnailImage}}" alt="썸네일" style="width: 100px; height: auto;"></td>
+							        <td th:text="${portfolio.title}"></td>
+							        <td th:text="${portfolio.location}"></td>
+							        <td th:text="${portfolio.area}"></td>
+							        <td th:text="${portfolio.duration}"></td>
+							        <td th:text="${portfolio.type}"></td>
+									<td>
+									    <button class="btn btn-danger btn-sm" th:onclick="'deletePortfolio(' + ${portfolio.id} + ')'">삭제</button>
+									</td>
+							    </tr>
+							</tbody>
                         </table>
                     </div>
                 </div>
@@ -219,87 +238,158 @@
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- JavaScript for Image PReview and Drag and Drop -->
-    <script>
-        let cropper;
-        const MAX_FILE_SIZE = 500 * 1024; // 500KB 제한
+    <script th:inline="javascript">
+    function deletePortfolio(id) {
+        if (confirm("정말로 삭제하시겠습니까?")) {
+            fetch(`/api/portfolio/delete/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("삭제가 완료되었습니다.");
+                    location.reload();  // 페이지 새로고침하여 변경 사항 반영
+                } else {
+                    alert("삭제에 실패했습니다.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("삭제 중 오류가 발생했습니다.");
+            });
+        }
+    }
+    
+    let cropper;
+    const MAX_FILE_SIZE = 500 * 1024; // 500KB 제한
+    let croppedBlob; // 크롭된 이미지를 저장할 변수
 
-        // 썸네일 이미지 업로드 및 크롭 처리
-        function handleThumbnailUpload(event) {
-            const file = event.target.files[0];
+    // 썸네일 이미지 업로드 및 크롭 처리
+    function handleThumbnailUpload(event) {
+        const file = event.target.files[0];
+        if (file.size > MAX_FILE_SIZE) {
+            alert("파일 크기는 500KB 이하로만 업로드 가능합니다.");
+            return;
+        }
+        openCropperModal(file);
+    }
+
+    // 포트폴리오 이미지 업로드 (크롭 없이 미리보기만)
+    function handlePortfolioUpload(event) {
+        const files = event.target.files;
+        document.getElementById('portfolioImagePReviewWrapper').innerHTML = '';  // 미리보기 초기화
+
+        Array.from(files).forEach(file => {
             if (file.size > MAX_FILE_SIZE) {
-                alert("파일 크기는 500KB 이하로만 업로드 가능합니다.");
+                alert("포트폴리오 사진의 파일 크기는 500KB 이하로만 업로드 가능합니다.");
                 return;
             }
-            openCropperModal(file, 'thumbnail');
-        }
 
-        // 포트폴리오 이미지 업로드 (크롭 없이 미리보기만)
-        function handlePortfolioUpload(event) {
-            const files = event.target.files;
-            document.getElementById('portfolioImagePReviewWrapper').innerHTML = '';  // 미리보기 초기화
-
-            Array.from(files).forEach(file => {
-                if (file.size > MAX_FILE_SIZE) {
-                    alert("포트폴리오 사진의 파일 크기는 500KB 이하로만 업로드 가능합니다.");
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.classList.add('img-thumbnail');
-                    document.getElementById('portfolioImagePReviewWrapper').appendChild(img);
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-
-        // Cropper 모달 열기
-        function openCropperModal(file, type) {
             const reader = new FileReader();
             reader.onload = function (e) {
-                const imageElement = document.getElementById('cropperImage');
-                imageElement.src = e.target.result;
-                $('#cropperModal').modal('show');  // 모달 열기
-
-                // Initialize cropper
-                if (cropper) {
-                    cropper.destroy();
-                }
-                cropper = new Cropper(imageElement, {
-                    aspectRatio: 470 / 265,  // 썸네일은 고정 비율
-                    viewMode: 2,
-                });
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.classList.add('img-thumbnail');
+                document.getElementById('portfolioImagePReviewWrapper').appendChild(img);
             };
             reader.readAsDataURL(file);
-        }
+        });
+    }
 
-        // 크롭된 썸네일 저장
-        document.getElementById('cropBtn').addEventListener('click', function () {
-            const canvas = cropper.getCroppedCanvas({
-                width: 470,
-                height: 265
+    // Cropper 모달 열기
+    function openCropperModal(file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const imageElement = document.getElementById('cropperImage');
+            imageElement.src = e.target.result;
+            $('#cropperModal').modal('show');  // 모달 열기
+
+            // Initialize cropper
+            if (cropper) {
+                cropper.destroy();
+            }
+            cropper = new Cropper(imageElement, {
+                aspectRatio: 470 / 265,  // 썸네일은 고정 비율
+                viewMode: 2,
             });
+        };
+        reader.readAsDataURL(file);
+    }
 
+    // 크롭된 썸네일 저장
+    document.getElementById('cropBtn').addEventListener('click', function () {
+        const canvas = cropper.getCroppedCanvas({
+            width: 470,
+            height: 265
+        });
+
+        // 크롭된 이미지를 Blob으로 변환하여 전역 변수에 저장
+        canvas.toBlob(function(blob) {
+            croppedBlob = blob;
+
+            // 이미지 미리보기 업데이트
             const preview = document.getElementById('imagePReview');
-            preview.src = canvas.toDataURL();
+            preview.src = URL.createObjectURL(croppedBlob);
             preview.style.display = 'block';
 
-            $('#cropperModal').modal('hide');  // 모달 닫기
+            $('#cropperModal').modal('hide'); // 크롭 후 모달 닫기
+        }, 'image/png');
+    });
+
+    // 저장 버튼 클릭 시 데이터 전송
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault(); // 기본 폼 전송 막기
+
+        const formData = new FormData(event.target);
+
+        // 원본 썸네일 이미지를 제거 (크롭된 이미지만 전송)
+        formData.delete('thumbnailImage');
+
+        // 크롭된 썸네일 이미지를 추가 (croppedBlob이 존재할 경우)
+        if (croppedBlob) {
+            formData.append('thumbnailImage', croppedBlob, 'cropped_thumbnail.png');
+        }
+
+        // 포트폴리오 이미지 파일들을 FormData에 한 번만 추가
+        const portfolioImagesInput = document.getElementById('portfolioImages');
+        Array.from(portfolioImagesInput.files).forEach(file => {
+            if (!formData.has('portfolioImages')) { // 중복 추가 방지
+                formData.append('portfolioImages', file);
+            }
         });
 
-        // Drop zone click handler to trigger file input click
-        document.getElementById('dropZone').addEventListener('click', function () {
-            document.getElementById('companyImage').click();
+        // AJAX 요청 보내기
+        fetch('/api/portfolio/save', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())  // JSON으로 파싱
+        .then(data => {
+            if (data.success) {
+                alert(data.message);  // 성공 메시지
+                window.location.href = "/admin/portfolio";  // 성공 후 포트폴리오 목록 페이지로 이동
+            } else {
+                alert('오류가 발생했습니다: ' + data.message);  // 오류 메시지
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
+    });
 
-        document.getElementById('portfolioDropZone').addEventListener('click', function () {
-            document.getElementById('portfolioImages').click();
-        });
-    </script>
+    // Drop zone click handler to trigger file input click
+    document.getElementById('dropZone').addEventListener('click', function () {
+        document.getElementById('companyImage').click();
+    });
 
+    document.getElementById('portfolioDropZone').addEventListener('click', function () {
+        document.getElementById('portfolioImages').click();
+    });
+
+    
+</script>
 </body>
 
 </html>
