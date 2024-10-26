@@ -4,10 +4,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yejo.interior.entity.CompanyLocationEntity;
 import com.yejo.interior.entity.PortfolioEntity;
@@ -55,15 +59,7 @@ public class MainController {
 		model.addAttribute("reviews", reviews);
 		return "main/review";
 	}
-	
-	@GetMapping("/portfolio")
-	public String getPortfolioList(Model model) {
-	    List<PortfolioEntity> portfolioList = portfolioService.getAllPortfolios();
-	    model.addAttribute("portfolioList", portfolioList);
-	    return "main/portfolio";  // HTML 파일 이름
-	}
 
-	
 	@GetMapping("consulting")
 	public String consultant() {
 		return "main/consultant";
@@ -74,6 +70,22 @@ public class MainController {
         CompanyLocationEntity location = locationService.getLocation();
         model.addAttribute("location", location);
         return "main/location";
+	}
+	
+	@GetMapping("portfolio")
+	public String getPortfolioList(
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			Model model) {
+		int pageSize = 6; // 한 페이지에 보여줄 포트폴리오 개수
+		
+		Pageable pageable = PageRequest.of(page, pageSize); 
+		Page<PortfolioEntity> portfolioPage = portfolioService.getPortfoliosWithPagination(pageable);
+		
+		model.addAttribute("portfolioPage", portfolioPage);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", portfolioPage.getTotalPages());
+		
+		return "main/portfolio"; // 뷰 이름
 	}
 	
 	@GetMapping("portfolio-detail/{id}")
