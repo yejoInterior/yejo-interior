@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.yejo.interior.entity.CompanyLocationEntity;
 import com.yejo.interior.entity.Review;
 import com.yejo.interior.entity.YejoStoryEntity;
+import com.yejo.interior.service.BannerService;
 import com.yejo.interior.service.CompanyLocationService;
 import com.yejo.interior.service.ReviewService;
 import com.yejo.interior.service.YejoStoryService;
@@ -25,9 +26,13 @@ public class MainController {
 	private CompanyLocationService locationService;
 	@Autowired
 	private YejoStoryService yejoStoryService;
+	@Autowired
+	private BannerService bannerService;
 	
 	@GetMapping("/")
-	public String main() {
+	public String main(Model model) {
+		List<String> bannerPath = bannerService.getBannerPath();
+		model.addAttribute("bannerPath",bannerPath);
 		return "main/main";
 	}
 	
