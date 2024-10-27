@@ -8,11 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+import com.yejo.interior.entity.BannerEntity;
 import com.yejo.interior.entity.CompanyLocationEntity;
 import com.yejo.interior.entity.PortfolioEntity;
 import com.yejo.interior.entity.Review;
 import com.yejo.interior.entity.YejoStoryEntity;
+import com.yejo.interior.service.BannerService;
 import com.yejo.interior.service.CompanyLocationService;
 import com.yejo.interior.service.PortfolioService;
 import com.yejo.interior.service.ReviewService;
@@ -30,10 +31,15 @@ public class AdminController {
 	@Autowired
 	private YejoStoryService yejoStoryService;
 	@Autowired
+	private BannerService bannerService;
+	@Autowired
 	private PortfolioService portfolioService;
+
 	
 	@GetMapping("/banner")
-	public String bannerPage() {
+	public String bannerPage(Model model) {
+		List<BannerEntity> bannerList = bannerService.getBanner();
+		model.addAttribute("bannerList",bannerList);
 		return "admin/banner";
 	}
 	

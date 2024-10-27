@@ -17,6 +17,7 @@ import com.yejo.interior.entity.CompanyLocationEntity;
 import com.yejo.interior.entity.PortfolioEntity;
 import com.yejo.interior.entity.Review;
 import com.yejo.interior.entity.YejoStoryEntity;
+import com.yejo.interior.service.BannerService;
 import com.yejo.interior.service.CompanyLocationService;
 import com.yejo.interior.service.PortfolioService;
 import com.yejo.interior.service.ReviewService;
@@ -32,10 +33,15 @@ public class MainController {
 	@Autowired
 	private YejoStoryService yejoStoryService;
 	@Autowired
+	private BannerService bannerService;
+	@Autowired
 	private PortfolioService portfolioService;
+
 	
 	@GetMapping("/")
-	public String main() {
+	public String main(Model model) {
+		List<String> bannerPath = bannerService.getBannerPath();
+		model.addAttribute("bannerPath",bannerPath);
 		return "main/main";
 	}
 	
