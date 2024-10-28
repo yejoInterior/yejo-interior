@@ -206,7 +206,7 @@
                             </thead>
 							<tbody>
 							    <tr th:each="portfolio : ${portfolioList}">
-							        <td><img th:src="@{'/' + ${portfolio.thumbnailImage}}" alt="썸네일" style="width: 100px; height: auto;"></td>
+							        <td><img th:src="${portfolio.thumbnailImage}" alt="썸네일" style="width: 100px; height: auto;"></td>
 							        <td th:text="${portfolio.title}"></td>
 							        <td th:text="${portfolio.location}"></td>
 							        <td th:text="${portfolio.area}"></td>

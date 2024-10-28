@@ -104,7 +104,7 @@
                                 <label for="companyImage">대표 이미지</label>
                                 <div class="image-upload-wrapper">
                                     <div id="dropZone">이미지를 드래그 앤 드롭하거나 클릭하여 업로드하세요</div>
-                                    <img id="imagePReview" th:src="@{'/uploads/' + ${savedImagePath}}" alt="이미지를 업로드하세요" />
+                                    <img id="imagePReview" th:src="${savedImagePath}" alt="이미지를 업로드하세요" />
                                 </div>
                                 <input type="file" class="form-control" id="companyImage" accept="image/*" style="display: none;">
                             </div>
