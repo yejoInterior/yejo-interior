@@ -8,11 +8,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+import com.yejo.interior.entity.BannerEntity;
 import com.yejo.interior.entity.CompanyLocationEntity;
+import com.yejo.interior.entity.PortfolioEntity;
 import com.yejo.interior.entity.Review;
+import com.yejo.interior.entity.YejoStoryEntity;
+import com.yejo.interior.service.BannerService;
 import com.yejo.interior.service.CompanyLocationService;
+import com.yejo.interior.service.PortfolioService;
 import com.yejo.interior.service.ReviewService;
+import com.yejo.interior.service.YejoStoryService;
 
 
 @Controller
@@ -23,9 +28,22 @@ public class AdminController {
 	private ReviewService reviewService;
 	@Autowired
 	private CompanyLocationService locationService;
+	@Autowired
+	private YejoStoryService yejoStoryService;
+	@Autowired
+	private BannerService bannerService;
+	@Autowired
+	private PortfolioService portfolioService;
+	
+	@GetMapping("/")
+	public String main() {
+		return "admin/main";
+	}
 	
 	@GetMapping("/banner")
-	public String bannerPage() {
+	public String bannerPage(Model model) {
+		List<BannerEntity> bannerList = bannerService.getBanner();
+		model.addAttribute("bannerList",bannerList);
 		return "admin/banner";
 	}
 	
@@ -35,14 +53,19 @@ public class AdminController {
 	}
 	
 	@GetMapping("/about")
-	public String about() {
+	public String about(Model model) {
+		YejoStoryEntity yejoStory=yejoStoryService.getIntroduction();
+        model.addAttribute("savedIntroductionText", yejoStory.getIntroductionText());
+        model.addAttribute("savedImagePath", yejoStory.getImagePath());
 		return "admin/about";
 	}
 	
-	@GetMapping("/portfolio")
-	public String portfolio() {
-		return "admin/portfolio";
-	}
+    @GetMapping("/portfolio")
+    public String getPortfolioList(Model model) {
+        List<PortfolioEntity> portfolioList = portfolioService.getAllPortfolios();
+        model.addAttribute("portfolioList", portfolioList);
+        return "admin/portfolio"; // 뷰 이름
+    }
 	
 	@GetMapping("/location")
 	public String showLocationPage(Model model) {

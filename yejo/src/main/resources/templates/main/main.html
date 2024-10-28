@@ -73,26 +73,8 @@
 <div id="container">
 	<div class="main-visual">
 		<div class="items">
-			<div class="item">
-				<div class="mv" style="background-image:url('http://yejo7048.cdn1.cafe24.com/images/main/mv1.jpg')"></div>
-			</div>
-			<div class="item">
-				<div class="mv" style="background-image:url('http://yejo7048.cdn1.cafe24.com/images/main/mv2.jpg')"></div>
-			</div>
-			<div class="item">
-				<div class="mv" style="background-image:url('http://yejo7048.cdn1.cafe24.com/images/main/mv3.jpg')"></div>
-			</div>
-			<div class="item">
-				<div class="mv" style="background-image:url('http://yejo7048.cdn1.cafe24.com/images/main/mv4.jpg')"></div>
-			</div>
-			<div class="item">
-				<div class="mv" style="background-image:url('http://yejo7048.cdn1.cafe24.com/images/main/mv5.jpg')"></div>
-			</div>
-			<div class="item">
-				<div class="mv" style="background-image:url('http://yejo7048.cdn1.cafe24.com/images/main/mv6.jpg')"></div>
-			</div>
-			<div class="item">
-				<div class="mv" style="background-image:url('http://yejo7048.cdn1.cafe24.com/images/main/mv7.jpg')"></div>
+			<div class="item" th:each="bannerUrl:${bannerPath}">
+				<div class="mv" th:style="'background-image:url(' + ${bannerUrl} + ')'"></div>
 			</div>
 		</div>
 		

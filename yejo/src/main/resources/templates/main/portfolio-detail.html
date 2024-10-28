@@ -1,270 +1,142 @@
 <!DOCTYPE html>
- <html lang="ko" xmlns:th="https://www.thymeleaf.org">
+<html lang="ko" xmlns:th="https://www.thymeleaf.org">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-	<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=3.0,user-scalable=yes" name="viewport">
-	<meta name="format-detection" content="telephone=no">
-	<meta name="naver-site-verification" content="44191bf280942a37902e9d4e7aa341c5ddccb7db"/>	
-	<meta name="google-site-verification" content="eesc9VtVu28SGzXUtr4CyK0N1Fnfq2fiT00bMXgKmOk" />
-	<meta name="subject" content="예조인테리어">
-	<meta name="description" content="하이앤드 인테리어 주거, 상업, 공간컨설팅, 트렌드에 맞춰 나만의 라이프스타일을 디자인하다 예조인테리어.">
-	<meta name="keywords" content="YEJO 인테리어">
-	<title>YEJO 인테리어</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=3.0,user-scalable=yes" name="viewport">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="naver-site-verification" content="44191bf280942a37902e9d4e7aa341c5ddccb7db"/>  
+    <meta name="google-site-verification" content="eesc9VtVu28SGzXUtr4CyK0N1Fnfq2fiT00bMXgKmOk" />
+    <meta name="subject" content="예조인테리어">
+    <meta name="description" content="하이앤드 인테리어 주거, 상업, 공간컨설팅, 트렌드에 맞춰 나만의 라이프스타일을 디자인하다 예조인테리어.">
+    <meta name="keywords" content="YEJO 인테리어">
+    <title th:text="${portfolio.title}">포트폴리오 상세</title>
 
-	<link rel="stylesheet" type="text/css" href="/common/froala/css/froala_style.min.css" />
-	<link rel="shortcut icon" type="image/x-icon" href="http://yejo7048.cdn1.cafe24.com/images/favicon.ico">
-	<link rel="stylesheet" type="text/css" href="/css/pretendard.css">
-	<link rel="stylesheet" type="text/css" href="/css/animate.css">
-	<link rel="stylesheet" type="text/css" href="/css/venobox.css">
-	<link rel="stylesheet" type="text/css" href="/css/reset.css">
-	<link rel="stylesheet" type="text/css" href="/css/doc.css">
-	<link rel="stylesheet" type="text/css" href="/css/board.css">
-	<link rel="stylesheet" type="text/css" href="/css/layout.css">
-	<link rel="stylesheet" type="text/css" href="/css/slick.css">
-	<link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/responsive.css">
-	<link rel="stylesheet" type="text/css" href="/css/kakao.css">
-
-	<script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="/js/jquery.gnb.js"></script>
-	<script type="text/javascript" src="/js/jquery.easing.1.3.js"></script>
-	<script type="text/javascript" src="/js/slick.js"></script> 	
-	<script type="text/javascript" src="/js/swiper.min.js"></script>
-	<script type="text/javascript" src="/js/venobox.js"></script>
-	<script type="text/javascript" src="/js/jquery.ui.js"></script>
-	<script type="text/javascript" src="/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
-	<script type="text/javascript" src="/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-	<link rel="stylesheet" type="text/css" href="/fancybox/source/jquery.fancybox.css?v=2.1.5" media="screen">
-	<script type="text/javascript" src="/js/wow.min.js"></script>
-	<script type="text/javascript" src="/js/script.js"></script>
-	<style>
-
-	</style>
+    <link rel="stylesheet" type="text/css" href="/common/froala/css/froala_style.min.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="http://yejo7048.cdn1.cafe24.com/images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/css/pretendard.css">
+    <link rel="stylesheet" type="text/css" href="/css/animate.css">
+    <link rel="stylesheet" type="text/css" href="/css/venobox.css">
+    <link rel="stylesheet" type="text/css" href="/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/css/doc.css">
+    <link rel="stylesheet" type="text/css" href="/css/board.css">
+    <link rel="stylesheet" type="text/css" href="/css/layout.css">
+    <link rel="stylesheet" type="text/css" href="/css/slick.css">
+    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="/css/kakao.css">
+    <script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.gnb.js"></script>
+    <script type="text/javascript" src="/js/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="/js/slick.js"></script>     
+    <script type="text/javascript" src="/js/swiper.min.js"></script>
+    <script type="text/javascript" src="/js/venobox.js"></script>
+    <script type="text/javascript" src="/js/jquery.ui.js"></script>
+    <script type="text/javascript" src="/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+    <script type="text/javascript" src="/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+    <link rel="stylesheet" type="text/css" href="/fancybox/source/jquery.fancybox.css?v=2.1.5" media="screen">
+    <script type="text/javascript" src="/js/wow.min.js"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
 </head>
 
 <body id="sub" style="background-image:url('http://yejo7048.cdn1.cafe24.com/images/common/sub-bg.gif');">
 <div id="skipToContent">
-				<a href="#contArea">본문 바로가기</a>
-				<a href="#gnb">주메뉴 바로가기</a>
-	</div>
-<div id="wrapper"> 
-	<!-- header -->
-    <div th:replace="~{main/header :: header}"></div>
-	<!-- header -->
-
-	<!-- for mobile -->
-	<div id="menu" class="mobile-navigation">
-		<div class="home"><a href="/"><img src="http://yejo7048.cdn1.cafe24.com/images/common/logo2.png" alt="YEJO interior"></a></div>
-		<div class="m-lang"></div>
-		<nav class="nav-menu"></nav>
-		<a href="javascript:void(0);" class="close">Close</a>
-	</div>
-	<div class="mobile-overlay"></div>
-    
-<div id="container">
-	<div id="contArea">
-		<div class="sub-title blind">
-			<h1>PORTFOLIO VIEW</h1>
-		</div>
-		<div class="real-cont">
-			<!--// content -->
-				<!-- <img src="/uploaded/product/87/large_78cf6170abd670c5d0efa4d57af3294e0.jpg" alt=""> -->
-
-			<!--// content -->
-			<!--  
-				<div class="portfolio-summary wow fadeIn"  data-wow-delay="0.3s" data-wow-duration="0.8s">
-					<div class="img-slider">
-						<div class="items">
-							<div class="item"><img src="/uploaded/product/87/78cf6170abd670c5d0efa4d57af3294e0.jpg" alt=""></div>
-														
-						</div>
-					</div>
-					<div class="portfolio-info">
-						<h3 class="tit">PROJECT INFO</h3>
-						<div class="in">
-							<dl>
-								<dt>Location</dt>
-								<dd>서울시 강남구 압구정동</dd>
-							</dl>
-							<dl>
-								<dt>Space area</dt>
-								<dd>52py</dd>
-							</dl>
-							<dl>
-								<dt>Starts and Completion</dt>
-								<dd>2024. 06. 24 ~ 2024. 09. 03</dd>
-							</dl>
-							<dl>
-								<dt>Type</dt>
-								<dd>아파트</dd>
-							</dl>
-						</div>
-					</div>
-				</div>
-				
-				<div class="portfolio-gallery">
-					<ul class="items">
-						<li class="item-sizer"></li>
-						<li class="item">
-							<a href="/uploaded/product/87/top_78cf6170abd670c5d0efa4d57af3294e0.jpg" data-gall="gall1" class="venobox"><img src="/uploaded/product/87/top_78cf6170abd670c5d0efa4d57af3294e0.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="/uploaded/product/87/top_78cf6170abd670c5d0efa4d57af3294e1.jpg" data-gall="gall1" class="venobox"><img src="/uploaded/product/87/top_78cf6170abd670c5d0efa4d57af3294e1.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="/uploaded/product/87/top_78cf6170abd670c5d0efa4d57af3294e2.jpg" data-gall="gall1" class="venobox"><img src="/uploaded/product/87/top_78cf6170abd670c5d0efa4d57af3294e2.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="/uploaded/product/87/top_78cf6170abd670c5d0efa4d57af3294e3.jpg" data-gall="gall1" class="venobox"><img src="/uploaded/product/87/top_78cf6170abd670c5d0efa4d57af3294e3.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="/uploaded/product/87/top_78cf6170abd670c5d0efa4d57af3294e4.jpg" data-gall="gall1" class="venobox"><img src="/uploaded/product/87/top_78cf6170abd670c5d0efa4d57af3294e4.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="/uploaded/product/87/top_78cf6170abd670c5d0efa4d57af3294e5.jpg" data-gall="gall1" class="venobox"><img src="/uploaded/product/87/top_78cf6170abd670c5d0efa4d57af3294e5.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="/uploaded/product/87/top_390bb5ebbfafa422325e38516e3fa3fd6.jpg" data-gall="gall1" class="venobox"><img src="/uploaded/product/87/top_390bb5ebbfafa422325e38516e3fa3fd6.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="/uploaded/product/87/top_390bb5ebbfafa422325e38516e3fa3fd7.jpg" data-gall="gall1" class="venobox"><img src="/uploaded/product/87/top_390bb5ebbfafa422325e38516e3fa3fd7.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="/uploaded/product/87/top_390bb5ebbfafa422325e38516e3fa3fd8.jpg" data-gall="gall1" class="venobox"><img src="/uploaded/product/87/top_390bb5ebbfafa422325e38516e3fa3fd8.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="/uploaded/product/87/top_390bb5ebbfafa422325e38516e3fa3fd9.jpg" data-gall="gall1" class="venobox"><img src="/uploaded/product/87/top_390bb5ebbfafa422325e38516e3fa3fd9.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="/uploaded/product/87/top_390bb5ebbfafa422325e38516e3fa3fd10.jpg" data-gall="gall1" class="venobox"><img src="/uploaded/product/87/top_390bb5ebbfafa422325e38516e3fa3fd10.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="/uploaded/product/87/top_51b5be3595d4963d975fb6b81ae5561a11.jpg" data-gall="gall1" class="venobox"><img src="/uploaded/product/87/top_51b5be3595d4963d975fb6b81ae5561a11.jpg" alt=""></a>
-						</li>
-						<!-- <li class="item">
-							<a href="http://yejo7048.cdn1.cafe24.com/images/bbs/noimg6x10.gif" data-gall="gall1" class="venobox"><img src="http://yejo7048.cdn1.cafe24.com/images/bbs/noimg6x10.gif" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="http://yejo7048.cdn1.cafe24.com/images/temp/3.jpg" data-gall="gall1" class="venobox"><img src="http://yejo7048.cdn1.cafe24.com/images/temp/3.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="http://yejo7048.cdn1.cafe24.com/images/bbs/noimg6x10.gif" data-gall="gall1" class="venobox"><img src="http://yejo7048.cdn1.cafe24.com/images/bbs/noimg6x10.gif" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="http://yejo7048.cdn1.cafe24.com/images/temp/1.jpg" data-gall="gall1" class="venobox"><img src="http://yejo7048.cdn1.cafe24.com/images/temp/1.jpg" alt=""></a>
-						</li> 
-					</ul>
-				</div>
-			
-			
-<script src="/js/masonry.pkgd.min.js"></script>
-<script>
-$(window).load(function(){	
-	$('.portfolio-gallery .items').masonry({
-		itemSelector: '.portfolio-gallery .item',
-		columnWidth: '.portfolio-gallery .item-sizer',
-		percentPosition: true,
-		stagger: 0,
-		transitionDuration: '0'
-	});
-	var venobox = new VenoBox({
-		selector: '.venobox',
-		numeration: true,
-		infinigall: false,
-		overlayClose :false,
-		navSpeed:300,
-		spinner: 'rotating-plane',
-	});
-});
-</script>				-->
- <div class="portfolio-summary wow fadeIn"  data-wow-delay="0.3s" data-wow-duration="0.8s">
-					<div class="img-slider">
-						<div class="items">
-							<div class="item"><img src="http://yejo7048.cdn1.cafe24.com/images/temp/1.jpg" alt=""></div>
-							<div class="item"><img src="http://yejo7048.cdn1.cafe24.com/images/temp/2.jpg" alt=""></div>
-							<div class="item"><img src="http://yejo7048.cdn1.cafe24.com/images/temp/3.jpg" alt=""></div>
-							<div class="item"><img src="http://yejo7048.cdn1.cafe24.com/images/temp/4.jpg" alt=""></div>
-						</div>
-					</div>
-					<div class="portfolio-info">
-						<h3 class="tit">PROJECT INFO</h3>
-						<div class="in">
-							<dl>
-								<dt>Location</dt>
-								<dd>현장명이 들어가는 공간입니다.</dd>
-							</dl>
-							<dl>
-								<dt>Space area</dt>
-								<dd>평수가 들어가는 공간입니다.</dd>
-							</dl>
-							<dl>
-								<dt>Starts and Completion</dt>
-								<dd>2023. 03. 06 ~ 2023. 05. 12 (개발기간)</dd>
-							</dl>
-							<dl>
-								<dt>Type</dt>
-								<dd>Apart</dd>
-							</dl>
-						</div>
-					</div>
-				</div>
-				<div class="portfolio-gallery">
-					<ul class="items">
-						<li class="item-sizer"></li>
-						<li class="item">
-							<a href="http://yejo7048.cdn1.cafe24.com/images/temp/1.jpg" data-gall="gall1" class="venobox"><img src="http://yejo7048.cdn1.cafe24.com/images/temp/1.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="http://yejo7048.cdn1.cafe24.com/images/temp/2.jpg" data-gall="gall1" class="venobox"><img src="http://yejo7048.cdn1.cafe24.com/images/temp/1.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="http://yejo7048.cdn1.cafe24.com/images/temp/3.jpg" data-gall="gall1" class="venobox"><img src="http://yejo7048.cdn1.cafe24.com/images/temp/1.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="http://yejo7048.cdn1.cafe24.com/images/temp/4.jpg" data-gall="gall1" class="venobox"><img src="http://yejo7048.cdn1.cafe24.com/images/temp/1.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="http://yejo7048.cdn1.cafe24.com/images/temp/5.jpg" data-gall="gall1" class="venobox"><img src="http://yejo7048.cdn1.cafe24.com/images/temp/1.jpg" alt=""></a>
-						</li>
-						<li class="item">
-							<a href="http://yejo7048.cdn1.cafe24.com/images/temp/6.jpg" data-gall="gall1" class="venobox"><img src="http://yejo7048.cdn1.cafe24.com/images/temp/1.jpg" alt=""></a>
-						</li>						
-					</ul>
-				</div> 
-			<!-- content //-->
-		</div>
-	</div>
+    <a href="#contArea">본문 바로가기</a>
+    <a href="#gnb">주메뉴 바로가기</a>
 </div>
+<div id="wrapper"> 
+    <!-- header -->
+    <div th:replace="~{main/header :: header}"></div>
+    <!-- header -->
+
+    <div id="container">
+        <div id="contArea">
+            <div class="sub-title blind">
+                <h1>PORTFOLIO VIEW</h1>
+            </div>
+            <div class="real-cont">
+                <!-- 포트폴리오 상세 정보 -->
+                <div class="portfolio-summary wow fadeIn" data-wow-delay="0.3s" data-wow-duration="0.8s">
+                    <div class="img-slider">
+                        <div class="items">
+                            <div class="item">
+                                <img th:src="@{'/' + ${portfolio.thumbnailImage}}" alt="썸네일 이미지">
+                            </div>
+                            <div th:each="image : ${portfolio.images}">
+                                <div class="item">
+                                    <img th:src="@{'/' + ${image.imagePath}}" alt="포트폴리오 이미지">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3 class="tit">PROJECT INFO</h3>
+                        <div class="in">
+                            <dl>
+                                <dt>Location</dt>
+                                <dd th:text="${portfolio.location}">현장명</dd>
+                            </dl>
+                            <dl>
+                                <dt>Space area</dt>
+                                <dd th:text="${portfolio.area} + ' PY'">평수</dd>
+                            </dl>
+                            <dl>
+                                <dt>Starts and Completion</dt>
+                                <dd th:text="${portfolio.duration}">2023. 03. 06 ~ 2023. 05. 12</dd>
+                            </dl>
+                            <dl>
+                                <dt>Type</dt>
+                                <dd th:text="${portfolio.type}">아파트</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 포트폴리오 갤러리 이미지들 -->
+                <div class="portfolio-gallery">
+                    <ul class="items">
+                        <li class="item-sizer"></li>
+                        <li class="item" th:each="image : ${portfolio.images}">
+                            <a th:href="@{'/' + ${image.imagePath}}" data-gall="gall1" class="venobox">
+                                <img th:src="@{'/' + ${image.imagePath}}" alt="포트폴리오 이미지">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 카카오톡 버튼 -->
 <a href="https://open.kakao.com/o/your-openchat-link" target="_blank" class="kakao-btn">
     <img src="http://yejo7048.cdn1.cafe24.com/images/main/free-icon-kakao-talk-3991993.png" alt="카카오톡 오픈채팅" />
 </a>
+
 <script src="/js/masonry.pkgd.min.js"></script>
 <script>
-$(window).load(function(){	
-	$('.portfolio-gallery .items').masonry({
-		itemSelector: '.portfolio-gallery .item',
-		columnWidth: '.portfolio-gallery .item-sizer',
-		percentPosition: true,
-		stagger: 0,
-		transitionDuration: '0'
-	});
-	var venobox = new VenoBox({
-		selector: '.venobox',
-		numeration: true,
-		infinigall: false,
-		overlayClose :false,
-		navSpeed:300,
-		spinner: 'rotating-plane',
-	});
+$(window).load(function(){    
+    $('.portfolio-gallery .items').masonry({
+        itemSelector: '.portfolio-gallery .item',
+        columnWidth: '.portfolio-gallery .item-sizer',
+        percentPosition: true,
+        stagger: 0,
+        transitionDuration: '0'
+    });
+    var venobox = new VenoBox({
+        selector: '.venobox',
+        numeration: true,
+        infinigall: false,
+        overlayClose :false,
+        navSpeed:300,
+        spinner: 'rotating-plane',
+    });
 });
 </script>
 
-	<!-- footer -->
-   <div th:replace="~{main/footer :: footer}"></div>
-    <!-- footer -->
-</div>
-
+<!-- footer -->
+<div th:replace="~{main/footer :: footer}"></div>
+<!-- footer -->
 
 </body>
 </html>
