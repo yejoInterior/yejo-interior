@@ -21,7 +21,7 @@ import com.yejo.interior.service.YejoStoryService;
 
 
 @Controller
-@RequestMapping("admin_of_yejo")
+@RequestMapping("admin")
 public class AdminController {
 
 	@Autowired
