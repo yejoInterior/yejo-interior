@@ -34,7 +34,8 @@ public class BannerService {
 				bannerRepository.save(bannerEntity);
 				return ResponseEntity.ok().build();
 			}catch(Exception e) {
-				return ResponseEntity.status(702).body("배너 저장 실패");			}
+				return ResponseEntity.status(702).body("배너 저장 실패");			
+			}
 			
 		}else {
 			return ResponseEntity.status(701).body("파일 업로드 실패");

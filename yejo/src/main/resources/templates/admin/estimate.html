@@ -23,6 +23,7 @@
     <!-- Custom styles for this page -->
     <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 	<script src="/js/estimate.js" defer></script>
+	<script src="/js/admin/estimateRestApi.js" defer></script>
 </head>
 
 <body id="page-top">
@@ -79,34 +80,15 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <tr>
-                                            <td>2024-10-15</td>
-                                            <td>2024-11-15</td>
-                                            <td>아파트</td>
-                                            <td>하현수</td>
-                                            <td>010-4611-9794</td>
-                                            <td>진행중</td>
-                                            <td><a href="#" class="openQuoteDetailModal">견적 상세 보기</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2024-10-12</td>
-                                            <td>2024-11-12</td>
-                                            <td>빌라</td>
-                                            <td>신희문</td>
-                                            <td>010-8789-9132</td>
-                                            <td>진행중</td>
-                                            <td><a href="#" class="openQuoteDetailModal">견적 상세 보기</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2024-10-10</td>
-                                            <td>2024-11-08</td>
-                                            <td>오피스텔</td>
-                                            <td>명동건</td>
-                                            <td>010-2131-2394</td>
-                                            <td>완료</td>
-                                            <td><a href="#" class="openQuoteDetailModal">견적 상세 보기</a></td>
-                                        </tr>
-                                        
+                                        <tr th:each="estimate:${estimateList}">
+                                            <td th:text="${estimate.constructionStartDate}"></td>
+                                            <td th:text="${estimate.moveInDate}"></td>
+                                            <td th:text="${estimate.spaceType}"></td>
+                                            <td th:text="${estimate.name}"></td>
+                                            <td th:text="${estimate.tel}"></td>
+                                            <td th:text="${estimate.status}"></td>
+                                            <td><a href="#" class="openQuoteDetailModal" th:id="${estimate.id}" onclick="showEstimateAll(this.id)">견적 상세 보기</a></td>
+                                        </tr>           
                                     </tbody>
                                 </table>
                             </div>
@@ -124,18 +106,18 @@
 		        <h3>고객 정보</h3>
 		        <p>성함: <span id="customerName"></span></p>
 		        <p>연락처: <span id="customerPhone"></span></p>
-		        
+		
 		        <h3>공간 정보</h3>
-		        <p>1. 공사예정지 주소: <input type="text" placeholder="주소를 입력하세요 (동, 호수 포함)"></p>
+		        <p>1. 공사예정지 주소: <input type="text" id="constructionAddress"></p>
 		        <p>2. 공간 구성: 
-		            <input type="text" placeholder="평수">평, 
-		            <input type="text" placeholder="방 칸수">개, 
-		            <input type="text" placeholder="욕실 개수">개
+		            <input type="text" id="spaceSize" placeholder="평수">평 
+		            <input type="text" id="roomCount" placeholder="방 칸수">개 
+		            <input type="text" id="bathroomCount" placeholder="욕실 개수">개
 		        </p>
-		        <p>3. 공사 시작일: <input type="date"></p>
-		        <p>4. 입주 예정일: <input type="date"></p>
+		        <p>3. 공사 시작일: <input type="date" id="constructionStartDate"></p>
+		        <p>4. 입주 예정일: <input type="date" id="moveInDate"></p>
 		        <p>5. 공간 유형: 
-		            <select>
+		            <select id="spaceType">
 		                <option value="아파트">아파트</option>
 		                <option value="빌라">빌라</option>
 		                <option value="단독주택">단독주택</option>
@@ -144,16 +126,13 @@
 		                <option value="기타">기타</option>
 		            </select>
 		        </p>
-		        <p>6. 공사 예산: <input type="text" placeholder="예산을 입력하세요"></p>
-		        <p>7. 평면도 첨부: <input type="file"></p>
-		        <p>8. 참고 URL: <input type="url" placeholder="URL을 입력하세요"></p>
-		        <p>9. 문의 사항: <textarea placeholder="문의 사항을 입력하세요"></textarea></p>
-		        
-		        <div class="modal-footer-buttons">
-		            <a class="estimate_btn"><img src='img/kakaotalk_sharing_btn_small.png'>카카오톡으로 견적 발송</a>
-		            <a class="estimate_btn"><img src="img/email_icon_130945.png">이메일로 견적 발송</a>
-        		</div>
+		        <p>6. 공사 예산: <input type="text" id="budget" placeholder="예산을 입력하세요"></p>
+		        <p>7. 평면도: <span class="modal-content" style="width:calc(100% - 20px);" id="floorPlan"></span></p>
+		        <p>8. 참고 사진: <span class="modal-content" style="width:calc(100% - 20px);" id="referenceFile"></span></p>
+		        <p>9. 참고 URL: <input type="url" id="referenceUrl" ></p>
+		        <p>10. 문의 사항: <textarea id="questions" placeholder="문의 사항을 입력하세요"></textarea></p>
 		    </div>
+		    
 		</div>
 
 				

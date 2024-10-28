@@ -2,6 +2,7 @@ package com.yejo.interior.utility;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -9,6 +10,8 @@ import java.util.UUID;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,7 +52,8 @@ public class FileUtility {
 
             // InputStream으로 파일 열기
             try (InputStream inputStream = file.getInputStream()) {
-            	String uuidFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            	String originalFilename = file.getOriginalFilename();
+            	String uuidFileName = UUID.randomUUID().toString() + "." + originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
                 String remoteFilePath = "/www/images/" + directory + "/" + uuidFileName;
                 String cdnFilePath = cdnPath + directory + "/" + uuidFileName;
   
@@ -123,5 +127,30 @@ public class FileUtility {
         return success;
     }
     
+    
+    public ResponseEntity<UrlResource> download(String filePath) throws MalformedURLException{
+    	UrlResource resource = new UrlResource(filePath);
+    	// 파일의 MIME 타입을 추정
+        String contentType = "application/octet-stream"; // 기본값
+
+        // 파일 확장자에 따라 MIME 타입 설정
+        if (filePath.endsWith(".pdf")) {
+            contentType = "application/pdf";
+        } else if (filePath.endsWith(".hwp")) {
+            contentType = "application/x-hwp";
+        } else if (filePath.endsWith(".txt")) {
+            contentType = "text/plain";
+        } else if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg")) {
+            contentType = "image/jpeg";
+        } else if (filePath.endsWith(".png")) {
+            contentType = "image/png";
+        } else if (filePath.endsWith(".gif")) {
+            contentType = "image/gif";
+        }
+        
+        return ResponseEntity.ok()
+                .contentType(org.springframework.http.MediaType.parseMediaType(contentType)) // MIME 타입 설정
+                .body(resource);
+    }
     
 }
