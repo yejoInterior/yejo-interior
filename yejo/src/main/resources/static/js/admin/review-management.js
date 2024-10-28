@@ -4,23 +4,23 @@ let loading = false; // 중복 호출 방지를 위한 로딩 상태
 
 // 리뷰 데이터를 가져오는 함수
 async function fetchReviews(page) {
-    try {
-        const response = await fetch(`/api/reviews?page=${page}`);
-        if (!response.ok) {
-            throw new Error('네트워크 응답이 정상이 아닙니다.');
-        }
-        const reviews = await response.json();
-        return reviews;
-    } catch (error) {
-        console.error('리뷰를 가져오는 중 오류 발생:', error);
-        return []; // 오류 발생 시 빈 배열 반환
-    }
+	try {
+		const response = await fetch(`/api/reviews?page=${page}`);
+		if (!response.ok) {
+			throw new Error('네트워크 응답이 정상이 아닙니다.');
+		}
+		const reviews = await response.json();
+		return reviews;
+	} catch (error) {
+		console.error('리뷰를 가져오는 중 오류 발생:', error);
+		return []; // 오류 발생 시 빈 배열 반환
+	}
 }
 
 // 리뷰를 화면에 표시하는 함수
 function displayReview(review) {
-    const reviewElement = document.createElement('tr'); // tr 요소 생성
-    reviewElement.innerHTML = `
+	const reviewElement = document.createElement('tr'); // tr 요소 생성
+	reviewElement.innerHTML = `
         <td>${review.idx}</td>
         <td>${review.title}</td>
         <td><span class="text-success">${review.tag}</span></td>
@@ -32,44 +32,44 @@ function displayReview(review) {
             <button class="btn btn-sm btn-danger" onclick="deleteReview(${review.idx});">삭제</button>
         </td>
     `;
-    reviewsContainer.appendChild(reviewElement); // 새로운 후기를 tbody에 추가
+	reviewsContainer.appendChild(reviewElement); // 새로운 후기를 tbody에 추가
 }
 
 // 스크롤 위치를 감지하여 다음 페이지를 로드하는 함수
 async function loadMoreReviews() {
-    if (loading) return; // 이미 로딩 중이면 실행하지 않음
-    loading = true; // 로딩 상태로 변경
-    currentPage++; // 페이지 번호 증가
-    const newReviews = await fetchReviews(currentPage); // 새로운 리뷰 가져오기
-    if (newReviews && newReviews.length > 0) {
-        newReviews.forEach(displayReview); // 가져온 리뷰 표시
-    } else {
-        // 추가된 리뷰가 없을 경우 스크롤 이벤트 제거
-        window.removeEventListener('scroll', handleScroll); 
-    }
-    loading = false; // 로딩 상태 해제
+	if (loading) return; // 이미 로딩 중이면 실행하지 않음
+	loading = true; // 로딩 상태로 변경
+	currentPage++; // 페이지 번호 증가
+	const newReviews = await fetchReviews(currentPage); // 새로운 리뷰 가져오기
+	if (newReviews && newReviews.length > 0) {
+		newReviews.forEach(displayReview); // 가져온 리뷰 표시
+	} else {
+		// 추가된 리뷰가 없을 경우 스크롤 이벤트 제거
+		window.removeEventListener('scroll', handleScroll);
+	}
+	loading = false; // 로딩 상태 해제
 }
 
 // 스크롤 이벤트 핸들러
 function handleScroll() {
-    // 스크롤이 페이지의 맨 아래로부터 일정 거리 내로 들어오면 다음 페이지 로드
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
-        loadMoreReviews();
-    }
+	// 스크롤이 페이지의 맨 아래로부터 일정 거리 내로 들어오면 다음 페이지 로드
+	if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+		loadMoreReviews();
+	}
 }
 
 // 초기 리뷰 로드
 (async () => {
-    const initialReviews = await fetchReviews(currentPage);
-    if (initialReviews && initialReviews.length > 0) {
-        initialReviews.forEach(displayReview); // 초기 리뷰 표시
-        // 스크롤 이벤트 리스너 추가
-        window.addEventListener('scroll', handleScroll);
-    } else {
-        const noReviewsMessage = document.createElement('tr'); // no-reviews 메시지를 위한 tr 요소 생성
-        noReviewsMessage.innerHTML = '<td colspan="7" class="text-center">작성된 후기가 없습니다.</td>';
-        reviewsContainer.appendChild(noReviewsMessage); // tbody에 메시지 추가
-    }
+	const initialReviews = await fetchReviews(currentPage);
+	if (initialReviews && initialReviews.length > 0) {
+		initialReviews.forEach(displayReview); // 초기 리뷰 표시
+		// 스크롤 이벤트 리스너 추가
+		window.addEventListener('scroll', handleScroll);
+	} else {
+		const noReviewsMessage = document.createElement('tr'); // no-reviews 메시지를 위한 tr 요소 생성
+		noReviewsMessage.innerHTML = '<td colspan="7" class="text-center">작성된 후기가 없습니다.</td>';
+		reviewsContainer.appendChild(noReviewsMessage); // tbody에 메시지 추가
+	}
 })();
 
 
@@ -176,6 +176,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		formData.append('title', document.getElementById("EditReviewTitle").value);
 		formData.append('url', document.getElementById("EditReviewUrl").value);
 		formData.append('content', document.getElementById("EditReviewContent").value);
+
+		// 줄바꿈을 <br>로 변환
+		/*const rawContent = document.getElementById('EditReviewContent').value;
+		const content = rawContent
+			.replace(/\n+/g, '<br>'); // 모든 줄바꿈을 하나의 <br>로 변환
+		formData.append('content', content);*/
 
 		// 해시태그 추가
 		const hashtags = document.getElementById('editHashtagContainer').querySelectorAll('.badge'); // 수정된 부분
