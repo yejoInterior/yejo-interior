@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import com.yejo.interior.entity.PortfolioEntity;
 import com.yejo.interior.entity.PortfolioImageEntity;
 import com.yejo.interior.repository.PortfolioImageRepository;
 import com.yejo.interior.repository.PortfolioRepository;
+import com.yejo.interior.utility.FileUtility;
 
 @Service
 public class PortfolioService {
@@ -34,12 +36,17 @@ public class PortfolioService {
     @Autowired
     private PortfolioImageRepository portfolioImageRepository;
 
-    @Value("${upload.path}")
-    private String uploadPath;  // 절대 경로로 설정
+    @Autowired
+    private FileUtility fileUtility; // FileUtility 주입
+
+    @Value("${cdn.path}")
+    private String cdnPath;
 
     @Transactional
     public PortfolioEntity savePortfolio(String title, String location, Double area, String duration, String type, MultipartFile image, List<MultipartFile> portfolioImages) throws IOException {
-        String imagePath = saveFile(image);  // 크롭된 이미지 또는 원본 이미지 처리
+        // 썸네일 이미지 업로드
+        Map<String, Object> imageUploadResult = fileUtility.uploadFile(image, "portfolio");
+        String imagePath = (Boolean) imageUploadResult.get("success") ? (String) imageUploadResult.get("filePath") : null;
 
         PortfolioEntity portfolio = new PortfolioEntity();
         portfolio.setTitle(title);
@@ -47,17 +54,22 @@ public class PortfolioService {
         portfolio.setArea(area);
         portfolio.setDuration(duration);
         portfolio.setType(type);
-        portfolio.setThumbnailImage(imagePath);  // DB에 상대 경로만 저장
+        portfolio.setThumbnailImage(imagePath); // 썸네일 이미지 경로 저장
 
         portfolio = portfolioRepository.save(portfolio);
 
         List<PortfolioImageEntity> imageEntities = new ArrayList<>();
-        for (MultipartFile imageFile : portfolioImages) {
-            String portfolioImagePath = saveFile(imageFile);
-            PortfolioImageEntity imageEntity = new PortfolioImageEntity();
-            imageEntity.setImagePath(portfolioImagePath);
-            imageEntity.setPortfolio(portfolio);
-            imageEntities.add(imageEntity);
+        for (MultipartFile portfolioImage : portfolioImages) {
+            // 각 포트폴리오 이미지를 FTP에 업로드
+            Map<String, Object> portfolioImageUploadResult = fileUtility.uploadFile(portfolioImage, "portfolio");
+            String portfolioImagePath = (Boolean) portfolioImageUploadResult.get("success") ? (String) portfolioImageUploadResult.get("filePath") : null;
+
+            if (portfolioImagePath != null) {
+                PortfolioImageEntity imageEntity = new PortfolioImageEntity();
+                imageEntity.setImagePath(portfolioImagePath);
+                imageEntity.setPortfolio(portfolio);
+                imageEntities.add(imageEntity);
+            }
         }
 
         portfolioImageRepository.saveAll(imageEntities);
@@ -65,32 +77,15 @@ public class PortfolioService {
         return portfolio;
     }
 
-    // 파일 저장 메서드
-    private String saveFile(MultipartFile file) throws IOException {
-        if (file == null || file.isEmpty()) {
-            logger.warn("Received empty file, skipping.");
-            return null;
-        }
-
-        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-        Path path = Paths.get(uploadPath, fileName);
-        Files.createDirectories(path.getParent()); // 경로 생성
-        Files.copy(file.getInputStream(), path);  // 파일 저장
-        
-        logger.info("File saved successfully at path: " + path.toAbsolutePath());
-
-        return "uploads/" + fileName;  // DB에 상대 경로 저장
-    }
-
     public List<PortfolioEntity> getAllPortfolios() {
         return portfolioRepository.findAll();
     }
-    
+
     public void deletePortfolio(Long id) {
         PortfolioEntity portfolio = portfolioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("포트폴리오를 찾을 수 없습니다."));
 
-        // 썸네일 파일 삭제
+        // 썸네일 이미지 삭제
         deleteFile(portfolio.getThumbnailImage());
 
         // 포트폴리오 이미지 파일들 삭제
@@ -98,38 +93,25 @@ public class PortfolioService {
             deleteFile(image.getImagePath());
         }
 
-        // 데이터베이스에서 포트폴리오 삭제 (이미지 엔티티는 cascade로 삭제됨)
         portfolioRepository.deleteById(id);
     }
 
-    // 파일 삭제 메서드
+    // FTP 서버에서 파일 삭제 메서드
     private void deleteFile(String filePath) {
         if (filePath != null && !filePath.isEmpty()) {
-            // 파일 경로를 절대 경로로 변환
-            File file = new File(uploadPath + File.separator + filePath.replace("uploads/", ""));
-            logger.info("Trying to delete file at: " + file.getAbsolutePath());
-
-            if (file.exists()) {
-                boolean deleted = file.delete();
-                if (!deleted) {
-                    logger.error("파일 삭제에 실패했습니다: " + file.getAbsolutePath());
-                } else {
-                    logger.info("File deleted successfully: " + file.getAbsolutePath());
-                }
-            } else {
-                logger.warn("파일을 찾을 수 없습니다: " + file.getAbsolutePath());
-            }
+            logger.info("Trying to delete file from CDN at: " + filePath);
+            // CDN 경로에서 파일 삭제
+            fileUtility.deleteFileFromCDN(filePath);
         } else {
             logger.warn("파일 경로가 null이거나 빈 값입니다.");
         }
     }
-    
+
     public PortfolioEntity getPortfolioById(Long id) {
         return portfolioRepository.findById(id).orElse(null);
     }
-    
+
     public Page<PortfolioEntity> getPortfoliosWithPagination(Pageable pageable) {
         return portfolioRepository.findAll(pageable);
     }
-    
 }
