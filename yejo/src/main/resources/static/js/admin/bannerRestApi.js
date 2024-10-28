@@ -100,7 +100,6 @@ saveBannerBtn.addEventListener('click', ()=>{
 	console.log("test")
 	const bannerTitle = document.querySelector("#bannerTitle").value;
 	const bannerImage = document.querySelector("#bannerImage").files[0];
-	console.log(bannerImage)
 	const formData = new FormData();
 	formData.append('bannerTitle', bannerTitle);
 	formData.append('bannerImage', bannerImage);

@@ -6,3 +6,4 @@ function budgeInput(){
         document.getElementById('budget_money').value='';
     }
 }
+
