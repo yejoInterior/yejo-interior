@@ -21,7 +21,7 @@ import com.yejo.interior.service.YejoStoryService;
 
 
 @Controller
-@RequestMapping("admin")
+@RequestMapping("admin_of_yejo")
 public class AdminController {
 
 	@Autowired
@@ -34,7 +34,11 @@ public class AdminController {
 	private BannerService bannerService;
 	@Autowired
 	private PortfolioService portfolioService;
-
+	
+	@GetMapping("/")
+	public String main() {
+		return "admin/main";
+	}
 	
 	@GetMapping("/banner")
 	public String bannerPage(Model model) {
