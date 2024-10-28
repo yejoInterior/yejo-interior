@@ -73,7 +73,8 @@
 									<th style="width: 10%;">관리</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="review-list">
+								<!-- 
 								<tr th:if="${#lists.isEmpty(reviews)}">
 									<td colspan="7" class="text-center">작성된 후기가 없습니다.</td>
 								</tr>
@@ -82,7 +83,7 @@
 									<td th:text="${review.title}"></td>
 									<td><span class="text-success" th:text="${review.tag}"></span></td>
 									<td><img th:src="@{'/uploads/' + ${review.imagePath}}"
-										alt="후기 사진" class="img-thumbnail"> <!-- 이미지 너비 고정 --></td>
+										alt="후기 사진" class="img-thumbnail"> </td>
 									<td th:text="${review.content}"></td>
 									<td><a th:href="${review.url}" target="_blank"
 										th:text="${review.url}"></a></td>
@@ -93,10 +94,14 @@
 										<button class="btn btn-sm btn-danger"
 											th:onclick="'deleteReview(' + ${review.idx} + ');'">삭제</button>
 									</td>
-								</tr>
+								</tr> -->
+
 							</tbody>
 
 						</table>
+						<div id="loading" style="text-align: center; display: none;">
+							<p>Loading...</p>
+						</div>
 					</div>
 
 
@@ -225,7 +230,7 @@
 			<footer class="sticky-footer bg-white">
 				<div class="container my-auto">
 					<div class="copyright text-center my-auto">
-						<span>Copyright &copy; Your Website 2020</span>
+						<span>Copyright &copy; YEJO INTERIOR 2024</span>
 					</div>
 				</div>
 			</footer>

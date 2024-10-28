@@ -31,6 +31,12 @@
 .content p {
     font-size: 16px; /* 본문 폰트 크기 */
     color: #555; /* 본문 색상 */
+    display: -webkit-box; /* 플렉스 박스 사용 */
+    -webkit-box-orient: vertical; /* 세로 방향으로 설정 */
+    overflow: hidden; /* 넘치는 부분 숨김 */
+    -webkit-line-clamp: 3; /* 최대 3줄 표시 */
+    max-height: 4.5em; /* 3줄 높이 설정 (1.5em * 3) */
+    line-height: 1.5em; /* 줄 높이 설정 */
 }
 
 .image {

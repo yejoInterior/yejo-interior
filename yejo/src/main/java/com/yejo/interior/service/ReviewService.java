@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.yejo.interior.dto.ReviewDto;
 import com.yejo.interior.entity.Review;
 import com.yejo.interior.repository.ReviewRepository;
+import com.yejo.interior.utility.FileUtility;
 
 @Service
 public class ReviewService {
 
+	@Autowired
+	private FileUtility fileUtility;
+	
 	@Autowired
 	private ReviewRepository reviewRepository; // JPA Repository
 
@@ -54,33 +59,41 @@ public class ReviewService {
 
 	// 리뷰 작성
 	public void saveReview(ReviewDto reviewDto) throws IOException {
-		try {
-			// 이미지 저장
-			String imagePath = saveImage(reviewDto.getImage());
+	    try {
+	        // 이미지 저장
+	        Map<String, Object> uploadResponse = fileUtility.uploadFile(reviewDto.getImage(), "reviews"); // 디렉토리 이름은 적절히 수정하세요
 
-			// Review 생성
-			Review review = new Review();
-			review.setTitle(reviewDto.getTitle());
+	        // 성공적으로 파일이 업로드 되었는지 확인
+	        if (!(Boolean) uploadResponse.get("success")) {
+	            throw new RuntimeException("이미지 업로드 실패: " + uploadResponse.get("message"));
+	        }
 
-			if (reviewDto.getTags() != null && !reviewDto.getTags().isEmpty()) {
-				String tags = String.join(",", reviewDto.getTags()); // ","로 결합
-				review.setTag(tags); // 태그 설정
-			} else {
-				review.setTag(""); // 태그가 없으면 빈 문자열로 설정
-			}
+	        String imagePath = (String) uploadResponse.get("filePath");
 
-			review.setContent(reviewDto.getContent());
-			review.setUrl(reviewDto.getUrl());
-			review.setImagePath(imagePath);
+	        // Review 생성
+	        Review review = new Review();
+	        review.setTitle(reviewDto.getTitle());
 
-			// 데이터베이스에 저장
-			reviewRepository.save(review);
+	        if (reviewDto.getTags() != null && !reviewDto.getTags().isEmpty()) {
+	            String tags = String.join(",", reviewDto.getTags()); // ","로 결합
+	            review.setTag(tags); // 태그 설정
+	        } else {
+	            review.setTag(""); // 태그가 없으면 빈 문자열로 설정
+	        }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("리뷰 저장 중 오류가 발생했습니다: " + e.getMessage());
-		}
+	        review.setContent(reviewDto.getContent());
+	        review.setUrl(reviewDto.getUrl());
+	        review.setImagePath(imagePath);
+
+	        // 데이터베이스에 저장
+	        reviewRepository.save(review);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new RuntimeException("리뷰 저장 중 오류가 발생했습니다: " + e.getMessage());
+	    }
 	}
+
 
 	// 리뷰 한 개 가져오기
 	public Review getOneReview(Integer id) {
@@ -97,7 +110,7 @@ public class ReviewService {
 			e.printStackTrace();
 			throw new RuntimeException("리뷰를 가져오는 중 오류가 발생했습니다.", e);
 		}
-	}
+	}	
 	
 	// 리뷰 가져오기(페이징)
 	public List<Review> getReviews(int page, int limit) {
