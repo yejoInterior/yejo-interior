@@ -32,7 +32,7 @@ function displayReview(review) {
                         : '<span class="hashtag">#해시태그 없음</span>'}
                 </div>
             </div>
-            <img src="/uploads/${review.imagePath}" class="image" alt="대표 이미지">
+            <img src="${review.imagePath}" class="image" alt="대표 이미지">
         </a>
     `;
     reviewsContainer.appendChild(reviewElement); // 새로운 후기를 컨테이너에 추가
