@@ -263,7 +263,7 @@
     }
     
     let cropper;
-    const MAX_FILE_SIZE = 500 * 1024; // 500KB 제한
+    const MAX_FILE_SIZE = 1000 * 1024; // 500KB 제한
     let croppedBlob; // 크롭된 이미지를 저장할 변수
 
     // 썸네일 이미지 업로드 및 크롭 처리
@@ -321,8 +321,8 @@
     // 크롭된 썸네일 저장
     document.getElementById('cropBtn').addEventListener('click', function () {
         const canvas = cropper.getCroppedCanvas({
-            width: 1880,
-            height: 1060
+            width: 470,
+            height: 265
         });
 
         // 크롭된 이미지를 Blob으로 변환하여 전역 변수에 저장
@@ -335,7 +335,7 @@
             preview.style.display = 'block';
 
             $('#cropperModal').modal('hide'); // 크롭 후 모달 닫기
-        }, 'image/jpeg', 0.95);
+        }, 'image/jpeg', 1.0);
     });
 
     // 저장 버튼 클릭 시 데이터 전송
