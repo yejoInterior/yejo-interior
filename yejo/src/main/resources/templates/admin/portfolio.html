@@ -321,8 +321,8 @@
     // 크롭된 썸네일 저장
     document.getElementById('cropBtn').addEventListener('click', function () {
         const canvas = cropper.getCroppedCanvas({
-            width: 470,
-            height: 265
+            width: 1880,
+            height: 1060
         });
 
         // 크롭된 이미지를 Blob으로 변환하여 전역 변수에 저장
@@ -335,7 +335,7 @@
             preview.style.display = 'block';
 
             $('#cropperModal').modal('hide'); // 크롭 후 모달 닫기
-        }, 'image/png');
+        }, 'image/jpeg', 0.95);
     });
 
     // 저장 버튼 클릭 시 데이터 전송
