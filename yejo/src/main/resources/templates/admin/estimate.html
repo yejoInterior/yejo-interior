@@ -81,7 +81,7 @@
                                     </tfoot>
                                     <tbody>
                                         <tr th:each="estimate:${estimateList}">
-                                            <td th:text="${estimate.constructionStartDate}"></td>
+                                            <td th:text="${estimate.createdAt}"></td>
                                             <td th:text="${estimate.moveInDate}"></td>
                                             <td th:text="${estimate.spaceType}"></td>
                                             <td th:text="${estimate.name}"></td>
@@ -131,7 +131,13 @@
 		        <p>8. 참고 사진: <span class="modal-content" style="width:calc(100% - 20px);" id="referenceFile"></span></p>
 		        <p>9. 참고 URL: <input type="url" id="referenceUrl" ></p>
 		        <p>10. 문의 사항: <textarea id="questions" placeholder="문의 사항을 입력하세요"></textarea></p>
+		        
+		        <div class="modal-footer-buttons">
+		            <a class="estimate_btn"><img src='/img/kakaotalk_sharing_btn_small.png'>카카오톡으로 견적 발송</a>
+        		</div>
 		    </div>
+		    
+		    
 		    
 		</div>
 

@@ -87,7 +87,8 @@ public class FileUtility {
             }
         }
     }
- // CDN에서 파일 삭제 메서드
+    
+    // CDN에서 파일 삭제 메서드
     public boolean deleteFileFromCDN(String filePath) {
         FTPClient ftpClient = new FTPClient();
         boolean success = false;
@@ -126,7 +127,6 @@ public class FileUtility {
 
         return success;
     }
-    
     
     public ResponseEntity<UrlResource> download(String filePath) throws MalformedURLException{
     	UrlResource resource = new UrlResource(filePath);
