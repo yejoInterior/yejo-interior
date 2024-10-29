@@ -10,13 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yejo.interior.entity.BannerEntity;
 import com.yejo.interior.entity.CompanyLocationEntity;
-import com.yejo.interior.entity.ConsultantEntity;
 import com.yejo.interior.entity.PortfolioEntity;
 import com.yejo.interior.entity.Review;
 import com.yejo.interior.entity.YejoStoryEntity;
 import com.yejo.interior.service.BannerService;
 import com.yejo.interior.service.CompanyLocationService;
-import com.yejo.interior.service.ConsultantService;
 import com.yejo.interior.service.PortfolioService;
 import com.yejo.interior.service.ReviewService;
 import com.yejo.interior.service.YejoStoryService;
@@ -36,8 +34,8 @@ public class AdminController {
 	private BannerService bannerService;
 	@Autowired
 	private PortfolioService portfolioService;
-	@Autowired
-	private ConsultantService consultantService;
+	//@Autowired
+	//private ConsultantService consultantService;
 	
 	@GetMapping("/")
 	public String main() {
@@ -51,12 +49,12 @@ public class AdminController {
 		return "admin/banner";
 	}
 	
-	@GetMapping("/estimate")
-	public String estimatePage(Model model) {
-		List<ConsultantEntity> estimateList = consultantService.getAllEstimate();
-		model.addAttribute("estimateList",estimateList);
-		return "admin/estimate";
-	}
+//	@GetMapping("/estimate")
+//	public String estimatePage(Model model) {
+//		List<ConsultantEntity> estimateList = consultantService.getAllEstimate();
+//		model.addAttribute("estimateList",estimateList);
+//		return "admin/estimate";
+//	}
 	
 	@GetMapping("/about")
 	public String about(Model model) {
