@@ -87,46 +87,6 @@ public class FileUtility {
             }
         }
     }
- // CDN에서 파일 삭제 메서드
-    public boolean deleteFileFromCDN(String filePath) {
-        FTPClient ftpClient = new FTPClient();
-        boolean success = false;
-
-        try {
-            // 서버에 연결
-            ftpClient.connect(server);
-            ftpClient.login(username, password);
-            ftpClient.enterLocalPassiveMode();
-            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-
-            // 파일 삭제
-            String remoteFilePath = filePath.replace(cdnPath, "/www/images/");
-            boolean deleted = ftpClient.deleteFile(remoteFilePath);
-
-            if (deleted) {
-                log.info("File deleted successfully from CDN: " + remoteFilePath);
-                success = true;
-            } else {
-                log.warn("Failed to delete file from CDN: " + remoteFilePath);
-            }
-
-        } catch (IOException ex) {
-            log.error("Error occurred during file deletion: " + ex.getMessage(), ex);
-        } finally {
-            try {
-                // FTP 연결 종료
-                if (ftpClient.isConnected()) {
-                    ftpClient.logout();
-                    ftpClient.disconnect();
-                }
-            } catch (IOException ex) {
-                log.error("Error while disconnecting FTP client: " + ex.getMessage(), ex);
-            }
-        }
-
-        return success;
-    }
-    
     
     public ResponseEntity<UrlResource> download(String filePath) throws MalformedURLException{
     	UrlResource resource = new UrlResource(filePath);

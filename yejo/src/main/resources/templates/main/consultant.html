@@ -316,13 +316,13 @@ function inputNum(obj){
 		    <div class="form-group">
 		        <div class="form-box">
 		            <dl>
-		                <dt><label for="customer_name">성함</label></dt>
+		                <dt><label for="customer_name">*성함</label></dt>
 		                <dd><input type="text" name="name" id="customer_name" placeholder="성함을 입력해 주세요." class="form-input" required></dd>
 		            </dl>
 		        </div>
 		     <div class="form-box">
 			    <dl>
-			        <dt><label for="contact1">연락처</label></dt>
+			        <dt><label for="contact1">*연락처</label></dt>
 			        <dd class="tel-input">
 			            <input type="tel"  id="contact1" class="form-input contact-input small-input" maxlength="4" required> - 
 			            <input type="tel"  id="contact2" class="form-input contact-input medium-input" maxlength="4" required> - 
@@ -334,13 +334,13 @@ function inputNum(obj){
 
 		        <div class="form-box">
 		            <dl>
-		                <dt><label for="customer_email">이메일</label></dt>
+		                <dt><label for="customer_email">*이메일</label></dt>
 		                <dd><input type="email" name="email" id="customer_email" placeholder="이메일을 입력해 주세요." class="form-input" required></dd>
 		            </dl>
 		        </div>                            
 		        <div class="form-box">
 		            <dl>
-		                <dt>유입 경로</dt>
+		                <dt>*유입 경로</dt>
 		                <dd>
 		                    <span class="item">
 		                        <span class="radiobox"><input type="radio" name="inflow" id="source_youtube" value="유튜브" checked><label for="source_youtube">유튜브</label></span>
@@ -365,17 +365,17 @@ function inputNum(obj){
 		        </div>
 		        <div class="form-box">
 		            <dl>
-		                <dt><label for="customer_password">비밀번호</label></dt>
+		                <dt><label for="customer_password">*비밀번호</label></dt>
 		                <dd><input type="password" name="passwd" id="customer_password" placeholder="비밀번호를 입력해 주세요." class="form-input" required></dd>
 		            </dl>
 		        </div>
 		    </div>
 		    
-		    <h2 class="form-title"><span class="highlight">견적 내용</span></h2>
+		    <h2 class="form-title"><span class="highlight">*견적 내용</span></h2>
 		    <div class="form-group">
 		        <div class="form-box wide-box">
 		            <dl>
-		                <dt><label for="construction_address">공사 예정지 주소</label></dt>
+		                <dt><label for="construction_address">*공사 예정지 주소</label></dt>
 		                <dd>
 		                	<input type="text" class="form-input" name="post" style="width:80px;" id="sample2_postcode" placeholder="우편번호">
 							<input type="button" class="form-input address" onclick="sample2_execDaumPostcode()" value="주소 검색"><br>
@@ -392,7 +392,7 @@ function inputNum(obj){
 		        </div><br>
 		        <div class="form-box wide-box">
 		            <dl>
-		                <dt>공간 구성</dt>
+		                <dt>*공간 구성</dt>
 		                <dd>
 		                    <span class="inner">평수 <input type="text" name="areaSize" id="area_size" class="form-input small-input" onkeypress="inputNum"> 평</span>
 		                    <span class="bar"></span>
@@ -404,19 +404,19 @@ function inputNum(obj){
 		        </div>
 		        <div class="form-box">
 		            <dl>
-		                <dt>공사 시작일</dt>
+		                <dt>*공사 시작일</dt>
 		                <dd><input type="text" name="constructionStartDate" class="form-input datepicker" placeholder="YYYY-MM-DD" required></dd>
 		            </dl>
 		        </div>
 		        <div class="form-box">
 		            <dl>
-		                <dt>입주 예정일</dt>
+		                <dt>*입주 예정일</dt>
 		                <dd><input type="text" name="moveInDate" class="form-input datepicker" placeholder="YYYY-MM-DD" required></dd>
 		            </dl>
 		        </div>
 		        <div class="form-box">
 		            <dl>
-		                <dt>공간 유형</dt>
+		                <dt>*공간 유형</dt>
 		                <dd>
 		                    <span class="item">
 		                        <span class="radiobox"><input type="radio" name="spaceType" id="type_apartment" value="아파트" checked><label for="type_apartment">아파트</label></span>
@@ -441,7 +441,7 @@ function inputNum(obj){
 		        </div>
 		        <div class="form-box">
 		            <dl>
-		                <dt>공사 예산</dt>
+		                <dt>*공사 예산</dt>
 		                <dd>
 		                    <span class="item">
 		                        <span class="radiobox"><input type="radio" name="budget" id="budget_1000" value="1000만원"  checked onclick="budgeInput()"><label for="budget_1000">1000만원</label></span>
@@ -472,15 +472,15 @@ function inputNum(obj){
 		        </div>
 		        <div class="form-box wide-box">
 		            <dl>
-		                <dt><label for="floor_plan">층별 배치도</label></dt>
-		                <dd><input type="file" id="floor_plan_file" class="form-input" accept=".jpg, .jpeg, .png, .pdf"></dd>
+		                <dt><label for="floor_plan">*평면도<span style="font-size:12px; ">&nbsp&nbsp&nbsp*이미지 형식(jpg,png 등)으로 올려주세요</span></label></dt>
+		                <dd><input type="file" id="floor_plan_file" class="form-input" accept=".jpg, .jpeg, .png,  .gif" multiple></dd>
 		            </dl>
 		        </div>
 		        
 		        <div class="form-box wide-box">
 		            <dl>
-		                <dt><label for="reference">참고 사진(URL)</label></dt>
-		                <dd><input type="file" id="reference_file" class="form-input" accept=".jpg, .jpeg, .png, .pdf"></dd>
+		                <dt><label for="reference">참고 사진(URL)<span style="font-size:12px; ">&nbsp&nbsp&nbsp*이미지 형식(jpg,png 등)으로 올려주세요</span></label></dt>
+		                <dd><input type="file" id="reference_file" class="form-input" accept=".jpg, .jpeg, .png,  .gif"></dd>
 		                <dd><input type="text" name="referenceUrl" id="reference_url" class="form-input" placeholder="참고할 수 있는 사이트의 URL을 입력해주세요"></dd>
 		            </dl>
 		        </div>
