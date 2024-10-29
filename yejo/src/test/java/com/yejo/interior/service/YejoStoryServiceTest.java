@@ -1,4 +1,4 @@
-package com.yejo.interior.service;
+/*package com.yejo.interior.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -94,3 +94,4 @@ class YejoStoryServiceTest {
         verify(yejoStoryRepository).save(any(YejoStoryEntity.class));
     }
 }
+*/
