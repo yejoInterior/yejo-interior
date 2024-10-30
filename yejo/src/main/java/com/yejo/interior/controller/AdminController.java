@@ -1,6 +1,7 @@
 package com.yejo.interior.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.yejo.interior.entity.BannerEntity;
 import com.yejo.interior.entity.CompanyLocationEntity;
 import com.yejo.interior.entity.ConsultantEntity;
+import com.yejo.interior.entity.PopupEntity;
 import com.yejo.interior.entity.PortfolioEntity;
 import com.yejo.interior.entity.Review;
 import com.yejo.interior.entity.YejoStoryEntity;
 import com.yejo.interior.service.BannerService;
 import com.yejo.interior.service.CompanyLocationService;
 import com.yejo.interior.service.ConsultantService;
+import com.yejo.interior.service.PopupService;
 import com.yejo.interior.service.PortfolioService;
 import com.yejo.interior.service.ReviewService;
 import com.yejo.interior.service.YejoStoryService;
@@ -38,6 +41,8 @@ public class AdminController {
 	private PortfolioService portfolioService;
 	@Autowired
 	private ConsultantService consultantService;
+	@Autowired
+	private PopupService popupService;
 	
 	@GetMapping("/")
 	public String main() {
@@ -111,6 +116,14 @@ public class AdminController {
 		List<Review> reviews = reviewService.getAllReview();
 		model.addAttribute("reviews",reviews);
 		return "admin/review-management";
+	}
+	
+	@GetMapping("/popup")
+	public String popupPage(Model model) {
+		Optional<PopupEntity> popupOptional = popupService.getPopup();
+		PopupEntity popup = popupOptional.orElse(null); // Optional 해제
+	    model.addAttribute("popup", popup);
+		return "admin/popup";
 	}
 	
 	

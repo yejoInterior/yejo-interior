@@ -2,6 +2,7 @@ package com.yejo.interior.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,11 +15,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yejo.interior.entity.CompanyLocationEntity;
+import com.yejo.interior.entity.PopupEntity;
 import com.yejo.interior.entity.PortfolioEntity;
 import com.yejo.interior.entity.Review;
 import com.yejo.interior.entity.YejoStoryEntity;
 import com.yejo.interior.service.BannerService;
 import com.yejo.interior.service.CompanyLocationService;
+import com.yejo.interior.service.PopupService;
 import com.yejo.interior.service.PortfolioService;
 import com.yejo.interior.service.ReviewService;
 import com.yejo.interior.service.YejoStoryService;
@@ -36,12 +39,17 @@ public class MainController {
 	private BannerService bannerService;
 	@Autowired
 	private PortfolioService portfolioService;
-
+	@Autowired
+	private PopupService popupService;
 	
 	@GetMapping("/")
 	public String main(Model model) {
 		List<String> bannerPath = bannerService.getBannerPath();
 		model.addAttribute("bannerPath",bannerPath);
+		
+		Optional<PopupEntity> popupOptional = popupService.getPopup();
+		PopupEntity popup = popupOptional.orElse(null); // Optional 해제
+	    model.addAttribute("popup", popup);
 		return "main/main";
 	}
 	
