@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,8 @@ import com.yejo.interior.utility.FileUtility;
 
 @Service
 public class ReviewService {
+	
+	private static final Logger log = LoggerFactory.getLogger(ReviewService.class);
 
 	@Autowired
 	private FileUtility fileUtility;
@@ -120,26 +124,27 @@ public class ReviewService {
     }
 	
 	// 리뷰 삭제 서비스 로직
-    public void deleteReview(Integer reviewId) {
-    	try {
-        // 리뷰 찾기
-        Review review = reviewRepository.findById(reviewId)
-            .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
+	public void deleteReview(Integer reviewId) {
+	    try {
+	        // 리뷰 찾기
+	        Review review = reviewRepository.findById(reviewId)
+	            .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
 
-        // 이미지 파일 삭제
-        String imagePath = uploadPath + "/" + review.getImagePath();
-        File file = new File(imagePath);
-        if (file.exists()) {
-            file.delete(); // 이미지 파일 삭제
-        }
+	        // CDN에서 이미지 파일 삭제
+	        String imagePath = review.getImagePath();
+	        boolean isDeletedFromCDN = fileUtility.deleteFileFromCDN(imagePath);
+	        
+	        if (!isDeletedFromCDN) {
+	            log.warn("CDN에서 파일을 삭제하지 못했습니다: " + imagePath);
+	        }
 
-        // 데이터베이스에서 리뷰 삭제
-        reviewRepository.delete(review);
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    		throw new RuntimeException("리뷰를 삭제하는 중 오류가 발생했습니다.", e);
-    	}
-    }
+	        // 데이터베이스에서 리뷰 삭제
+	        reviewRepository.delete(review);
+	    } catch (Exception e) {
+	        log.error("리뷰를 삭제하는 중 오류가 발생했습니다: " + e.getMessage(), e);
+	        throw new RuntimeException("리뷰를 삭제하는 중 오류가 발생했습니다.", e);
+	    }
+	}
     
     public void updateReview(Integer id, ReviewDto reviewDto) {
         try {
@@ -169,13 +174,24 @@ public class ReviewService {
             
          // 새로운 파일이 첨부된 경우
             if (reviewDto.getImage() != null && !reviewDto.getImage().isEmpty()) {
-                // 기존 이미지 파일 삭제 (기존 이미지 경로를 알아야 합니다)
-                String existingImagePath = Paths.get(uploadPath, existingReview.getImagePath()).toString();
-                Files.deleteIfExists(Paths.get(existingImagePath)); // 기존 파일 삭제
+                // 기존 이미지 파일 삭제
+                String existingImagePath = existingReview.getImagePath();
+    	        boolean isDeletedFromCDN = fileUtility.deleteFileFromCDN(existingImagePath);
+    	        
+    	        if (!isDeletedFromCDN) {
+    	            log.warn("CDN에서 파일을 삭제하지 못했습니다: " + existingImagePath);
+    	        }
+                
+                // 이미지 저장
+    	        Map<String, Object> uploadResponse = fileUtility.uploadFile(reviewDto.getImage(), "reviews"); // 디렉토리 이름은 적절히 수정하세요
 
-                // 새로운 이미지 저장
-                String newImageFileName = saveImage(reviewDto.getImage()); // saveImage 메서드 호출
-                existingReview.setImagePath(newImageFileName); // DB에 새 이미지 파일 이름 업데이트
+    	        // 성공적으로 파일이 업로드 되었는지 확인
+    	        if (!(Boolean) uploadResponse.get("success")) {
+    	            throw new RuntimeException("이미지 업로드 실패: " + uploadResponse.get("message"));
+    	        }
+
+    	        String imagePath = (String) uploadResponse.get("filePath");
+                existingReview.setImagePath(imagePath); // DB에 새 이미지 파일 이름 업데이트
             }
 
             // 변경된 리뷰 저장
