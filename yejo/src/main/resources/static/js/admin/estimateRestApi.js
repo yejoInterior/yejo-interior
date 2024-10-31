@@ -72,7 +72,7 @@ function showEstimateAll(id){
 		    const link = document.createElement('a'); // 새로운 a 태그 생성
 		    link.href = url; // 다운로드 링크 설정
 		    link.download = ''; // 다운로드할 파일의 이름 설정
-		    link.innerText = `${file.realName} 다운로드`; // 링크 텍스트 설정
+		    link.innerText = `${file.realName}`; // 링크 텍스트 설정
 		
 		    link.addEventListener('click', function(e) {
 		        e.preventDefault(); // 기본 동작 방지
