@@ -1,5 +1,7 @@
 function handleThumbnailUpload(event) {
     const file = event.target.files[0];
+    if (!file) return; // 파일이 없으면 함수 종료
+
     const MAX_FILE_SIZE = 1000 * 1024; // 1MB 제한
     if (file.size > MAX_FILE_SIZE) {
         alert("파일 크기는 1MB 이하로만 업로드 가능합니다.");
@@ -17,6 +19,8 @@ function handleThumbnailUpload(event) {
 
 function handlePortfolioUpload(event) {
     const files = event.target.files;
+    if (!files || files.length === 0) return; // 파일이 없으면 함수 종료
+
     document.getElementById('portfolioImagePReviewWrapper').innerHTML = '';  // 미리보기 초기화
 
     Array.from(files).forEach(file => {
@@ -83,6 +87,37 @@ document.getElementById('dropZone').addEventListener('click', function () {
 
 document.getElementById('portfolioDropZone').addEventListener('click', function () {
     document.getElementById('portfolioImages').click();
+});
+
+// 드래그 앤 드롭을 위한 이벤트 리스너 추가
+const dropZone = document.getElementById('dropZone');
+dropZone.addEventListener('dragover', function (event) {
+    event.preventDefault();
+    dropZone.classList.add('dragover');
+});
+dropZone.addEventListener('dragleave', function () {
+    dropZone.classList.remove('dragover');
+});
+dropZone.addEventListener('drop', function (event) {
+    event.preventDefault();
+    dropZone.classList.remove('dragover');
+    document.getElementById('companyImage').files = event.dataTransfer.files;
+    handleThumbnailUpload({ target: { files: event.dataTransfer.files } });
+});
+
+const portfolioDropZone = document.getElementById('portfolioDropZone');
+portfolioDropZone.addEventListener('dragover', function (event) {
+    event.preventDefault();
+    portfolioDropZone.classList.add('dragover');
+});
+portfolioDropZone.addEventListener('dragleave', function () {
+    portfolioDropZone.classList.remove('dragover');
+});
+portfolioDropZone.addEventListener('drop', function (event) {
+    event.preventDefault();
+    portfolioDropZone.classList.remove('dragover');
+    document.getElementById('portfolioImages').files = event.dataTransfer.files;
+    handlePortfolioUpload({ target: { files: event.dataTransfer.files } });
 });
 
 function deletePortfolio(id) {
