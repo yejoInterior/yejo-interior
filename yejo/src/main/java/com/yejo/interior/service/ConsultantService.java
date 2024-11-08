@@ -34,7 +34,8 @@ public class ConsultantService {
 	private FloorPlanRepository floorPlanRepository;
 	@Autowired
 	private ReferenceRepository referenceRepository;
-	
+	@Autowired
+	private KakaoTalkService kakaoTalkService;
 	
 	public List<ConsultantEntity> getAllEstimate(){
 		return consultantRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
@@ -95,6 +96,8 @@ public class ConsultantService {
         floorPlanRepository.saveAll(floorPlanFiles);
         referenceRepository.saveAll(referenceFiles);
 
+        //카카오톡 알림톡 전송
+        kakaoTalkService.sendKakaoMessage();
         return ResponseEntity.ok().build();
     }
 	
