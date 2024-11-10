@@ -65,17 +65,21 @@ public class ConsultantService {
             }
         }
 
+        
         // 참조 파일 처리
-        for (var file : consultantDto.getReferenceFile()) {
-            Map<String, Object> fileUploadResult = fileUtility.uploadFile(file, "consultant/reference");
-            if (!(boolean) fileUploadResult.get("success")) {
-                return ResponseEntity.status(705).body("견적 파일 저장 실패");
-            } else {
-                ReferenceEntity referenceEntity = new ReferenceEntity((String) fileUploadResult.get("filePath"), fileIdentifier2, file.getOriginalFilename());
-                referenceFiles.add(referenceEntity);  // 리스트에 추가만 하고 저장은 나중에
+        if (consultantDto.getReferenceFile() != null && consultantDto.getReferenceFile().length > 0) {
+        	for (var file : consultantDto.getReferenceFile()) {
+                Map<String, Object> fileUploadResult = fileUtility.uploadFile(file, "consultant/reference");
+                if (!(boolean) fileUploadResult.get("success")) {
+                    return ResponseEntity.status(705).body("견적 파일 저장 실패");
+                } else {
+                    ReferenceEntity referenceEntity = new ReferenceEntity((String) fileUploadResult.get("filePath"), fileIdentifier2, file.getOriginalFilename());
+                    referenceFiles.add(referenceEntity);  // 리스트에 추가만 하고 저장은 나중에
+                }
             }
         }
-
+        
+        
         // ConsultantEntity 생성 및 파일 리스트 연결
         ConsultantEntity consultantEntity = new ConsultantEntity(consultantDto);
         consultantEntity.setFloorPlanFiles(floorPlanFiles);

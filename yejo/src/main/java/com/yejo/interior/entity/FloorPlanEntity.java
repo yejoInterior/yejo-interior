@@ -33,6 +33,8 @@ public class FloorPlanEntity implements Serializable {
     @JoinColumn(name = "consultant_id") // 외래 키 설정
     private ConsultantEntity consultant;
     
+    
+    
     public FloorPlanEntity(String path, String identifier, String fileName) {
     	this.fileIdentifier = identifier;
     	this.storagePath = path;
