@@ -45,23 +45,22 @@ public class KakaoTalkService {
 			headers.set("Content-Type", "application/x-www-form-urlencoded");
 			headers.set("Authorization", "Bearer " + accessToken);
 			
-			// template_object 데이터를 JSON 형식으로 만듬
-            String templateObject = "{\n" +
-                "    \"object_type\": \"text\",\n" +
-                "    \"text\": \"텍스트 영역입니다. 최대 200자 표시 가능합니다.\",\n" +
-                "    \"link\": {\n" +
-                "        \"web_url\": \"https://developers.kakao.com\",\n" +
-                "        \"mobile_web_url\": \"https://developers.kakao.com\"\n" +
-                "    },\n" +
-                "    \"button_title\": \"바로 확인\"\n" +
-                "}";
+			// POST 요청 파라미터 (MultiValueMap 사용)
+	        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+	        String templateObject = "{\n" +
+	            "    \"object_type\": \"text\",\n" +
+	            "    \"text\": \"텍스트 영역입니다. 최대 200자 표시 가능합니다.\",\n" +
+	            "    \"link\": {\n" +
+	            "        \"web_url\": \"https://developers.kakao.com\",\n" +
+	            "        \"mobile_web_url\": \"https://developers.kakao.com\"\n" +
+	            "    },\n" +
+	            "    \"button_title\": \"바로 확인\"\n" +
+	            "}";
 
-            // 파라미터 준비
-            Map<String, Object> params = new HashMap<>();
-            params.put("template_object", templateObject);
+	        params.add("template_object", templateObject);
 
 			
-		    HttpEntity<Map<String, Object>> request = new HttpEntity<>(params,headers);
+		    HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params,headers);
 		    ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, request, Map.class);
 		    
 		    if (response.getStatusCode() == HttpStatus.OK) {
