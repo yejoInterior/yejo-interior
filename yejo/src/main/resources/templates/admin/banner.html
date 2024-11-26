@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>관리자 페이지 - 배너 관리</title>
+
+	<script src='/js/admin/bannerRestApi.js' defer></script>
+    <script src="/js/admin/bannerManagement.js" defer></script>
+    <!-- Custom fonts for this template -->
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/bannerManagement.css" rel="stylesheet">
+    <!-- Custom styles for this page -->
+    <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- jQuery and jQuery UI -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div th:replace="~{admin/sidebar :: sidebarFragment}"></div>
+        <!-- End of Sidebar -->
+
+        <div class="modal" id="modal">
+            <div class="modal-content">
+                <span class="close-btn" id="closeModalBtn">&times;</span>
+                <p style=" width: 100%; text-align: left; margin: 0; padding: 0;">배너추가</p><br>
+                <input type="text" class="form-control" id="bannerTitle" placeholder="배너 제목을 입력하세요">
+                <div class="drop-zone" id="dropZone">
+                    <p id="dropZoneText">여기에 사진을 드래그앤드롭 하거나 클릭 해 추가하세요<br>권장 이미지 규격 : 1920x980, 2MB 이하</p>
+                    <img id="previewImage" src="" alt="미리보기" style="display:none;" >
+                    <input type="file" id="bannerImage" style="display: none;">
+                </div><br>
+                <button class="btn btn-primary" id="saveBannerBtn">저장</button>
+            </div>
+        </div>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <h1 class="h3 mb-0 text-gray-800">배너 관리</h1>
+                </nav>
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3" style="display:flex; justify-content:space-between;">
+                            <h6 class="m-0 font-weight-bold text-primary">메인페이지 사진 관리</h6>
+                            <button class="btn btn-primary" id="createBannerBtn">배너 추가</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th >노출 순서</th>
+                                            <th >노출 여부</th>
+                                            <th >제목</th>
+                                            <th >이미지</th>
+                                            <th >관리</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>노출 순서</th>
+                                            <th>노출 여부</th>
+                                            <th>제목</th>
+                                            <th>이미지</th>
+                                            <th>관리</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody id="sortable">
+                                        <tr th:id="${banner.id}" th:each="banner:${bannerList}" >
+                                            <td th:text="${banner.displayOrder}"></td>
+                                            <td th:text="${banner.isVisible}"></td>
+                                            <td th:text="${banner.title}"></td>
+                                            <td><img th:src="${banner.imagePath}" style="width: 100%; height: 205px; object-fit: cover;"></td>
+                                            <td class="btn_td">
+                                                <button class="btn btn-primary" th:if="${banner.isVisible}=='Y'" th:value="${banner.id}" onclick="hideBanner(this.value)">숨기기</button>
+                                                <button class="btn btn-primary" th:if="${banner.isVisible}=='N'" th:value="${banner.id}" onclick="hideBanner(this.value)">보이기</button>
+                                                <button class="btn btn-primary btn-delete" th:value="${banner.id}" onclick="deleteBanner(this.value)">삭제</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2020</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+        </div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="/js/demo/datatables-demo.js"></script>
+
+    <!-- jQuery UI Sortable Script -->
+    <script>
+        $(function() {
+            $("#sortable").sortable();
+            $("#sortable").disableSelection();
+        });
+    </script>
+</body>
+<style>
+    #sortable tr {
+        cursor: move;
+    }
+</style>
+
+</html>

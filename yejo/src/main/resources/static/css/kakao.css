@@ -1,0 +1,18 @@
+.kakao-btn {
+    position: fixed;
+    bottom: 40px; /* 화면 아래에서 20px 띄움 */
+    right: 40px; /* 화면 오른쪽에서 20px 띄움 */
+    z-index: 1000; /* 버튼이 다른 요소들 위에 위치하도록 z-index를 높게 설정 */
+}
+
+.kakao-btn img {
+    width: 70px; /* 이미지의 크기 설정 */
+    height: 70px;
+    border-radius: 50%; /* 버튼을 원형으로 만듦 */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* 살짝의 그림자를 추가하여 버튼을 돋보이게 함 */
+    transition: transform 0.3s ease; /* 호버 시 부드러운 변화를 위한 애니메이션 */
+}
+
+.kakao-btn img:hover {
+    transform: scale(1.1); /* 버튼에 마우스를 올렸을 때 약간 커지도록 설정 */
+}
