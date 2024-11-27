@@ -21,6 +21,7 @@ import com.yejo.interior.service.BannerService;
 import com.yejo.interior.service.CompanyLocationService;
 import com.yejo.interior.service.ConsultantService;
 import com.yejo.interior.service.KakaoTalkService;
+import com.yejo.interior.service.PolicyService;
 import com.yejo.interior.service.PopupService;
 import com.yejo.interior.service.PortfolioService;
 import com.yejo.interior.service.ReviewService;
@@ -49,6 +50,8 @@ public class AdminController {
 	private PopupService popupService;
 	@Autowired
 	private KakaoTalkService kakaoTalkService;
+	@Autowired
+	private PolicyService  policyService;
 	
 	@GetMapping("/")
 	public String main(HttpSession session) {
@@ -80,6 +83,18 @@ public class AdminController {
             return "redirect:/admin/";  // 로그인 안 된 경우 로그인 페이지로 리다이렉트
         }
 		
+	}
+	
+	@GetMapping("/policy")
+	public String policyPage(Model model, HttpSession session) {
+		Boolean checkIn = (Boolean) session.getAttribute("checkIn");
+        if (checkIn != null && checkIn) {
+        	System.out.println(policyService.getPolicyContent());
+        	model.addAttribute("content", policyService.getPolicyContent());
+    		return "admin/policy";
+        } else {
+            return "redirect:/admin/";  // 로그인 안 된 경우 로그인 페이지로 리다이렉트
+        }
 	}
 	
 	@GetMapping("/about")

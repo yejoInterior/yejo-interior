@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Tables</title>
+
+    <!-- Custom fonts for this template -->
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+	<link href="/css/estimate.css" rel="stylesheet">
+    <!-- Custom styles for this page -->
+    <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+	<script src="/js/admin/policyRestApi.js" defer></script>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div th:replace="~{admin/sidebar :: sidebarFragment}"></div>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <h1 class="h3 mb-0 text-gray-800">개인정보처리방침 & 안내사항 수정</h1>
+                </nav>
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">개인정보처리방침 수정</h6><br>
+                            <textarea th:text="${content.policyContent}" id="policy-content" style="width:100%; height:300px;"></textarea>
+                        </div>
+                        
+                    </div>
+                    
+                    
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">안내사항 수정</h6><br>
+                            <textarea th:text="${content.guideContent}" id="autoResizeTextarea" style="width:100%; height:auto; overflow-y:hidden; resize:none;"></textarea>
+                        </div>
+                        
+                    </div>
+
+<div class="text-center">
+    <button id="createPolicyBtn" class="btn btn-primary" style="margin-bottom:20px;">저장</button>
+</div>
+                </div>
+            </div>
+
+			<!-- 모달 -->
+			<div id="quoteDetailModal" class="side-modal">
+		    <div class="modal-content">
+		        <span class="close" id="closeQuoteDetailModal">&times;</span>
+		        <h2>견적 상세 정보</h2>
+		        <h3>고객 정보</h3>
+		        <p>성함: <span id="customerName"></span></p>
+		        <p>연락처: <span id="customerPhone"></span></p>
+		
+		        <h3>공간 정보</h3>
+		        <p>1. 공사예정지 주소: <input type="text" id="constructionAddress"></p>
+		        <p>2. 공간 구성: 
+		            <input type="text" id="spaceSize" placeholder="평수">평 
+		            <input type="text" id="roomCount" placeholder="방 칸수">개 
+		            <input type="text" id="bathroomCount" placeholder="욕실 개수">개
+		        </p>
+		        <p>3. 공사 시작일: <input type="date" id="constructionStartDate"></p>
+		        <p>4. 입주 예정일: <input type="date" id="moveInDate"></p>
+		        <p>5. 공간 유형: 
+		            <select id="spaceType">
+		                <option value="아파트">아파트</option>
+		                <option value="빌라">빌라</option>
+		                <option value="단독주택">단독주택</option>
+		                <option value="오피스텔">오피스텔</option>
+		                <option value="주상복합">주상복합</option>
+		                <option value="기타">기타</option>
+		            </select>
+		        </p>
+		        <p>6. 공사 예산: <input type="text" id="budget" placeholder="예산을 입력하세요"></p>
+		        <p>7. 평면도: <span class="modal-content" style="width:calc(100% - 20px);" id="floorPlan"></span></p>
+		        <p>8. 참고 사진: <span class="modal-content" style="width:calc(100% - 20px);" id="referenceFile"></span></p>
+		        <p>9. 참고 URL: <input type="url" id="referenceUrl" ></p>
+		        <p>10. 문의 사항: <textarea id="questions" placeholder="문의 사항을 입력하세요"></textarea></p>
+		        
+		    </div>
+		    
+		    
+		    
+		</div>
+
+				
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2020</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+	<script>
+	  const textarea = document.getElementById('autoResizeTextarea');
+	  textarea.addEventListener('input', () => {
+	    // Reset height to auto to adjust for new content
+	    textarea.style.height = 'auto';
+	    
+	    // Set height to scrollHeight to match content height
+	    textarea.style.height = textarea.scrollHeight + 'px';
+	  });
+	  
+	  // Trigger input event to ensure proper height adjustment on load
+	  textarea.dispatchEvent(new Event('input'));
+	</script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="/js/demo/datatables-demo.js"></script>
+
+</body>
+
+</html>

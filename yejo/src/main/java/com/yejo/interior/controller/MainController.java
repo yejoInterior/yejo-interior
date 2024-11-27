@@ -21,6 +21,7 @@ import com.yejo.interior.entity.Review;
 import com.yejo.interior.entity.YejoStoryEntity;
 import com.yejo.interior.service.BannerService;
 import com.yejo.interior.service.CompanyLocationService;
+import com.yejo.interior.service.PolicyService;
 import com.yejo.interior.service.PopupService;
 import com.yejo.interior.service.PortfolioService;
 import com.yejo.interior.service.ReviewService;
@@ -41,6 +42,8 @@ public class MainController {
 	private PortfolioService portfolioService;
 	@Autowired
 	private PopupService popupService;
+	@Autowired
+	private PolicyService policyService;
 	
 	@GetMapping("/")
 	public String main(Model model) {
@@ -75,7 +78,8 @@ public class MainController {
 	}
 
 	@GetMapping("consulting")
-	public String consultant() {
+	public String consultant(Model model) {
+		model.addAttribute("content", policyService.getPolicyContent());
 		return "main/consultant";
 	}
 

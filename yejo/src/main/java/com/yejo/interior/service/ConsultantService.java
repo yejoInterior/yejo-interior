@@ -101,7 +101,7 @@ public class ConsultantService {
         referenceRepository.saveAll(referenceFiles);
 
         //카카오톡 알림톡 전송
-        kakaoTalkService.sendKakaoMessage();
+        kakaoTalkService.sendKakaoMessage(consultantDto.getBudget());
         return ResponseEntity.ok().build();
     }
 	
