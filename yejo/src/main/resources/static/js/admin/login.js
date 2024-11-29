@@ -13,7 +13,7 @@ function checkPassword() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                window.location.href = './banner'; // 로그인 성공 시 'banner' 페이지로 이동
+                window.location.href = './estimate'; // 로그인 성공 시 'banner' 페이지로 이동
             } else {
                 document.getElementById('errorMessage').textContent = '패스워드가 올바르지 않습니다.';
             }
@@ -23,3 +23,13 @@ function checkPassword() {
         document.getElementById('errorMessage').textContent = '패스워드를 입력해주세요.';
     }
 }
+
+// Enter 키 이벤트 처리
+document.addEventListener('DOMContentLoaded', () => {
+    var passwordInput = document.getElementById('passwordInput');
+    passwordInput.addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            checkPassword();  // Enter 키로 비밀번호 확인
+        }
+    });
+});
