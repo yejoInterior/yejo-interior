@@ -53,7 +53,7 @@
 .consult .agree-wrap {padding-bottom:var(--mg-40); margin-bottom:var(--mg-40); border-bottom:1px solid #ddd;}
 .consult .txt-box {margin-bottom:var(--mg-40); background:#fdfcfa; padding:25px 30px; border:1px solid #ecebe9;}
 .consult .txt-box:last-child {margin-bottom:0;}
-.consult .agree-box {position:relative; max-height:155px; overflow:auto;}
+.consult .agree-box {position:relative; overflow:auto;}
 .consult .agree-box .terms-wrap .sec {margin-bottom:20px;}
 .consult .agree-box .terms-wrap .sec h3 {color:#242424; font-size:16px; font-weight:500; margin-bottom:0;}
 .consult .agree-box .terms-wrap .sec strong {font-weight:400;}

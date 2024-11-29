@@ -79,7 +79,14 @@
 <div th:if="${popup.visible} == Y" id="popup2" class="admin-popup" style="z-index:1000; position:absolute; left:100px; top:150px; width:400px;">
 	<div class="admin-popup-inner">
     <div class="admin-popup-content">
-        <a th:href="${popup.link}"><img id="popupImage" th:src="${popup.filePath}" alt=""></a>
+        <div th:if="${popup.link != null}">
+		    <a th:href="${popup.link}">
+		        <img id="popupImage" th:src="${popup.filePath}" alt="">
+		    </a>
+		</div>
+		<div th:if="${popup.link == null}">
+		    <img id="popupImage" th:src="${popup.filePath}" alt="">
+		</div>
     </div>
     <div class="admin-popup-close">
     <div class="admin-popup-close-check">

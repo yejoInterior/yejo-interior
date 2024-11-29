@@ -36,7 +36,7 @@ public class KakaoTalkService {
 	private final String TOKEN_URL = "https://kauth.kakao.com/oauth/token";
 	private final String url = "https://kapi.kakao.com/v2/api/talk/memo/default/send";
 	private final String templateId = "114079";
-	public void sendKakaoMessage() {
+	public void sendKakaoMessage(String budget) {
 		String accessToken = this.getAccessToken();
 		if(accessToken != null) {
 			RestTemplate restTemplate = createRestTemplateWithFormConverter();
@@ -47,15 +47,16 @@ public class KakaoTalkService {
 			
 			// POST 요청 파라미터 (MultiValueMap 사용)
 	        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-	        String templateObject = "{\n" +
-	            "    \"object_type\": \"text\",\n" +
-	            "    \"text\": \"텍스트 영역입니다. 최대 200자 표시 가능합니다.\",\n" +
-	            "    \"link\": {\n" +
-	            "        \"web_url\": \"https://developers.kakao.com\",\n" +
-	            "        \"mobile_web_url\": \"https://developers.kakao.com\"\n" +
-	            "    },\n" +
-	            "    \"button_title\": \"바로 확인\"\n" +
-	            "}";
+	        String templateObject = String.format(
+	        	    "{\n" +
+    	    	    "    \"object_type\": \"text\",\n" +
+    	    	    "    \"text\": \"예산 %d의 견적문의가 도착했습니다.\",\n" + 
+    	    	    "    \"link\": {\n" +
+    	    	    "        \"web_url\": \"http://yejo7048.cafe24.com/admin/consultant\",\n" +
+    	    	    "        \"mobile_web_url\": \"https://developers.kakao.com\"\n" +
+    	    	    "    },\n" +
+    	    	    "    \"button_title\": \"바로 확인\"\n" +
+    	    	    "}", budget);
 
 	        params.add("template_object", templateObject);
 
