@@ -27,9 +27,10 @@ function checkPassword() {
 // Enter 키 이벤트 처리
 document.addEventListener('DOMContentLoaded', () => {
     var passwordInput = document.getElementById('passwordInput');
-    passwordInput.addEventListener('keypress', function (event) {
+    passwordInput.addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
             checkPassword();  // Enter 키로 비밀번호 확인
         }
     });
 });
+
