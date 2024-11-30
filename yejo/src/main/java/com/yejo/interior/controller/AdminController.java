@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ import com.yejo.interior.service.KakaoTalkService;
 import com.yejo.interior.service.PolicyService;
 import com.yejo.interior.service.PopupService;
 import com.yejo.interior.service.PortfolioService;
+import com.yejo.interior.service.AdminPasswordService;
 import com.yejo.interior.service.ReviewService;
 import com.yejo.interior.service.YejoStoryService;
 
@@ -52,6 +54,8 @@ public class AdminController {
 	private KakaoTalkService kakaoTalkService;
 	@Autowired
 	private PolicyService  policyService;
+	@Autowired
+	private AdminPasswordService adminPasswordService;
 	
 	@GetMapping("/")
 	public String main(HttpSession session) {
@@ -203,24 +207,40 @@ public class AdminController {
 	
 	@GetMapping("/oauth") //로컬에서 하려면 code 복사해서 postMan으로 테스트 해야합니다~
 	public String kakaoCallback(@RequestParam("code") String authorizationCode) {
-	    System.out.println("Authorization Code: " + authorizationCode);
 	    kakaoTalkService.createToken(authorizationCode);
 	    return "admin/banner";  
 	}
 	
     // 로그인 처리 POST 요청
-	@PostMapping("/login")
+    @PostMapping("/login")
+    @ResponseBody
+    public ResponseEntity<?> login(@RequestBody Map<String, String> requestData, HttpSession session) {
+        String password = requestData.get("password");  // 클라이언트에서 전송한 비밀번호 받기
+        
+        // DB에서 패스워드와 비교
+        boolean isValid = adminPasswordService.checkPassword(password);
+        
+        if (isValid) {  // 비밀번호가 맞으면
+            session.setAttribute("checkIn", true);  // 세션에 로그인 정보 저장
+            return ResponseEntity.ok().body("{\"success\": true}");  // 로그인 성공 응답
+        } else {
+            return ResponseEntity.ok().body("{\"success\": false}");  // 로그인 실패 응답
+        }
+    }
+
+	@PostMapping("/changePassword")
 	@ResponseBody
-	public ResponseEntity<?> login(@RequestBody Map<String, String> requestData, HttpSession session) {
-	    String password = requestData.get("password");  // 클라이언트에서 전송한 비밀번호 받기
-	    if ("yejo7048@".equals(password)) {  // 비밀번호가 맞으면
-	        session.setAttribute("checkIn", true);  // 세션에 로그인 정보 저장
-	        return ResponseEntity.ok().body("{\"success\": true}");  // 로그인 성공 응답
-	    } else {
-	        return ResponseEntity.ok().body("{\"success\": false}");  // 로그인 실패 응답
+	public ResponseEntity<?> changePwd(@RequestBody Map<String, String> request) {
+	    try {
+	        String newPassword = request.get("password"); // 클라이언트에서 보낸 비밀번호
+
+	        String result = adminPasswordService.changePassword(newPassword);
+
+	        return ResponseEntity.ok(result);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("false");
 	    }
 	}
-
-
 	
 }
