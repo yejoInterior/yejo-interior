@@ -3,6 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	/* 사이드바 전체 높이를 잡아주는 CSS */
+	.navbar-nav {
+	    display: flex;
+	    flex-direction: column;
+	    height: 100vh; /* 화면 전체 높이 */
+	}
+
+	.logout-section {
+	    margin-top: auto; /* 사이드바의 가장 아래로 배치 */
+	    border-top: 1px solid rgba(255, 255, 255, 0.3); /* 구분선 추가 */
+	    padding-top: 10px;
+	}
+
+	.logout-section .nav-link {
+	    text-align: center;
+	    color: #fff; /* 텍스트 색상 */
+	}
+
+	.logout-section .nav-link:hover {
+	    color: #d1d1d1; /* 호버 시 색상 */
+	}
+
+	.logout-section i {
+	    font-size: 1.2rem;
+	}
+</style>
 </head>
 <body>
         <!-- Sidebar -->
@@ -92,7 +119,34 @@
                     <i class="fas fa-fw fa-clipboard-list"></i>
                     <span>회사정보</span></a>
             </li> -->
+			<!-- Logout Section -->
+			<li class="nav-item logout-section">
+			    <a class="nav-link" href="#" onclick="logout(); return false;">
+			        <i class="fas fa-fw fa-sign-out-alt"></i>
+			        <span>로그아웃</span>
+			    </a>
+			</li>
 			
+			<script>
+				function logout() {
+				    fetch('/admin/logout', {
+				        method: 'POST',
+				        headers: {
+				            'Content-Type': 'application/json'
+				        },
+				    })
+				    .then(response => {
+				        if (response.redirected) {
+				            window.location.href = response.url; // 리다이렉트된 URL로 이동
+				        } else {
+				            console.error('로그아웃 실패');
+				        }
+				    })
+				    .catch(error => {
+				        console.error('Error during logout:', error);
+				    });
+				}
+			</script>
         </ul>
         <!-- End of Sidebar -->
 </body>

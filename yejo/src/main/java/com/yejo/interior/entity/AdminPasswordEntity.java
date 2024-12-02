@@ -21,4 +21,3 @@ public class AdminPasswordEntity {
     private String password; // 패스워드 필드
 
 }
-

@@ -1,84 +1,129 @@
 function checkPassword() {
-    var password = document.getElementById('passwordInput').value;
+    const password = document.getElementById('passwordInput').value;
+    const changePwdButton = document.getElementById('changePwdButton'); // 버튼 선택
+
     if (password) {  // 비밀번호가 있을 때만 전송
-        // 로그인 성공 시 서버로 세션 값을 설정 요청
         fetch('/admin/login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'  // 요청의 Content-Type을 JSON으로 설정
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ password: password })  // 비밀번호를 JSON 형식으로 전송
+            body: JSON.stringify({ password: password }) // 비밀번호 전송
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                window.location.href = './banner'; // 로그인 성공 시 'banner' 페이지로 이동
+                document.getElementById('errorMessage').textContent = ''; // 오류 메시지 제거
+                changePwdButton.disabled = false; // 패스워드 변경 버튼 활성화
+                changePwdButton.style.backgroundColor = '#4CAF50'; // 활성화 색상
+                changePwdButton.style.cursor = 'pointer'; // 활성화 시 커서 변경
+                window.location.href = './estimate'; // 로그인 성공 시 이동
             } else {
                 document.getElementById('errorMessage').textContent = '패스워드가 올바르지 않습니다.';
+                changePwdButton.disabled = true; // 버튼 비활성화 유지
+                changePwdButton.style.backgroundColor = '#ccc'; // 비활성화 색상
+                changePwdButton.style.cursor = 'not-allowed'; // 비활성화 커서
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('errorMessage').textContent = '서버와의 통신 중 문제가 발생했습니다.';
+            changePwdButton.disabled = true; // 버튼 비활성화 유지
+            changePwdButton.style.backgroundColor = '#ccc'; // 비활성화 색상
+            changePwdButton.style.cursor = 'not-allowed'; // 비활성화 커서
+        });
     } else {
         document.getElementById('errorMessage').textContent = '패스워드를 입력해주세요.';
+        changePwdButton.disabled = true; // 버튼 비활성화 유지
+        changePwdButton.style.backgroundColor = '#ccc'; // 비활성화 색상
+        changePwdButton.style.cursor = 'not-allowed'; // 비활성화 커서
     }
 }
 
-// Enter 키 이벤트 처리
+// Enter 키 및 input 이벤트 처리
 document.addEventListener('DOMContentLoaded', () => {
-	// 요소 선택
-	const modalBackground = document.getElementById('modalBackground');
-	const confirmChangeButton = document.getElementById('confirmChange');
+    const modalBackground = document.getElementById('modalBackground');
+    const confirmChangeButton = document.getElementById('confirmChange');
+    const passwordInput = document.getElementById('passwordInput');
+    const changePwdButton = document.getElementById('changePwdButton');
 
-	// 전역 함수로 선언
-	window.changePwd = function () {
-	  modalBackground.style.display = 'block';
-	};
+    // 전역 함수로 선언
+    window.changePwd = function () {
+        modalBackground.style.display = 'block';
+    };
 
-	// 모달 닫기 (변경 버튼 클릭 시)
-	confirmChangeButton.addEventListener('click', () => {
-	  const newPassword = document.getElementById('newPassword').value;
+    // 모달 닫기 (변경 버튼 클릭 시)
+    confirmChangeButton.addEventListener('click', () => {
+        const newPassword = document.getElementById('newPassword').value;
 
-	  if (newPassword.trim() === '') {
-	    alert('패스워드를 입력해주세요.');
-	  } else {
-	    // 비밀번호를 서버로 보내기
-	    fetch('/admin/changePassword', {
-	      method: 'POST',
-	      headers: {
-	        'Content-Type': 'application/json',
-	      },
-	      body: JSON.stringify({ password: newPassword }) // 비밀번호를 서버로 보냄
-	    })
-	    .then(response => response.text())  // 서버의 응답을 JSON으로 처리
-	    .then(data => {
-	      if (data === "비밀번호가 성공적으로 변경되었습니다.") {
-	        alert('패스워드가 성공적으로 변경되었습니다.');
-	      } else {
-	        alert('패스워드 변경에 실패했습니다.');
-	      }
-	    })
-	    .catch(error => {
-	      console.error('Error:', error);
-	      alert('서버와의 통신 중 문제가 발생했습니다.');
-	    });
+        if (newPassword.trim() === '') {
+            alert('패스워드를 입력해주세요.');
+        } else {
+            fetch('/admin/changePassword', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ password: newPassword })
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data === "비밀번호가 성공적으로 변경되었습니다.") {
+                    alert('패스워드가 성공적으로 변경되었습니다.');
+                } else {
+                    alert('패스워드 변경에 실패했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('서버와의 통신 중 문제가 발생했습니다.');
+            });
 
-	    modalBackground.style.display = 'none'; // 모달 닫기
-	  }
-	});
+            modalBackground.style.display = 'none';
+        }
+    });
 
-	// 배경 클릭 시 모달 닫기
-	modalBackground.addEventListener('click', (event) => {
-	  if (event.target === modalBackground) {
-	    modalBackground.style.display = 'none';
-	  }
-	});
-	
-    var passwordInput = document.getElementById('passwordInput');
+    // 배경 클릭 시 모달 닫기
+    modalBackground.addEventListener('click', (event) => {
+        if (event.target === modalBackground) {
+            modalBackground.style.display = 'none';
+        }
+    });
+
+    // Enter 키로 로그인
     passwordInput.addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
-            checkPassword();  // Enter 키로 비밀번호 확인
+            checkPassword();
+        }
+    });
+
+    // input 이벤트로 버튼 상태 실시간 업데이트
+    passwordInput.addEventListener('input', function () {
+        const password = passwordInput.value.trim();
+        if (password) {
+            fetch('/admin/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ password: password }) // 비밀번호 전송
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    changePwdButton.disabled = false;
+                    changePwdButton.style.backgroundColor = '#4CAF50';
+                    changePwdButton.style.cursor = 'pointer';
+                } else {
+                    changePwdButton.disabled = true;
+                    changePwdButton.style.backgroundColor = '#ccc';
+                    changePwdButton.style.cursor = 'not-allowed';
+                }
+            });
+        } else {
+            changePwdButton.disabled = true;
+            changePwdButton.style.backgroundColor = '#ccc';
+            changePwdButton.style.cursor = 'not-allowed';
         }
     });
 });
-
-

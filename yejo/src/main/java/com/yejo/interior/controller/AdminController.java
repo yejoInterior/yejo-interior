@@ -1,5 +1,6 @@
 package com.yejo.interior.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -226,6 +227,14 @@ public class AdminController {
         } else {
             return ResponseEntity.ok().body("{\"success\": false}");  // 로그인 실패 응답
         }
+    }
+    
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpSession session) {
+        session.invalidate(); // 세션 무효화
+        return ResponseEntity.status(HttpStatus.FOUND)
+                             .location(URI.create("/admin/")) // 리다이렉트 URL
+                             .build();
     }
 
 	@PostMapping("/changePassword")
