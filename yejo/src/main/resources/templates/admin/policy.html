@@ -48,6 +48,13 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
+                    
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">안내사항 수정</h6><br>
+                            <textarea th:text="${content.guideContent}" id="autoResizeTextarea" style="width:100%; height:auto; overflow-y:hidden; resize:none;"></textarea>
+                        </div>
+                        
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -57,13 +64,6 @@
                         
                     </div>
                     
-                    
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">안내사항 수정</h6><br>
-                            <textarea th:text="${content.guideContent}" id="autoResizeTextarea" style="width:100%; height:auto; overflow-y:hidden; resize:none;"></textarea>
-                        </div>
-                        
                     </div>
 
 <div class="text-center">
