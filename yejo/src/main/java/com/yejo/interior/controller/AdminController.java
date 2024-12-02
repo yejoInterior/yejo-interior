@@ -1,6 +1,7 @@
 package com.yejo.interior.controller;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,6 +20,7 @@ import com.yejo.interior.entity.PopupEntity;
 import com.yejo.interior.entity.PortfolioEntity;
 import com.yejo.interior.entity.Review;
 import com.yejo.interior.entity.YejoStoryEntity;
+import com.yejo.interior.repository.ConsultantRepository;
 import com.yejo.interior.service.BannerService;
 import com.yejo.interior.service.CompanyLocationService;
 import com.yejo.interior.service.ConsultantService;
@@ -57,6 +59,8 @@ public class AdminController {
 	private PolicyService  policyService;
 	@Autowired
 	private AdminPasswordService adminPasswordService;
+	@Autowired
+	private ConsultantRepository consultantRepository;
 	
 	@GetMapping("/")
 	public String main(HttpSession session) {
@@ -251,5 +255,19 @@ public class AdminController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("false");
 	    }
 	}
+	
+	@GetMapping("/inflow-stats")
+	@ResponseBody
+	public Map<String, Integer> getInflowStats() {
+	    List<ConsultantEntity> consultants = consultantRepository.findAll();
+	    Map<String, Integer> inflowStats = new HashMap<>();
+
+	    for (ConsultantEntity consultant : consultants) {
+	        String inflow = consultant.getInflow();
+	        inflowStats.put(inflow, inflowStats.getOrDefault(inflow, 0) + 1);
+	    }
+	    return inflowStats;
+	}
+
 	
 }

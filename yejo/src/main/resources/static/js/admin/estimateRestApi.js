@@ -108,3 +108,68 @@ function showEstimateAll(id){
 		return false;
 	})
 }
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 유입 경로 데이터 가져오기
+    fetch('/admin/inflow-stats')
+        .then(response => response.json())
+        .then(data => {
+            const labels = Object.keys(data);
+            const values = Object.values(data);
+
+            // 차트 생성
+            const ctx = document.getElementById('inflowChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '유입 경로 통계',
+                        data: values,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // 테이블 데이터 추가
+            const tableBody = document.getElementById('inflowTable').querySelector('tbody');
+            labels.forEach((label, index) => {
+                const row = document.createElement('tr');
+                const inflowCell = document.createElement('td');
+                const countCell = document.createElement('td');
+
+                inflowCell.textContent = label;
+                countCell.textContent = values[index];
+
+                row.appendChild(inflowCell);
+                row.appendChild(countCell);
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error fetching inflow stats:', error));
+});
