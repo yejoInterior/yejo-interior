@@ -66,7 +66,7 @@
                                             <th>고객 이름</th>
                                             <th>고객 연락처</th>
                                             <th>진행 상태</th>
-                                            <th>견적 상세 / 답변</th>
+                                            <th>견적 상세 / 삭제</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -77,7 +77,7 @@
                                             <th>고객 이름</th>
                                             <th>고객 연락처</th>
                                             <th>진행 상태</th>
-                                            <th>견적 상세 / 답변</th>
+                                            <th>견적 상세 / 삭제</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -88,7 +88,10 @@
                                             <td th:text="${estimate.name}"></td>
                                             <td th:text="${estimate.tel}"></td>
                                             <td th:text="${estimate.status}"></td>
-                                            <td><a href="#" class="openQuoteDetailModal" th:id="${estimate.id}" onclick="showEstimateAll(this.id)">견적 상세 보기</a></td>
+                                            <td>
+												<a href="#" class="openQuoteDetailModal" th:id="${estimate.id}" onclick="showEstimateAll(this.id)">견적 상세 보기</a>
+
+											</td>
                                         </tr>           
                                     </tbody>
                                 </table>
@@ -153,7 +156,7 @@
 		        <p>8. 참고 사진: <span class="modal-content" style="width:calc(100% - 20px);" id="referenceFile"></span></p>
 		        <p>9. 참고 URL: <input type="url" id="referenceUrl" ></p>
 		        <p>10. 문의 사항: <textarea id="questions" placeholder="문의 사항을 입력하세요"></textarea></p>
-		        
+				<button class="btn btn-danger btn-sm"  onclick="alert('자~ 삭제 로직 만들어봅시다 현수님ㅋㅋ 화이팅')">삭제</button>
 		    </div>
 		    
 		    
