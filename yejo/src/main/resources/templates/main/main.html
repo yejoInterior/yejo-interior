@@ -131,8 +131,8 @@
 <div id="container">
 	<div class="main-visual">
 		<div class="items">
-			<div class="item" th:each="bannerUrl:${bannerPath}">
-				<div class="mv" th:style="'background-image:url(' + ${bannerUrl} + ')'"></div>
+			<div class="item" th:if="${banner.isVisible=='Y'}" th:each="banner:${banner}">
+				<div class="mv" th:style="'background-image:url(' + ${banner.imagePath} + ')'"></div>
 			</div>
 		</div>
 		

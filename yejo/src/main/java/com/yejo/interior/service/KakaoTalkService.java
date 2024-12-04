@@ -50,7 +50,7 @@ public class KakaoTalkService {
 	        String templateObject = String.format(
 	        	    "{\n" +
     	    	    "    \"object_type\": \"text\",\n" +
-    	    	    "    \"text\": \"예산 %d의 견적문의가 도착했습니다.\",\n" + 
+    	    	    "    \"text\": \"예산 %s의 견적문의가 도착했습니다.\",\n" + 
     	    	    "    \"link\": {\n" +
     	    	    "        \"web_url\": \"http://yejo7048.cafe24.com/admin/consultant\",\n" +
     	    	    "        \"mobile_web_url\": \"https://developers.kakao.com\"\n" +

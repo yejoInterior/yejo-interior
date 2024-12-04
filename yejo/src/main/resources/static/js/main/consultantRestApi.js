@@ -29,6 +29,7 @@ document.querySelector("#submit_btn").addEventListener('click', () => {
 	
 	    // 확인을 위해 formData에 추가된 항목 출력
 	    for (const [key, value] of formData.entries()) {
+			console.log(key + ":" + value)
 	        if(key != 'referenceUrl' && key != 'additionalInquiries' && value==""){
 				alert('필수 입력 값을 입력해주세요');
 				document.getElementsByName(key)[0].focus();

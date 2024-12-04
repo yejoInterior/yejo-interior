@@ -22,6 +22,7 @@ import com.yejo.interior.repository.FloorPlanRepository;
 import com.yejo.interior.repository.ReferenceRepository;
 import com.yejo.interior.utility.FileUtility;
 
+import ch.qos.logback.core.util.FileUtil;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -53,7 +54,6 @@ public class ConsultantService {
         // FileEntity 리스트 생성
         List<FloorPlanEntity> floorPlanFiles = new ArrayList<>();
         List<ReferenceEntity> referenceFiles = new ArrayList<>();
-        
         // 평면도 파일 처리
         for (var file : consultantDto.getFloorPlanFile()) {
             Map<String, Object> fileUploadResult = fileUtility.uploadFile(file, "consultant/floorplan");
@@ -70,6 +70,7 @@ public class ConsultantService {
         if (consultantDto.getReferenceFile() != null && consultantDto.getReferenceFile().length > 0) {
         	for (var file : consultantDto.getReferenceFile()) {
                 Map<String, Object> fileUploadResult = fileUtility.uploadFile(file, "consultant/reference");
+                
                 if (!(boolean) fileUploadResult.get("success")) {
                     return ResponseEntity.status(705).body("견적 파일 저장 실패");
                 } else {
@@ -117,7 +118,45 @@ public class ConsultantService {
 	    
 	    return result;
 	}
+	
+	public ResponseEntity<String> deleteEstimateService(long id){
+		
+		try{
+			
+			List<String> floorFilePaths = floorPlanRepository.findStoragePathsByConsultantId(id);
+			List<String> referencePaths = referenceRepository.findStoragePathsByConsultantId(id);
 
+			if (floorFilePaths != null) {
+			    for (String floorFilePath : floorFilePaths) {
+			        fileUtility.deleteFileFromCDN(floorFilePath);
+			    }
+			}
 
+			if (referencePaths != null) {
+			    for (String referencePath : referencePaths) {
+			        fileUtility.deleteFileFromCDN(referencePath);
+			    }
+			}
+			
+			consultantRepository.deleteById(id);			
+			floorPlanRepository.deleteByConsultantId(id);
+			referenceRepository.deleteByConsultantId(id);
+
+			return ResponseEntity.ok().build();
+		}catch(Exception e) {
+			System.out.println(e);
+			return ResponseEntity.status(901).body("견적 삭제 실패");
+		}
+
+	}
+
+	public ResponseEntity<String> changeStatusService(Long id){
+		try {
+			consultantRepository.toggleStatusById(id);			
+			return ResponseEntity.ok().build();
+		}catch(Exception e) {
+			return ResponseEntity.status(902).body("상태 변경 실패");
+		}
+	}
 	
 }

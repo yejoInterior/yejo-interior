@@ -22,6 +22,7 @@ function showEstimateAll(id){
         document.getElementById('budget').value = data.budget;
         document.getElementById('referenceUrl').value = data.referenceUrl;
         document.getElementById('questions').value = data.additionalInquiries;
+        document.getElementById('deleteBtn').value = data.id;
         console.log(data.floorPlanFiles);
         console.log(data.referenceFiles);
         
@@ -62,7 +63,7 @@ function showEstimateAll(id){
 		    floorPlanElement.appendChild(document.createElement('br')); // 줄바꿈 추가
 		});
 
-	
+		
 		// referenceFile 처리
 		const referenceElement = document.getElementById('referenceFile');
 		referenceElement.innerHTML = ''; // 이전 내용 제거
@@ -101,13 +102,61 @@ function showEstimateAll(id){
 		    referenceElement.appendChild(link); // 링크를 DOM에 추가
 		    referenceElement.appendChild(document.createElement('br')); // 줄바꿈 추가
 		});
+		
+		
 
 	})
 	.catch(err=>{
+		console.log(err)
 		alert('견적 상세보기에 실패했습니다')
 		return false;
 	})
 }
+
+const deleteBtn = document.querySelector("#deleteBtn");
+if(deleteBtn != null){
+	deleteBtn.addEventListener('click',function(){
+		if(confirm('견적 및 평면도를 포함한 모든 파일이 삭제됩니다. 정말 삭제하시겠습니까?')){
+			fetch(`/api/consultant/${this.value}`,{
+				method: "delete"
+			})
+			.then(response=>{
+				if(response.ok){
+					
+			    alert('견적 삭제에 성공하였습니다.')
+				location.reload();
+				}else{
+					alert('서버 오류로 견적 삭제에 실패했습니다.')
+					return false;
+				}
+			})
+			.catch(err=>{
+				alert('서버 오류로 견적 삭제에 실패했습니다.')
+				return false;
+			})
+		}
+		
+	})			
+}
+
+document.querySelector("#statusBtn").addEventListener('click',function(){
+	fetch(`/api/consultant/${this.value}`,{
+		method: "PATCH"
+	})
+	.then(response=>{
+		if(response.ok){
+			alert("상태를 변경하였습니다.")
+			location.reload();
+		}else{
+			alert("서버 오류로 상태 변경에 실패했습니다.");
+			return false;
+		}
+	})
+	.catch(err=>{
+		alert('서버 오류로 상태 변경에 실패했습니다.')
+		return false;
+	})
+})
 
 
 document.addEventListener('DOMContentLoaded', () => {

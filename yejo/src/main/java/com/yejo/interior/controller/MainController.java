@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.yejo.interior.entity.BannerEntity;
 import com.yejo.interior.entity.CompanyLocationEntity;
 import com.yejo.interior.entity.PopupEntity;
 import com.yejo.interior.entity.PortfolioEntity;
@@ -47,9 +48,9 @@ public class MainController {
 	
 	@GetMapping("/")
 	public String main(Model model) {
-		List<String> bannerPath = bannerService.getBannerPath();
-		model.addAttribute("bannerPath",bannerPath);
-		
+		List<BannerEntity> banner = bannerService.getBanner();
+		model.addAttribute("banner",banner);
+
 		Optional<PopupEntity> popupOptional = popupService.getPopup();
 		PopupEntity popup = popupOptional.orElse(null); // Optional 해제
 	    model.addAttribute("popup", popup);
