@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -45,6 +46,9 @@ public class MainController {
 	private PopupService popupService;
 	@Autowired
 	private PolicyService policyService;
+	
+    @Value("${kakao.javaScriptKey}")
+    private String jsKey;
 	
 	@GetMapping("/")
 	public String main(Model model) {
@@ -88,6 +92,7 @@ public class MainController {
 	public String location(Model model) {
         CompanyLocationEntity location = locationService.getLocation();
         model.addAttribute("location", location);
+        model.addAttribute("jsKey",jsKey);
         return "main/location";
 	}
 	
