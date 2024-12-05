@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>토큰 갱신 완료</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f5f5f5;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      text-align: center;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      max-width: 400px;
+      width: 90%;
+    }
+    .loading {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #ccc;
+      border-top-color: #4e73df;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .checkmark {
+      display: none;
+      width: 70px;
+      height: 70px;
+      margin: 20px auto;
+      fill: #4e73df;
+      animation: showCheckmark 0.5s ease-in-out forwards;
+    }
+    @keyframes showCheckmark {
+      0% {
+        transform: scale(0);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    .message {
+      font-size: 18px;
+      color: #333;
+      margin: 10px 0;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: showMessage 0.5s ease-in-out forwards;
+      animation-delay: 2s;
+    }
+    @keyframes showMessage {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .complete-button {
+      display: none;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #4e73df;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+    .complete-button:hover {
+      background-color: #3c5dc0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="loading"></div>
+    <svg
+      class="checkmark"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 60 60"
+    >
+      <circle
+        cx="30"
+        cy="30"
+        r="28"
+        fill="none"
+        stroke="#4e73df"
+        stroke-width="4"
+      ></circle>
+      <path
+        fill="none"
+        stroke="#4e73df"
+        stroke-width="4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M20 30l7 7 15-15"
+      ></path>
+    </svg>
+    <p class="message">토큰 갱신이 완료되었습니다!</p>
+    <button class="complete-button" onclick="goToEstimate()">완료</button>
+  </div>
+  <script>
+    // After 2 seconds, replace the loading spinner with a checkmark and show message and button
+    setTimeout(() => {
+      document.querySelector('.loading').style.display = 'none';
+      const checkmark = document.querySelector('.checkmark');
+      checkmark.style.display = 'block';
+      checkmark.style.animation = 'showCheckmark 0.5s ease-in-out forwards';
+      document.querySelector('.message').style.opacity = '1';
+      document.querySelector('.complete-button').style.display = 'block';
+    }, 2000);
+
+    // Redirect to admin/estimate
+    function goToEstimate() {
+      window.location.href = '/admin/estimate';
+    }
+  </script>
+</body>
+</html>

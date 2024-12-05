@@ -213,7 +213,7 @@ public class AdminController {
 	@GetMapping("/oauth") //로컬에서 하려면 code 복사해서 postMan으로 테스트 해야합니다~
 	public String kakaoCallback(@RequestParam("code") String authorizationCode) {
 	    kakaoTalkService.createToken(authorizationCode);
-	    return "admin/banner";  
+	    return "admin/kakaoTokenSuccess";  
 	}
 	
     // 로그인 처리 POST 요청
@@ -269,5 +269,9 @@ public class AdminController {
 	    return inflowStats;
 	}
 
+	@GetMapping("/kakaoTokenSuccess")
+	public String success() {
+		return "admin/kakaoTokenSuccess";
+	}
 	
 }
